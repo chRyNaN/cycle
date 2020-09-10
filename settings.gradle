@@ -1,0 +1,5 @@
+rootProject.name = "presentation"
+
+include ":presentation-core"
+
+enableFeaturePreview("GRADLE_METADATA")
