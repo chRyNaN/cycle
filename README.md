@@ -3,6 +3,9 @@ Kotlin Multi-platform Presentation Layer Design Pattern. Closely related to the 
 
 For descriptions about each of the components, refer to the [components documentation](components.md).
 
+![Components Flow](assets/ComponentsFlow.png)
+![Components Flow with Presenter](assets/ComponentsFlowWithPresenter.png)
+
 ## License
 ```
 Copyright 2020 chRyNaN
