@@ -70,7 +70,3 @@ subprojects {
 
     bintrayUpload.dependsOn publishToMavenLocal
 }
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}

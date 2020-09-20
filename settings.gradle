@@ -1,5 +1,6 @@
 rootProject.name = "presentation"
 
 include ":presentation-core"
+include ":presentation-js-react"
 
 enableFeaturePreview("GRADLE_METADATA")

@@ -8,7 +8,10 @@ version LibraryConstants.versionName
 kotlin {
     targets {
         jvm()
-        js()
+        js("js") {
+            browser {}
+            binaries.executable()
+        }
         ios()
     }
     sourceSets {
