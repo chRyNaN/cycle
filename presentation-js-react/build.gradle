@@ -21,6 +21,8 @@ dependencies {
 
     implementation project(":presentation-core")
 
+    implementation "com.chrynan.pathmatch:pathmatch-core:0.1.0"
+
     // React
     api("org.jetbrains:kotlin-react:16.13.1-pre.110-kotlin-1.4.0")
     api("org.jetbrains:kotlin-react-dom:16.13.1-pre.110-kotlin-1.4.0")
