@@ -1,4 +1,4 @@
-@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate", "CanBeParameter")
 
 package com.chrynan.presentation
 
@@ -16,7 +16,7 @@ import kotlin.coroutines.CoroutineContext
  * as, the [reduceAndRender] function.
  */
 abstract class BasePresenter<I : Intent, S : State, C : Change>(
-    initialState: S,
+    protected val initialState: S,
     protected val dispatchers: CoroutineDispatchers
 ) : Presenter<I, S, C>,
     PresenterCoroutineScope {
