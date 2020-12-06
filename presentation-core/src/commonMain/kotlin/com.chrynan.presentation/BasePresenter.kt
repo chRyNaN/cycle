@@ -17,14 +17,16 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
 ) : Presenter<I, S, C>,
     PresenterCoroutineScope {
 
-    override var currentState: S = initialState
-        protected set
+    override val currentState: S
+        get() = stateStore.currentState
 
     override val coroutineContext: CoroutineContext
         get() = job + dispatchers.main
 
     override var isBound = false
         internal set
+
+    protected open val stateStore: StateStore<I, C, S> = BasicStateStore(initialState)
 
     private lateinit var job: Job
 
@@ -52,6 +54,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     protected fun Flow<I>.perform(action: Action<I, S, C>): Flow<C> =
         flowOn(dispatchers.main)
+            .onEach { stateStore.updateLastIntent(it) }
             .flatMapLatest { action(it, currentState) }
             .flowOn(dispatchers.io)
 
@@ -62,6 +65,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     protected fun Flow<I>.perform(action: (I, S) -> Flow<C>): Flow<C> =
         flowOn(dispatchers.main)
+            .onEach { stateStore.updateLastIntent(it) }
             .flatMapLatest { action(it, currentState) }
             .flowOn(dispatchers.io)
 
@@ -69,14 +73,15 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
      */
     protected fun Flow<C>.reduce(): Flow<S> =
-        map { reducer(currentState, it) }
+        onEach { stateStore.updateLastChange(it) }
+            .map { reducer(currentState, it) }
             .flowOn(dispatchers.io)
 
     /**
      * Renders the [State]s of type [S] from this [Flow] with this [Presenter]s [View].
      */
     protected fun Flow<S>.render(): Flow<S> =
-        onEach { currentState = it }
+        onEach { stateStore.updateCurrentState(it) }
             .onEach { view.render(it) }
             .flowOn(dispatchers.main)
 
