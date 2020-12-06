@@ -2,9 +2,7 @@
 
 package com.chrynan.presentation
 
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapConcat
 
 /**
  * An [Action] performs the function of converting an [Intent] of type [I] into a [Change] of type [C]. Unlike other
@@ -22,31 +20,19 @@ import kotlinx.coroutines.flow.flatMapConcat
  * be a wrapper [Action] that properly delegates to the correct one depending on the [Intent], or that logic could
  * simply be handled with a Kotlin "when" condition inside the [perform] function.
  */
-interface Action<I : Intent, C : Change> {
+interface Action<I : Intent, S : State, C : Change> {
 
     /**
      * Converts the provided [intent] of type [I] into a [Flow] of type [C]. This means an [Intent] can cause multiple
      * [Change]s to be emitted ("StartedLoading", "FinishedLoading", etc).
+     *
+     * @param [intent] The intent to perform an [Action].
+     * @param [state] The current state being displayed.
      */
-    fun perform(intent: I): Flow<C>
+    fun perform(intent: I, state: S): Flow<C>
 
     /**
      * A convenience function that delegates to [perform] allowing the [Action] to be invoked like a function.
      */
-    operator fun invoke(intent: I): Flow<C> = perform(intent)
+    operator fun invoke(intent: I, state: S): Flow<C> = perform(intent, state)
 }
-
-/**
- * Converts this [Flow] of [Intent]s of type [I] into a [Flow] of [Change]s of type [C] using the provided [action].
- */
-@OptIn(FlowPreview::class)
-fun <I : Intent, C : Change> Flow<I>.perform(action: Action<I, C>): Flow<C> =
-    flatMapConcat { action(it) }
-
-/**
- * Converts this [Flow] of [Intent]s of type [I] into a [Flow] of [Change]s of type [C] using the provided [action]
- * function.
- */
-@OptIn(FlowPreview::class)
-fun <I : Intent, C : Change> Flow<I>.perform(action: (I) -> Flow<C>): Flow<C> =
-    flatMapConcat { action(it) }
