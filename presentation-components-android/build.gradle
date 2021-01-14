@@ -36,6 +36,9 @@ dependencies {
 
     api project(":presentation-android")
     api project(":presentation-components")
+
+    // Material Design
+    implementation 'com.google.android.material:material:1.2.1'
 }
 
 project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
