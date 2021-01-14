@@ -38,7 +38,15 @@ dependencies {
     api project(":presentation-components")
 
     // Material Design
-    implementation 'com.google.android.material:material:1.2.1'
+    api "com.google.android.material:material:1.2.1"
+
+    // Emojis
+    api "androidx.emoji:emoji:1.1.0"
+    api "androidx.emoji:emoji-appcompat:1.1.0"
+    api "androidx.emoji:emoji-bundled:1.1.0"
+
+    // Adapter - aaaah
+    api "com.chrynan.aaaah:aaaah-libraryx:0.8.0"
 }
 
 project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
