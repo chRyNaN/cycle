@@ -17,17 +17,32 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class FontSource {
 
+    abstract val typeName: String
     abstract val name: String?
 
     @Serializable
     data class Uri(
         @SerialName(value = "name") override val name: String? = null,
         @SerialName(value = "uri") val uri: UriString
-    ) : FontSource()
+    ) : FontSource() {
+
+        @SerialName(value = "type_name")
+        override val typeName: String = TYPE_NAME_URI
+    }
 
     @Serializable
     data class Resource(
         @SerialName(value = "name") override val name: String? = null,
         @SerialName(value = "id") val id: ResourceID
-    ) : FontSource()
+    ) : FontSource() {
+
+        @SerialName(value = "type_name")
+        override val typeName: String = TYPE_NAME_RESOURCE
+    }
+
+    companion object {
+
+        const val TYPE_NAME_URI = "uri"
+        const val TYPE_NAME_RESOURCE = "resource"
+    }
 }

@@ -44,7 +44,7 @@ data class Notification(
 
         companion object {
 
-            fun getByTypeName(typeName: String, ignoreCase: Boolean): Type? {
+            fun getByTypeName(typeName: String, ignoreCase: Boolean = false): Type? {
                 val formattedTypeName = if (ignoreCase) typeName.toLowerCase() else typeName
 
                 return values().firstOrNull {
@@ -72,7 +72,7 @@ data class Notification(
 
         companion object {
 
-            fun getByTypeName(typeName: String, ignoreCase: Boolean): Length? {
+            fun getByTypeName(typeName: String, ignoreCase: Boolean = false): Length? {
                 val formattedTypeName = if (ignoreCase) typeName.toLowerCase() else typeName
 
                 return values().firstOrNull {

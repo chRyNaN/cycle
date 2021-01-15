@@ -22,7 +22,7 @@ enum class Direction(val typeName: String) {
 
     companion object {
 
-        fun getByTypeName(typeName: String, ignoreCase: Boolean): Direction? {
+        fun getByTypeName(typeName: String, ignoreCase: Boolean = false): Direction? {
             val formattedTypeName = if (ignoreCase) typeName.toLowerCase() else typeName
 
             return values().firstOrNull {
