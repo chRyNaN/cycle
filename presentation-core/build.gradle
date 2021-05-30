@@ -59,6 +59,12 @@ android {
         }
     }
 
+    configurations {
+        create("testApi")
+        create("testDebugApi")
+        create("testReleaseApi")
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -84,6 +90,8 @@ android {
         abortOnError false
     }
 }
+
+tasks.withType(org.gradle.jvm.tasks.Jar).all { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
 
 // Android Specific Dependencies
 dependencies {
