@@ -1,19 +1,20 @@
+@file:Suppress("unused")
+
 package com.chrynan.presentation.android
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
 import com.chrynan.presentation.BasePresenter
+import com.chrynan.presentation.NavigationIntent
 import com.chrynan.presentation.Navigator
-import com.chrynan.presentation.ScreenIntent
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
 
-abstract class BasePresentationActivity<SCREEN : ScreenIntent> : AppCompatActivity(),
-    ActivityCoroutineScope,
+abstract class BasePresentationActivity<SCREEN : NavigationIntent> : AppCompatActivity(),
     Navigator<SCREEN> {
 
-    override val coroutineContext: CoroutineContext
-        get() = lifecycle.coroutineScope.coroutineContext
+    val coroutineScope: CoroutineScope
+        get() = lifecycle.coroutineScope
 
     protected open val presenter: BasePresenter<*, *, *>? = null
 
@@ -60,7 +61,10 @@ abstract class BasePresentationActivity<SCREEN : ScreenIntent> : AppCompatActivi
         }
     }
 
-    open fun goToFragment(fragment: BasePresentationFragment<*, *, *, *>, fragmentContainerId: Int) {
+    open fun goToFragment(
+        fragment: BasePresentationFragment<*, *, *, *>,
+        fragmentContainerId: Int
+    ) {
         supportFragmentManager.let {
             it.beginTransaction().apply {
                 replace(fragmentContainerId, fragment)
