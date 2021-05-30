@@ -33,6 +33,9 @@ kotlin {
 
                 // Coroutine Dispatchers
                 api "com.chrynan.dispatchers:dispatchers-core:0.2.1"
+
+                // Mapper
+                api "com.chrynan.mapper:mapper-core:1.5.1"
             }
         }
     }
