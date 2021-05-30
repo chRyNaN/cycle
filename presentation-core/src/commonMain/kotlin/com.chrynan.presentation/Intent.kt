@@ -27,4 +27,7 @@ package com.chrynan.presentation
  * "FeedScreen"). Also, it's common to name the descendants of the sealed class in a declarative manner ("load",
  * "refresh", etc).
  */
-interface Intent
+interface Intent {
+
+    companion object
+}

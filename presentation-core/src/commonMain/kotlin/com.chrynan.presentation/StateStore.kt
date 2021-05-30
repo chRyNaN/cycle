@@ -5,9 +5,9 @@ package com.chrynan.presentation
  */
 interface StateStore<I : Intent, C : Change, S : State> {
 
-    val initialState: S
+    val initialState: S?
 
-    val currentState: S
+    val currentState: S?
 
     val lastIntent: I?
 
@@ -15,11 +15,13 @@ interface StateStore<I : Intent, C : Change, S : State> {
 
     val isPendingStateUpdate: Boolean
 
-    fun updateCurrentState(state: S)
+    fun updateCurrentState(state: S?)
 
     fun updateLastIntent(intent: I)
 
     fun updateLastChange(change: C)
 
     fun reset()
+
+    companion object
 }

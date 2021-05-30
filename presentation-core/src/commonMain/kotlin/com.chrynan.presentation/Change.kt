@@ -26,4 +26,7 @@ package com.chrynan.presentation
  * "FeedScreen"). Also, it's common to name the descendants of the sealed class in a past tense verb manner since, at
  * this point, the [Action] has already been performed ("StartedLoading", "Loaded", etc).
  */
-interface Change
+interface Change {
+
+    companion object
+}

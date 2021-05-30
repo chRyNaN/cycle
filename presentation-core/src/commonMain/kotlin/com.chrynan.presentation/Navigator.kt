@@ -4,9 +4,9 @@ package com.chrynan.presentation
 
 /**
  * A [Navigator] is responsible for changing and showing the different Screens in the application. When it receives
- * [ScreenIntent]s from calls to the [goTo] function and loads the appropriate Screen.
+ * [NavigationIntent]s from calls to the [goTo] function and loads the appropriate Screen.
  */
-interface Navigator<S : ScreenIntent> {
+interface Navigator<S : NavigationIntent> {
 
     /**
      * Goes back to the previous Screen.
@@ -20,7 +20,9 @@ interface Navigator<S : ScreenIntent> {
     fun goUp() = goBack()
 
     /**
-     * Goes to the appropriate Screen indicated by the provided [screen] [ScreenIntent].
+     * Goes to the appropriate Screen indicated by the provided [screen] [NavigationIntent].
      */
     fun goTo(screen: S)
+
+    companion object
 }

@@ -9,19 +9,21 @@ import kotlin.coroutines.CoroutineContext
 
 /**
  * A base implementation of the [Presenter] interface that provides functions for handling common functionality, such
- * as, the [reduceAndRender] function.
+ * as, the [perform], [reduce], and [render] functions.
  */
 abstract class BasePresenter<I : Intent, S : State, C : Change>(
-    protected val initialState: S,
-    protected val dispatchers: CoroutineDispatchers
-) : Presenter<I, S, C>,
-    PresenterCoroutineScope {
+    protected val initialState: S? = null,
+    protected val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers
+) : Presenter<I, S, C> {
 
-    override val currentState: S
+    override val currentState: S?
         get() = stateStore.currentState
 
-    override val coroutineContext: CoroutineContext
-        get() = job + dispatchers.main
+    override val coroutineScope: CoroutineScope = object : CoroutineScope {
+
+        override val coroutineContext: CoroutineContext
+            get() = job + dispatchers.main
+    }
 
     override var isBound = false
         internal set
@@ -63,7 +65,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      * function.
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected fun Flow<I>.perform(action: (I, S) -> Flow<C>): Flow<C> =
+    protected fun Flow<I>.perform(action: (I, S?) -> Flow<C>): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
             .flatMapLatest { action(it, currentState) }
@@ -84,42 +86,4 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
         onEach { stateStore.updateCurrentState(it) }
             .onEach { view.render(it) }
             .flowOn(dispatchers.main)
-
-    /**
-     * Performs the provided [action], then Reduces the [Change]s of type [C] from this [Flow] and returns a [Flow] of
-     * the new [State]s of type [S]. This is a convenience function for calling the [perform] function followed by the
-     * [reduce] function.
-     */
-    protected fun Flow<I>.performAndReduce(action: Action<I, S, C>): Flow<S> =
-        perform(action).reduce()
-
-    /**
-     * Performs the provided [action], then Reduces the [Change]s of type [C] from this [Flow] and returns a [Flow] of
-     * the new [State]s of type [S]. This is a convenience function for calling the [perform] function followed by the
-     * [reduce] function.
-     */
-    protected fun Flow<I>.performAndReduce(action: (I, S) -> Flow<C>): Flow<S> =
-        perform(action).reduce()
-
-    /**
-     * Reduces and renders the [Change]s of type [C] from this [Flow] and returns a [Flow] of the new [State]s of type
-     * [S]. This is a convenience function for calling the [reduce] function followed by the [render] function.
-     */
-    protected fun Flow<C>.reduceAndRender(): Flow<S> = reduce().render()
-
-    /**
-     * Performs the provided [action], then Reduces and renders the [Change]s of type [C] from this [Flow] and returns
-     * a [Flow] of the new [State]s of type [S]. This is a convenience function for calling the [perform] function
-     * followed by the [reduce] and [render] functions.
-     */
-    protected fun Flow<I>.performAndReduceAndRender(action: Action<I, S, C>): Flow<S> =
-        perform(action).reduce().render()
-
-    /**
-     * Performs the provided [action], then Reduces and renders the [Change]s of type [C] from this [Flow] and returns
-     * a [Flow] of the new [State]s of type [S]. This is a convenience function for calling the [perform] function
-     * followed by the [reduce] and [render] functions.
-     */
-    protected fun Flow<I>.performAndReduceAndRender(action: (I, S) -> Flow<C>): Flow<S> =
-        perform(action).reduce().render()
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
  * components. Instead, the business logic should be handled in UseCases and Repositories and the like. The [Action] is
  * what connects the business and application logic. It has reference to the business logic classes and invokes the
  * appropriate functions and performs application logic on top of that to coerce the returned values into application
- * layer components ([ViewModel]s, [Change]s, etc).
+ * layer components ([ViewData]s, [Change]s, etc).
  *
  * It's common, though not required, to have [Action]s be single focused and perform a single task. For instance, if
  * there are [Intent]s to "Load" and "Refresh", those should be handled in separate [Action]s. Then there could either
@@ -29,10 +29,15 @@ interface Action<I : Intent, S : State, C : Change> {
      * @param [intent] The intent to perform an [Action].
      * @param [state] The current state being displayed.
      */
-    fun perform(intent: I, state: S): Flow<C>
+    fun perform(intent: I, state: S?): Flow<C>
 
-    /**
-     * A convenience function that delegates to [perform] allowing the [Action] to be invoked like a function.
-     */
-    operator fun invoke(intent: I, state: S): Flow<C> = perform(intent, state)
+    companion object
 }
+
+/**
+ * A convenience function that delegates to [Action.perform] allowing the [Action] to be invoked like a function.
+ */
+operator fun <I : Intent, S : State, C : Change> Action<I, S, C>.invoke(
+    intent: I,
+    state: S?
+): Flow<C> = perform(intent, state)

@@ -25,6 +25,8 @@ interface ViewData {
      */
     val uniqueId: Long
         get() = hashCode().toLong()
+
+    companion object
 }
 
 /**

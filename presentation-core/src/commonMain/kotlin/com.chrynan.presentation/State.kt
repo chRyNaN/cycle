@@ -1,7 +1,7 @@
 package com.chrynan.presentation
 
 /**
- * A [State] is a special [ViewModel] that contains all necessary information to represent a UI. A [State] can be
+ * A [State] is a special [ViewData] that contains all necessary information to represent a UI. A [State] can be
  * derived from another [State] and a [Change]. Also, a [State] can be stored in a stateful component and retrieved for
  * later usage.
  *
@@ -29,4 +29,7 @@ package com.chrynan.presentation
  * "FeedScreen"). Also, it's common to name the descendants of the sealed class in a present tense verb manner since,
  * at this point, the screen is "performing" this [State] ("Loading", "Refreshing", etc).
  */
-interface State : ViewData
+interface State : ViewData {
+
+    companion object
+}

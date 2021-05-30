@@ -1,10 +1,10 @@
 package com.chrynan.presentation
 
 class BasicStateStore<I : Intent, C : Change, S : State>(
-    override val initialState: S
+    override val initialState: S? = null
 ) : StateStore<I, C, S> {
 
-    override var currentState: S = initialState
+    override var currentState: S? = initialState
         private set
 
     override var lastIntent: I? = null
@@ -16,7 +16,7 @@ class BasicStateStore<I : Intent, C : Change, S : State>(
     override var isPendingStateUpdate: Boolean = false
         private set
 
-    override fun updateCurrentState(state: S) {
+    override fun updateCurrentState(state: S?) {
         currentState = state
         isPendingStateUpdate = false
     }
