@@ -1,14 +1,21 @@
 # presentation
-Kotlin Multi-platform Presentation Layer Design Pattern. Closely related to the MVI pattern on Android.
 
-For descriptions about each of the components, refer to the [components documentation](components.md).
+Kotlin Multi-platform Presentation Layer Design Pattern. This is a uni-directional data flow (UDF) design pattern library that is closely related to the MVI pattern on Android. <br/>
+<img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/presentation">
 
-![Components Flow](assets/ComponentsFlow.png)
-![Components Flow with Presenter](assets/ComponentsFlowWithPresenter.png)
+## Building the library
+
+The library is provided through [Repsy.io](https://repsy.io/). Checkout the [releases page](https://github.com/chRyNaN/presentation/releases) to get the latest version. <br/>
+<img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/presentation">
+
+## Documentation
+
+More detailed documentation is available in the [docs](docs/) folder. The entry point to the documentation can be found [here](docs/index.md).
 
 ## License
+
 ```
-Copyright 2020 chRyNaN
+Copyright 2021 chRyNaN
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
