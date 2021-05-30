@@ -29,4 +29,4 @@ package com.chrynan.presentation
  * "FeedScreen"). Also, it's common to name the descendants of the sealed class in a present tense verb manner since,
  * at this point, the screen is "performing" this [State] ("Loading", "Refreshing", etc).
  */
-interface State : ViewModel
+interface State : ViewData
