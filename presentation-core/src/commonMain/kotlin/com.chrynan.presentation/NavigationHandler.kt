@@ -1,0 +1,17 @@
+@file:Suppress("unused")
+
+package com.chrynan.presentation
+
+/**
+ * Handles the navigation from a [Navigator].
+ */
+interface NavigationHandler<I : NavigationIntent, S : NavigationScope> {
+
+    /**
+     * Handles the actual navigation to a different part of the app defined by the provided [event]
+     * using the [S] scope.
+     */
+    fun S.onNavigate(event: NavigationEvent<I>)
+
+    companion object
+}

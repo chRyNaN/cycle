@@ -3,26 +3,23 @@
 package com.chrynan.presentation
 
 /**
- * A [Navigator] is responsible for changing and showing the different Screens in the application. When it receives
- * [NavigationIntent]s from calls to the [goTo] function and loads the appropriate Screen.
+ * A [Navigator] is responsible for changing and showing the different Screens in the application.
  */
-interface Navigator<S : NavigationIntent> {
+interface Navigator<I : NavigationIntent, S : NavigationScope> {
 
     /**
-     * Goes back to the previous Screen.
+     * The [NavigationHandler] that is used to change between the different screens of the app.
+     *
+     * Note that this is provided for convenience, such as checking which handler was set, but the
+     * functions of the [handler] should not be invoked directly. Instead, let this [Navigator]
+     * properly handle invoking the [handler] functions.
      */
-    fun goBack()
+    val handler: NavigationHandler<I, S>
 
     /**
-     * Goes up in the Screen stack. By default this is the same as calling [goBack]. Some platforms have differences
-     * between the [goBack] and [goUp] functions for the Screen navigation flow, such as, on Android.
+     * Navigates to the provided [event].
      */
-    fun goUp() = goBack()
-
-    /**
-     * Goes to the appropriate Screen indicated by the provided [screen] [NavigationIntent].
-     */
-    fun goTo(screen: S)
+    fun navigate(event: NavigationEvent<I>)
 
     companion object
 }
