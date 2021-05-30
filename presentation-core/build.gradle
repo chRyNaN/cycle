@@ -79,6 +79,10 @@ android {
             res.srcDirs = ["src/androidTest/res"]
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 // Android Specific Dependencies
