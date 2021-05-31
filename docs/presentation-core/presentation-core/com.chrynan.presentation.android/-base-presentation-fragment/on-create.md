@@ -1,0 +1,11 @@
+//[presentation-core](../../../index.md)/[com.chrynan.presentation.android](../index.md)/[BasePresentationFragment](index.md)/[onCreate](on-create.md)
+
+
+
+# onCreate  
+[android]  
+Content  
+open override fun [onCreate](on-create.md)(savedInstanceState: [Bundle](https://developer.android.com/reference/kotlin/android/os/Bundle.html)?)  
+
+
+

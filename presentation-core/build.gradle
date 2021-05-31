@@ -130,7 +130,7 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId LibraryConstants.group
-                artifactId "presentation-android"
+                artifactId "presentation-core"
                 version LibraryConstants.versionName
             }
         }

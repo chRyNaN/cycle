@@ -5,7 +5,7 @@
 # reducer  
 [common]  
 Content  
-abstract val [reducer](reducer.md): [Reducer](../-reducer/index.md)<[S](index.md), [C](index.md)>  
+abstract val [reducer](reducer.md): [Reducer](../-reducer/index.md)<[S](index.md), [C](index.md)>?  
 More info  
 
 
