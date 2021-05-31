@@ -2,6 +2,7 @@
 
 package com.chrynan.presentation.android
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,12 +13,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 
 abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE : Change, SCREEN : NavigationIntent> :
     Fragment(),
     View<INTENT, STATE>,
-    Navigator<SCREEN> {
+    NavigationEventHandler<SCREEN, AndroidNavigationScope> {
 
     override val states: Flow<STATE>
         get() = statesStateFlow.asStateFlow().filterNotNull()
@@ -33,15 +35,25 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
 
     protected open val presenter: BasePresenter<INTENT, STATE, CHANGE>? = null
 
+    protected open var navigator: Navigator<SCREEN, *>? = null
+
     protected val currentState: STATE?
         get() = presenter?.currentState ?: renderState
 
     private var statesStateFlow = MutableStateFlow<STATE?>(null)
+    private var weakReferenceActivity: WeakReference<Activity>? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        bindNavigator()
+    }
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         presenter?.bind()
+        bindNavigator()
     }
 
     override fun onResume() {
@@ -64,6 +76,7 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
 
     override fun onDestroyView() {
         presenter?.unbind()
+        unbindNavigator()
 
         super.onDestroyView()
     }
@@ -72,9 +85,11 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
         statesStateFlow.value = state
     }
 
-    override fun goBack() {
-        (activity as? BasePresentationActivity<*>)?.goBack()
+    override fun AndroidNavigationScope.onGoBack() {
+        (activity as? BasePresentationActivity<*>)?.onBackPressed()
     }
+
+    override fun AndroidNavigationScope.onGoUp() = onGoBack()
 
     protected open fun onRefresh() {}
 
@@ -96,4 +111,19 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
         startActivitySafely(f).also {
             activity?.finish()
         }
+
+    private fun bindNavigator() {
+        val currentActivity = activity
+        val storedActivity = weakReferenceActivity?.get()
+
+        if (currentActivity != storedActivity && currentActivity != null) {
+            navigator = navigator(activity = currentActivity, handler = this)
+            weakReferenceActivity = WeakReference(currentActivity)
+        }
+    }
+
+    private fun unbindNavigator() {
+        navigator = null
+        weakReferenceActivity = null
+    }
 }

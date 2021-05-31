@@ -82,6 +82,10 @@ android {
             res.srcDirs = ["src/androidTest/res"]
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 tasks.withType(org.gradle.jvm.tasks.Jar).all { duplicatesStrategy = DuplicatesStrategy.INCLUDE }

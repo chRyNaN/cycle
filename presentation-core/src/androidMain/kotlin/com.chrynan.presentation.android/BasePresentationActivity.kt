@@ -6,12 +6,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
 import com.chrynan.presentation.BasePresenter
+import com.chrynan.presentation.NavigationEventHandler
 import com.chrynan.presentation.NavigationIntent
-import com.chrynan.presentation.Navigator
 import kotlinx.coroutines.CoroutineScope
 
 abstract class BasePresentationActivity<SCREEN : NavigationIntent> : AppCompatActivity(),
-    Navigator<SCREEN> {
+    NavigationEventHandler<SCREEN, AndroidNavigationScope> {
 
     val coroutineScope: CoroutineScope
         get() = lifecycle.coroutineScope
@@ -48,7 +48,7 @@ abstract class BasePresentationActivity<SCREEN : NavigationIntent> : AppCompatAc
         super.onDestroy()
     }
 
-    override fun goBack() {
+    override fun onBackPressed() {
         with(supportFragmentManager) {
             if (!isStateSaved && backStackEntryCount > 0) {
                 popBackStack()
@@ -60,6 +60,10 @@ abstract class BasePresentationActivity<SCREEN : NavigationIntent> : AppCompatAc
             }
         }
     }
+
+    override fun AndroidNavigationScope.onGoBack() = onBackPressed()
+
+    override fun AndroidNavigationScope.onGoUp() = onGoBack()
 
     open fun goToFragment(
         fragment: BasePresentationFragment<*, *, *, *>,

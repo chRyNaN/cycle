@@ -4,9 +4,9 @@ package com.chrynan.presentation
 
 sealed class NavigationEvent<I : NavigationIntent> {
 
-    object Back : NavigationEvent<NavigationIntent>()
+    class Back<I : NavigationIntent> : NavigationEvent<I>()
 
-    object Up : NavigationEvent<NavigationIntent>()
+    class Up<I : NavigationIntent> : NavigationEvent<I>()
 
     data class To<I : NavigationIntent>(val intent: I) : NavigationEvent<I>()
 }
