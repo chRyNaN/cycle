@@ -57,6 +57,10 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     override fun unbind() {
         presenter?.unbind()
     }
+
+    protected fun emit(intent: I) {
+        intentsStateFlow.value = intent
+    }
 }
 
 @Composable

@@ -40,7 +40,9 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
     protected val currentState: STATE?
         get() = presenter?.currentState ?: renderState
 
+    private val intentsStateFlow = MutableStateFlow<INTENT?>(null)
     private var statesStateFlow = MutableStateFlow<STATE?>(null)
+
     private var weakReferenceActivity: WeakReference<Activity>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +83,8 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
         super.onDestroyView()
     }
 
+    override fun intents(): Flow<INTENT> = intentsStateFlow.asStateFlow().filterNotNull()
+
     override fun render(state: STATE) {
         statesStateFlow.value = state
     }
@@ -111,6 +115,10 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
         startActivitySafely(f).also {
             activity?.finish()
         }
+
+    protected fun emit(intent: INTENT) {
+        intentsStateFlow.value = intent
+    }
 
     private fun bindNavigator() {
         val currentActivity = activity
