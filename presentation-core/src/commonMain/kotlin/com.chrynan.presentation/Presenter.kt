@@ -30,11 +30,6 @@ interface Presenter<I : Intent, S : State, C : Change> : Bindable {
     val view: View<I, S>
 
     /**
-     * The [Reducer] used to derive the [State] of the [View].
-     */
-    val reducer: Reducer<S, C>?
-
-    /**
      * Binds and sets up this [Presenter] for the attached [View].
      */
     override fun bind()

@@ -74,17 +74,6 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
      */
-    protected fun Flow<C>.reduce(): Flow<S> =
-        onEach { stateStore.updateLastChange(it) }
-            .map {
-                reducer?.invoke(currentState, it)
-                    ?: throw IllegalStateException("Reducer must not be null in order to use reduce() function. Either provide a Reducer to the Presenter or use the reduce function that takes a function or Reducer as an argument.")
-            }
-            .flowOn(dispatchers.io)
-
-    /**
-     * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
-     */
     protected fun Flow<C>.reduce(reducer: Reducer<S, C>): Flow<S> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
