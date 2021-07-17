@@ -88,6 +88,14 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
             .flowOn(dispatchers.io)
 
     /**
+     * Emits the [initialState] value in [onStart] if it is not null.
+     */
+    protected fun Flow<S>.startWithInitialState(): Flow<S> =
+        onStart {
+            initialState?.let { emit(it) }
+        }
+
+    /**
      * Renders the [State]s of type [S] from this [Flow] with this [Presenter]s [View].
      */
     protected fun Flow<S>.render(): Flow<S> =
