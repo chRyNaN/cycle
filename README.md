@@ -147,6 +147,28 @@ fun Home() {
 }
 ```
 
+### Navigation
+
+Navigation is handled through platform specific `NavigationScope`s. Each platform should provide their own `NavigationScope` which provides platform specific means of handling navigation.
+
+An example of navigating using the `AndroidComposeNavigationScope` for Jetpack Compose on Android:
+
+```kotlin
+@Composable
+fun Home() {
+    val navigator = navigator<HomeNavigationIntent> { event ->
+        // Access the Activity with this.activity
+        // Access the NavController with this.navController
+
+        when (event) {
+            is NavigationEvent.Back -> {}
+            is NavigationEvent.Up -> {}
+            is NavigationEvent.To -> {}
+        }
+    }
+}
+```
+
 ## Building the library
 
 The library is provided through [Repsy.io](https://repsy.io/). Checkout the [releases page](https://github.com/chRyNaN/presentation/releases) to get the latest version. <br/>
