@@ -65,29 +65,6 @@ sealed class HomeNavigationIntent : NavigationIntent {
 }
 ```
 
-### Create the View
-
-The `View` implementation is a platform specific class. For instance, the `View` implementation on Android might be a `Fragment` or this library's `Layout` class if using Jetpack Compose.
-
-Let's consider an Android Fragment implementation of the `View` interface. In that scenario, we can extend from `BasePresentationFragment` to simplify the implementation.
-
-```kotlin
-class HomeFragment : BasePresentationFragment<HomeIntent, HomeState, HomeChange, HomeNavigationIntent>() {
-
-    override val presenter: HomePresenter = // Get the Presenter using Dependency Injection
-
-    override fun AndroidNavigationScope.onGoTo(intent: HomeNavigationIntent) {} // Handle navigation
-
-    override fun render(state: HomeState) {
-        super.render(state)
-
-        // Render the UI based on the state that is available
-        // Emit intents using the emit(intent) function
-        // Navigate using the navigator?.navigate() function
-    }
-}
-```
-
 ### Create the Presenter
 
 The `Presenter` is a platform independent component that coordinates the flow of data between the other components.
@@ -101,7 +78,6 @@ class HomePresenter @Inject constructor(
         super.onBind()
 
         view.intents()
-            .flowOn(dispatchers.main)
             .perform { intent, state ->
                 when (intent) {
                     is HomeIntent.LoadInitial -> loadInitialAction(intent)
@@ -110,12 +86,64 @@ class HomePresenter @Inject constructor(
                 }
             }
             .reduce { state, change ->
-                // Create new State
+                // deduce new State
             }
-            .flowOn(dispatchers.io)
             .render()
             .launchIn(this)
     }
+}
+```
+
+### Create the View
+
+The `View` implementation is a platform specific class. For instance, the `View` implementation on Android might be a `Fragment` or this library's `Layout` class if using Jetpack Compose.
+
+#### Android
+
+Let's consider an Android Fragment implementation of the `View` interface. In this scenario, we can extend from `BasePresentationFragment` to simplify the implementation.
+
+```kotlin
+class HomeFragment : BasePresentationFragment<HomeIntent, HomeState, HomeChange, HomeNavigationIntent>() {
+
+    override val presenter: HomePresenter = // Get the Presenter using Dependency Injection
+
+    override fun AndroidNavigationScope.onGoTo(intent: HomeNavigationIntent) {} // Handle navigation
+
+    override fun render(state: HomeState) {
+        super.render(state)
+
+        // Render the UI based on the state that is available
+        // Emit intents using the intent(to) function
+        // Navigate using the navigator?.navigate() function
+    }
+}
+```
+
+#### Jetpack Compose
+
+Let's consider a Jetpack Compose implementation of the `View` interface. In this scenario, we can extend from the `Layout` class to simplify the implementation.
+
+```kotlin
+class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
+
+    override val key = "HomeLayout"
+
+    override val presenterFactory: PresenterFactory<HomeIntent, HomeState, HomeChange> = // Get the Presenter Factory
+
+    @Composable
+    override fun onLayout(state: HomeState) {
+        // Render the UI based on the state that is available
+        // Emit intents using the intent(to) function
+    }
+}
+```
+
+Then we can include this `Layout` implementation in any `@Composable` function with the `includeLayout` function:
+
+```kotlin
+@Composable
+fun Home() {
+    includeLayout(HomeLayout())
 }
 ```
 
@@ -123,6 +151,30 @@ class HomePresenter @Inject constructor(
 
 The library is provided through [Repsy.io](https://repsy.io/). Checkout the [releases page](https://github.com/chRyNaN/presentation/releases) to get the latest version. <br/>
 <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/presentation">
+
+### Repository
+
+```groovy
+repositories {
+    maven {
+        url = uri("https://dl.bintray.com/chrynan/chrynan")
+    }
+}
+```
+
+### Dependencies
+
+#### core
+
+```groovy
+implementation("com.chrynan.presentation:presentation-core:VERSION")
+```
+
+#### compose
+
+```groovy
+implementation("com.chrynan.presentation:presentation-compose:VERSION")
+```
 
 ## Documentation
 
