@@ -9,4 +9,6 @@ sealed class NavigationEvent<I : NavigationIntent> {
     class Up<I : NavigationIntent> : NavigationEvent<I>()
 
     data class To<I : NavigationIntent>(val intent: I) : NavigationEvent<I>()
+
+    companion object
 }

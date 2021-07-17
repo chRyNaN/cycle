@@ -8,4 +8,6 @@ package com.chrynan.presentation
 fun interface BasePresenterFactory<I : Intent, S : State, C : Change> : PresenterFactory<I, S, C> {
 
     override fun invoke(view: View<I, S>): BasePresenter<I, S, C>
+
+    companion object
 }

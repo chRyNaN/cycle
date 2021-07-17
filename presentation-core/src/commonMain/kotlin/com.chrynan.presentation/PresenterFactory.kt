@@ -10,4 +10,6 @@ package com.chrynan.presentation
 fun interface PresenterFactory<I : Intent, S : State, C : Change> {
 
     operator fun invoke(view: View<I, S>): Presenter<I, S, C>
+
+    companion object
 }
