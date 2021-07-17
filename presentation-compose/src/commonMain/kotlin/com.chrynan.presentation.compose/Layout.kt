@@ -58,8 +58,8 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
         presenter?.unbind()
     }
 
-    protected fun emit(intent: I) {
-        intentsStateFlow.value = intent
+    protected fun intent(to: I) {
+        intentsStateFlow.value = to
     }
 }
 
