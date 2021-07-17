@@ -10,6 +10,13 @@ An extension on a [PresenterFactory](../-presenter-factory/index.md) that return
    
 
 
+## Types  
+  
+|  Name |  Summary | 
+|---|---|
+| <a name="com.chrynan.presentation/BasePresenterFactory.Companion///PointingToDeclaration/"></a>[Companion](-companion/index.md)| <a name="com.chrynan.presentation/BasePresenterFactory.Companion///PointingToDeclaration/"></a>[common]  <br>Content  <br>object [Companion](-companion/index.md)  <br><br><br>|
+
+
 ## Functions  
   
 |  Name |  Summary | 

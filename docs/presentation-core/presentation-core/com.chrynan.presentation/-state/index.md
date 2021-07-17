@@ -44,5 +44,5 @@ It's common to name the sealed class after the name of the screen that the [Stat
   
 |  Name |  Summary | 
 |---|---|
-| <a name="com.chrynan.presentation/State/uniqueId/#/PointingToDeclaration/"></a>[uniqueId](index.md#%5Bcom.chrynan.presentation%2FState%2FuniqueId%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F2083174185)| <a name="com.chrynan.presentation/State/uniqueId/#/PointingToDeclaration/"></a> [common] open val [uniqueId](index.md#%5Bcom.chrynan.presentation%2FState%2FuniqueId%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F2083174185): [Long](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)A unique identifier for this [ViewData](../-view-data/index.md).   <br>|
+| <a name="com.chrynan.presentation/State/uniqueId/#/PointingToDeclaration/"></a>[uniqueId](index.md#%5Bcom.chrynan.presentation%2FState%2FuniqueId%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F769169092)| <a name="com.chrynan.presentation/State/uniqueId/#/PointingToDeclaration/"></a> [common] open val [uniqueId](index.md#%5Bcom.chrynan.presentation%2FState%2FuniqueId%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F769169092): [Long](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)A unique identifier for this [ViewData](../-view-data/index.md).   <br>|
 

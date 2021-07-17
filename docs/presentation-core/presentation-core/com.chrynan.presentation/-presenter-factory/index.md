@@ -10,6 +10,13 @@ A component that can create a [Presenter](../-presenter/index.md). This allows l
    
 
 
+## Types  
+  
+|  Name |  Summary | 
+|---|---|
+| <a name="com.chrynan.presentation/PresenterFactory.Companion///PointingToDeclaration/"></a>[Companion](-companion/index.md)| <a name="com.chrynan.presentation/PresenterFactory.Companion///PointingToDeclaration/"></a>[common]  <br>Content  <br>object [Companion](-companion/index.md)  <br><br><br>|
+
+
 ## Functions  
   
 |  Name |  Summary | 

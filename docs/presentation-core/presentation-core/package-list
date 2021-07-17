@@ -48,6 +48,7 @@ $dokka.location:com.chrynan.presentation/BasePresenter/coroutineScope/#/Pointing
 $dokka.location:com.chrynan.presentation/BasePresenter/currentState/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-base-presenter/current-state.md
 $dokka.location:com.chrynan.presentation/BasePresenter/isBound/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-base-presenter/is-bound.md
 $dokka.location:com.chrynan.presentation/BasePresenter/unbind/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-base-presenter/unbind.md
+$dokka.location:com.chrynan.presentation/BasePresenterFactory.Companion///PointingToDeclaration/presentation-core/com.chrynan.presentation/-base-presenter-factory/-companion/index.md
 $dokka.location:com.chrynan.presentation/BasePresenterFactory///PointingToDeclaration/presentation-core/com.chrynan.presentation/-base-presenter-factory/index.md
 $dokka.location:com.chrynan.presentation/BasePresenterFactory/invoke/#com.chrynan.presentation.View[TypeParam(bounds=[com.chrynan.presentation.Intent]),TypeParam(bounds=[com.chrynan.presentation.State])]/PointingToDeclaration/presentation-core/com.chrynan.presentation/-base-presenter-factory/invoke.md
 $dokka.location:com.chrynan.presentation/BasicStateStore///PointingToDeclaration/presentation-core/com.chrynan.presentation/-basic-state-store/index.md
@@ -72,6 +73,7 @@ $dokka.location:com.chrynan.presentation/Intent.Companion///PointingToDeclaratio
 $dokka.location:com.chrynan.presentation/Intent///PointingToDeclaration/presentation-core/com.chrynan.presentation/-intent/index.md
 $dokka.location:com.chrynan.presentation/NavigationEvent.Back///PointingToDeclaration/presentation-core/com.chrynan.presentation/-navigation-event/-back/index.md
 $dokka.location:com.chrynan.presentation/NavigationEvent.Back/Back/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-navigation-event/-back/-back.md
+$dokka.location:com.chrynan.presentation/NavigationEvent.Companion///PointingToDeclaration/presentation-core/com.chrynan.presentation/-navigation-event/-companion/index.md
 $dokka.location:com.chrynan.presentation/NavigationEvent.To///PointingToDeclaration/presentation-core/com.chrynan.presentation/-navigation-event/-to/index.md
 $dokka.location:com.chrynan.presentation/NavigationEvent.To/To/#TypeParam(bounds=[com.chrynan.presentation.NavigationIntent])/PointingToDeclaration/presentation-core/com.chrynan.presentation/-navigation-event/-to/-to.md
 $dokka.location:com.chrynan.presentation/NavigationEvent.To/intent/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-navigation-event/-to/intent.md
@@ -101,9 +103,9 @@ $dokka.location:com.chrynan.presentation/Presenter/bind/#/PointingToDeclaration/
 $dokka.location:com.chrynan.presentation/Presenter/coroutineScope/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter/coroutine-scope.md
 $dokka.location:com.chrynan.presentation/Presenter/currentState/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter/current-state.md
 $dokka.location:com.chrynan.presentation/Presenter/isBound/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter/is-bound.md
-$dokka.location:com.chrynan.presentation/Presenter/reducer/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter/reducer.md
 $dokka.location:com.chrynan.presentation/Presenter/unbind/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter/unbind.md
 $dokka.location:com.chrynan.presentation/Presenter/view/#/PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter/view.md
+$dokka.location:com.chrynan.presentation/PresenterFactory.Companion///PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter-factory/-companion/index.md
 $dokka.location:com.chrynan.presentation/PresenterFactory///PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter-factory/index.md
 $dokka.location:com.chrynan.presentation/PresenterFactory/invoke/#com.chrynan.presentation.View[TypeParam(bounds=[com.chrynan.presentation.Intent]),TypeParam(bounds=[com.chrynan.presentation.State])]/PointingToDeclaration/presentation-core/com.chrynan.presentation/-presenter-factory/invoke.md
 $dokka.location:com.chrynan.presentation/Reducer.Companion///PointingToDeclaration/presentation-core/com.chrynan.presentation/-reducer/-companion/index.md
