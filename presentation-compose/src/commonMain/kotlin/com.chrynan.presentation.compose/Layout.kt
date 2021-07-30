@@ -52,10 +52,20 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
         }
 
         presenter?.bind()
+
+        onBind()
     }
 
     override fun unbind() {
+        onUnbind()
+
         presenter?.unbind()
+    }
+
+    protected open fun onBind() {
+    }
+
+    protected open fun onUnbind() {
     }
 
     protected fun intent(to: I) {
