@@ -103,7 +103,7 @@ fun <I : Intent, S : State, C : Change> layout(
 
 @Composable
 @Suppress("unused")
-inline fun <reified I : Intent, reified S : State, reified C : Change> includeLayout(layout: Layout<I, S, C>) {
+inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(layout: Layout<I, S, C>) {
     val rememberedLayout by remember { mutableStateOf(layout) }
 
     val state by rememberedLayout.states.collectAsState(initial = null)
@@ -116,4 +116,26 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> includeLa
     state?.let {
         rememberedLayout.OnLayout(it)
     }
+}
+
+@Composable
+inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(
+    key: Any? = null,
+    presenterFactory: PresenterFactory<I, S, C>,
+    noinline onLayout: @Composable (S) -> Unit
+) {
+    val layout = layout(key = key, presenterFactory = presenterFactory, onLayout = onLayout)
+
+    composeLayout(layout = layout)
+}
+
+@Composable
+inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(
+    key: Any? = null,
+    noinline onCreatePresenter: (view: View<I, S>) -> Presenter<I, S, C>,
+    noinline onLayout: @Composable (S) -> Unit
+) {
+    val layout = layout(key = key, onCreatePresenter = onCreatePresenter, onLayout = onLayout)
+
+    composeLayout(layout = layout)
 }
