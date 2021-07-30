@@ -131,19 +131,19 @@ class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
     override val presenterFactory: PresenterFactory<HomeIntent, HomeState, HomeChange> = // Get the Presenter Factory
 
     @Composable
-    override fun onLayout(state: HomeState) {
+    override fun OnLayout(state: HomeState) {
         // Render the UI based on the state that is available
         // Emit intents using the intent(to) function
     }
 }
 ```
 
-Then we can include this `Layout` implementation in any `@Composable` function with the `includeLayout` function:
+Then we can include this `Layout` implementation in any `@Composable` function with the `composeLayout` function:
 
 ```kotlin
 @Composable
 fun Home() {
-    includeLayout(HomeLayout())
+    composeLayout(HomeLayout())
 }
 ```
 
