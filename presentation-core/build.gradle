@@ -30,16 +30,16 @@ kotlin {
         }
         commonMain {
             dependencies {
-                implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
 
                 // Kotlin Coroutines
-                api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 
                 // Coroutine Dispatchers
-                api "com.chrynan.dispatchers:dispatchers:0.2.2"
+                api("com.chrynan.dispatchers:dispatchers:0.2.3")
 
                 // Mapper
-                api "com.chrynan.mapper:mapper-core:1.5.1"
+                api("com.chrynan.mapper:mapper-core:1.5.2")
             }
         }
     }
@@ -51,8 +51,6 @@ android {
     defaultConfig {
         minSdkVersion LibraryConstants.Android.minSdkVersion
         targetSdkVersion LibraryConstants.Android.targetSdkVersion
-        versionCode LibraryConstants.versionCode
-        versionName LibraryConstants.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -99,12 +97,12 @@ tasks.withType(org.gradle.jvm.tasks.Jar).all { duplicatesStrategy = DuplicatesSt
 
 // Android Specific Dependencies
 dependencies {
-    implementation "androidx.activity:activity-ktx:1.3.0"
-    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha05"
-    implementation "androidx.core:core-ktx:1.6.0"
-    implementation "androidx.appcompat:appcompat:1.3.1"
+    implementation("androidx.activity:activity-ktx:1.3.0")
+    implementation("androidx.fragment:fragment-ktx:1.4.0-alpha05")
+    implementation("androidx.core:core-ktx:1.6.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 }
 
 configurations {

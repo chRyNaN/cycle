@@ -21,7 +21,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api project(":presentation-core")
+                api(project(":presentation-core"))
 
                 implementation(compose.runtime)
                 implementation(compose.ui)
@@ -37,8 +37,6 @@ android {
     defaultConfig {
         minSdkVersion LibraryConstants.Android.minSdkVersion
         targetSdkVersion LibraryConstants.Android.targetSdkVersion
-        versionCode LibraryConstants.versionCode
-        versionName LibraryConstants.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -59,20 +57,6 @@ android {
         // Opt-in to experimental compose APIs
         freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         freeCompilerArgs += "-Xallow-jvm-ir-dependencies"
-    }
-
-    buildFeatures {
-        compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion "1.0.0-beta02"
-    }
-
-    configurations {
-        create("testApi")
-        create("testDebugApi")
-        create("testReleaseApi")
     }
 
     sourceSets {
