@@ -27,12 +27,34 @@ interface ComposeNavigator {
 @Composable
 @PresentationComposeExperimentalApi
 fun ComposeNavigator.goTo(
+    strategy: NavStackDuplicateContentStrategy,
+    content: @Composable () -> Unit
+) = goTo(
+    key = null,
+    strategy = strategy,
+    content = content
+)
+
+@Suppress("unused")
+@Composable
+@PresentationComposeExperimentalApi
+fun ComposeNavigator.goTo(
     key: Any? = null,
-    strategy: NavStackDuplicateContentStrategy = NavStackDuplicateContentStrategy.CLEAR_STACK,
     content: @Composable () -> Unit
 ) = goTo(
     key = key,
-    strategy = strategy,
+    strategy = NavStackDuplicateContentStrategy.CLEAR_STACK,
+    content = content
+)
+
+@Suppress("unused")
+@Composable
+@PresentationComposeExperimentalApi
+fun ComposeNavigator.goTo(
+    content: @Composable () -> Unit
+) = goTo(
+    key = null,
+    strategy = NavStackDuplicateContentStrategy.CLEAR_STACK,
     content = content
 )
 
