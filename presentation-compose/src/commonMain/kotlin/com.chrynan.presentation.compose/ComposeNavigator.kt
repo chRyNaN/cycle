@@ -82,7 +82,7 @@ abstract class BaseComposeNavigatorViewModel : ViewModel(),
 fun rememberComposeNavigator(
     initialKey: Any? = null,
     initialContent: @Composable () -> Unit
-): ComposeNavigatorViewModel {
+): BaseComposeNavigatorViewModel {
     val nonNullInitialKey = getNonNullKey(providedKey = initialKey)
 
     return remember {
