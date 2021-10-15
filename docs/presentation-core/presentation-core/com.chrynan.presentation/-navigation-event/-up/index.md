@@ -1,7 +1,6 @@
 //[presentation-core](../../../../index.md)/[com.chrynan.presentation](../../index.md)/[NavigationEvent](../index.md)/[Up](index.md)
 
+# Up
 
-
-# Up  
- [common] class [Up](index.md)<[I](index.md) : [NavigationIntent](../../-navigation-intent/index.md)> : [NavigationEvent](../index.md)<[I](index.md)>    
-
+[common]\
+class [Up](index.md)&lt;[I](index.md) : [NavigationIntent](../../-navigation-intent/index.md)&gt; : [NavigationEvent](../index.md)&lt;[I](index.md)&gt;

@@ -1,11 +1,6 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation](../index.md)/[BasicStateStore](index.md)/[BasicStateStore](-basic-state-store.md)
 
+# BasicStateStore
 
-
-# BasicStateStore  
-[common]  
-Content  
-fun <[S](index.md) : [State](../-state/index.md)> [BasicStateStore](-basic-state-store.md)(initialState: [S](index.md)? = null)  
-
-
-
+[common]\
+fun &lt;[S](index.md) : [State](../-state/index.md)&gt; [BasicStateStore](-basic-state-store.md)(initialState: [S](index.md)? = null)

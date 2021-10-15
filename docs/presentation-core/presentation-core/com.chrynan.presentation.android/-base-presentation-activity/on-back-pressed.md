@@ -1,11 +1,6 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation.android](../index.md)/[BasePresentationActivity](index.md)/[onBackPressed](on-back-pressed.md)
 
+# onBackPressed
 
-
-# onBackPressed  
-[android]  
-Content  
-open override fun [onBackPressed](on-back-pressed.md)()  
-
-
-
+[android]\
+open override fun [onBackPressed](on-back-pressed.md)()

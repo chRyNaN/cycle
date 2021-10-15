@@ -1,11 +1,6 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation.android](../index.md)/[BasePresentationFragment](index.md)/[onPause](on-pause.md)
 
+# onPause
 
-
-# onPause  
-[android]  
-Content  
-open override fun [onPause](on-pause.md)()  
-
-
-
+[android]\
+open override fun [onPause](on-pause.md)()

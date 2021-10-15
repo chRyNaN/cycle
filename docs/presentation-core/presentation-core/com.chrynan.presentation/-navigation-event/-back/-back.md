@@ -1,11 +1,6 @@
 //[presentation-core](../../../../index.md)/[com.chrynan.presentation](../../index.md)/[NavigationEvent](../index.md)/[Back](index.md)/[Back](-back.md)
 
+# Back
 
-
-# Back  
-[common]  
-Content  
-fun [Back](-back.md)()  
-
-
-
+[common]\
+fun [Back](-back.md)()

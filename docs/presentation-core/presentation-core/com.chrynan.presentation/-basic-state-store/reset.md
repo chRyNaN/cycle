@@ -1,11 +1,6 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation](../index.md)/[BasicStateStore](index.md)/[reset](reset.md)
 
+# reset
 
-
-# reset  
-[common]  
-Content  
-open override fun [reset](reset.md)()  
-
-
-
+[common]\
+open override fun [reset](reset.md)()

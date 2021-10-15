@@ -1,11 +1,6 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation.android](../index.md)/[AndroidNavigationScope](index.md)/[activity](activity.md)
 
+# activity
 
-
-# activity  
-[android]  
-Content  
-abstract val [activity](activity.md): [Activity](https://developer.android.com/reference/kotlin/android/app/Activity.html)  
-
-
-
+[android]\
+abstract val [activity](activity.md): [Activity](https://developer.android.com/reference/kotlin/android/app/Activity.html)

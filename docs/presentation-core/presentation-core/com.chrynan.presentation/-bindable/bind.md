@@ -1,17 +1,8 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation](../index.md)/[Bindable](index.md)/[bind](bind.md)
 
+# bind
 
-
-# bind  
-[common]  
-Content  
-abstract fun [bind](bind.md)()  
-More info  
-
+[common]\
+abstract fun [bind](bind.md)()
 
 Binds and sets up this component.
-
-  
-
-
-

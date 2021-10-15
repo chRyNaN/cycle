@@ -1,17 +1,8 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation](../index.md)/[Bindable](index.md)/[unbind](unbind.md)
 
+# unbind
 
-
-# unbind  
-[common]  
-Content  
-abstract fun [unbind](unbind.md)()  
-More info  
-
+[common]\
+abstract fun [unbind](unbind.md)()
 
 Unbinds and cleans up the resources used by this component.
-
-  
-
-
-

@@ -1,11 +1,6 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation](../index.md)/[StateStore](index.md)/[reset](reset.md)
 
+# reset
 
-
-# reset  
-[common]  
-Content  
-abstract fun [reset](reset.md)()  
-
-
-
+[common]\
+abstract fun [reset](reset.md)()

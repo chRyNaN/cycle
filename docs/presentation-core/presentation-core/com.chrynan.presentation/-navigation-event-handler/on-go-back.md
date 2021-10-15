@@ -1,11 +1,6 @@
 //[presentation-core](../../../index.md)/[com.chrynan.presentation](../index.md)/[NavigationEventHandler](index.md)/[onGoBack](on-go-back.md)
 
+# onGoBack
 
-
-# onGoBack  
-[common]  
-Content  
-abstract fun [S](index.md).[onGoBack](on-go-back.md)()  
-
-
-
+[common]\
+abstract fun [S](index.md).[onGoBack](on-go-back.md)()

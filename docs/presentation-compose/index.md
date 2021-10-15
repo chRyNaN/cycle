@@ -1,13 +1,9 @@
 //[presentation-compose](index.md)
 
+# presentation-compose
 
+## Packages
 
-# presentation-compose  
-
-
-## Packages  
-  
-|  Name | 
+| Name |
 |---|
-| <a name="com.chrynan.presentation.compose////PointingToDeclaration/"></a>[com.chrynan.presentation.compose](presentation-compose/com.chrynan.presentation.compose/index.md)|
-
+| [com.chrynan.presentation.compose](presentation-compose/com.chrynan.presentation.compose/index.md) |
