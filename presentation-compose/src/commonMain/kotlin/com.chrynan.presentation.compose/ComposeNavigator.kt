@@ -80,7 +80,7 @@ abstract class BaseComposeNavigatorByKeyViewModel<T> : ViewModel(),
 fun <T> rememberComposeNavigatorByContent(
     initialKey: T,
     initialContent: @Composable () -> Unit
-): BaseComposeNavigatorByContentViewModel<T> = remember {
+): ComposeNavigatorByContentViewModel<T> = remember {
     ComposeNavigatorByContentViewModel(
         initialKey = initialKey,
         initialContent = initialContent
@@ -93,7 +93,7 @@ fun <T> rememberComposeNavigatorByContent(
 fun <T> rememberComposeNavigatorByKey(
     initialKey: T,
     content: @Composable (key: T) -> Unit
-): BaseComposeNavigatorByKeyViewModel<T> = remember {
+): ComposeNavigatorByKeyViewModel<T> = remember {
     ComposeNavigatorByKeyViewModel(
         initialKey = initialKey,
         content = content
