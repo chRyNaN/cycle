@@ -6,38 +6,36 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
 @PresentationComposeExperimentalApi
-class ComposeNavigatorByContentViewModel internal constructor(
-    override val initialKey: Any,
+class ComposeNavigatorByContentViewModel<T> internal constructor(
+    override val initialKey: T,
     private val initialContent: @Composable () -> Unit
-) : BaseComposeNavigatorByContentViewModel() {
+) : BaseComposeNavigatorByContentViewModel<T>() {
 
-    override val keyChanges: Flow<Any>
+    override val keyChanges: Flow<T>
         get() = mutableKeyFlow.filterNotNull()
 
-    override val currentKey: Any?
+    override val currentKey: T?
         get() = mutableKeyFlow.value
 
     override var isInitialized: Boolean = false
         private set
 
-    private val mutableKeyFlow = MutableStateFlow<Any?>(value = null)
+    private val mutableKeyFlow = MutableStateFlow<T?>(value = null)
 
-    private val contents = mutableMapOf<Any, (@Composable () -> Unit)>()
-    private val keyStack = mutableListOf<Any>()
+    private val contents = mutableMapOf<T, (@Composable () -> Unit)>()
+    private val keyStack = mutableListOf<T>()
 
     @Composable
     override fun goTo(
-        key: Any?,
+        key: T,
         strategy: NavStackDuplicateContentStrategy,
         content: @Composable () -> Unit
     ) {
-        val nonNullKey = getNonNullKey(providedKey = key)
-
-        if (contents.containsKey(nonNullKey) && strategy == NavStackDuplicateContentStrategy.CLEAR_STACK) {
+        if (contents.containsKey(key) && strategy == NavStackDuplicateContentStrategy.CLEAR_STACK) {
             // Go Back to the content with the provided key using the updated content
             var lastKey = keyStack.lastOrNull()
 
-            while (lastKey != null && lastKey != nonNullKey) {
+            while (lastKey != null && lastKey != key) {
                 keyStack.removeLast()
 
                 if (!keyStack.contains(lastKey)) {
@@ -48,11 +46,11 @@ class ComposeNavigatorByContentViewModel internal constructor(
             }
 
             // Replace the content with the updated content
-            contents[nonNullKey] = content
-            mutableKeyFlow.value = nonNullKey
+            contents[key] = content
+            mutableKeyFlow.value = key
         } else {
             // Go to the provided content
-            addToStack(key = nonNullKey, content = content)
+            addToStack(key = key, content = content)
         }
     }
 
@@ -70,11 +68,9 @@ class ComposeNavigatorByContentViewModel internal constructor(
     override fun canGoBack(): Boolean = contents.isNotEmpty() && keyStack.isNotEmpty()
 
     @Composable
-    override fun getContent(key: Any): (@Composable () -> Unit)? {
+    override fun getContent(key: T): (@Composable () -> Unit)? {
         if (contents.isEmpty()) {
-            val initialNonNullKey = getNonNullKey(providedKey = initialKey)
-
-            addToStack(key = initialNonNullKey, content = initialContent)
+            addToStack(key = key, content = initialContent)
 
             isInitialized = true
         }
@@ -83,7 +79,7 @@ class ComposeNavigatorByContentViewModel internal constructor(
     }
 
     private fun addToStack(
-        key: Any,
+        key: T,
         content: @Composable () -> Unit
     ) {
         contents[key] = content

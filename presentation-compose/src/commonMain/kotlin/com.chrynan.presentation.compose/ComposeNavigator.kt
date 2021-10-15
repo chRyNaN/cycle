@@ -5,134 +5,95 @@ import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.Flow
 
 @PresentationComposeExperimentalApi
-interface ComposeNavigator {
+interface ComposeNavigator<T> {
 
-    val initialKey: Any
+    val initialKey: T
 
-    val currentKey: Any?
+    val currentKey: T?
 
-    val keyChanges: Flow<Any>
+    val keyChanges: Flow<T>
 
     val isInitialized: Boolean
 }
 
 @PresentationComposeExperimentalApi
-interface ComposeNavigatorByContent : ComposeNavigator {
+interface ComposeNavigatorByContent<T> : ComposeNavigator<T> {
 
     @Composable
     fun goTo(
-        key: Any?,
+        key: T,
         strategy: NavStackDuplicateContentStrategy,
         content: @Composable () -> Unit
     )
 }
 
 @PresentationComposeExperimentalApi
-interface ComposeNavigatorByKey : ComposeNavigator {
+interface ComposeNavigatorByKey<T> : ComposeNavigator<T> {
 
     fun goTo(
-        key: Any,
+        key: T,
         strategy: NavStackDuplicateContentStrategy = NavStackDuplicateContentStrategy.CLEAR_STACK
     )
 }
 
-@Suppress("unused")
-@Composable
 @PresentationComposeExperimentalApi
-fun ComposeNavigatorByContent.goTo(
-    strategy: NavStackDuplicateContentStrategy,
-    content: @Composable () -> Unit
-) = goTo(
-    key = null,
-    strategy = strategy,
-    content = content
-)
-
-@Suppress("unused")
-@Composable
-@PresentationComposeExperimentalApi
-fun ComposeNavigatorByContent.goTo(
-    key: Any? = null,
-    content: @Composable () -> Unit
-) = goTo(
-    key = key,
-    strategy = NavStackDuplicateContentStrategy.CLEAR_STACK,
-    content = content
-)
-
-@Suppress("unused")
-@Composable
-@PresentationComposeExperimentalApi
-fun ComposeNavigatorByContent.goTo(
-    content: @Composable () -> Unit
-) = goTo(
-    key = null,
-    strategy = NavStackDuplicateContentStrategy.CLEAR_STACK,
-    content = content
-)
-
-@PresentationComposeExperimentalApi
-interface ComposeStackNavigator : ComposeNavigator {
+interface ComposeStackNavigator<T> : ComposeNavigator<T> {
 
     fun canGoBack(): Boolean
 }
 
 @PresentationComposeExperimentalApi
-interface ComposeStackNavigatorByContent : ComposeStackNavigator {
+interface ComposeStackNavigatorByContent<T> : ComposeStackNavigator<T> {
 
     @Composable
     fun goBack(): Boolean
 }
 
 @PresentationComposeExperimentalApi
-interface ComposeStackNavigatorByKey : ComposeStackNavigator {
+interface ComposeStackNavigatorByKey<T> : ComposeStackNavigator<T> {
 
     fun goBack(): Boolean
 }
 
 @PresentationComposeExperimentalApi
-abstract class BaseComposeNavigatorByContentViewModel : ViewModel(),
-    ComposeNavigator,
-    ComposeNavigatorByContent,
-    ComposeStackNavigatorByContent {
+abstract class BaseComposeNavigatorByContentViewModel<T> : ViewModel(),
+    ComposeNavigator<T>,
+    ComposeNavigatorByContent<T>,
+    ComposeStackNavigatorByContent<T> {
 
     @Composable
-    internal abstract fun getContent(key: Any): (@Composable () -> Unit)?
+    internal abstract fun getContent(key: T): (@Composable () -> Unit)?
 }
 
 @PresentationComposeExperimentalApi
-abstract class BaseComposeNavigatorByKeyViewModel : ViewModel(),
-    ComposeNavigator,
-    ComposeNavigatorByKey,
-    ComposeStackNavigatorByKey {
+abstract class BaseComposeNavigatorByKeyViewModel<T> : ViewModel(),
+    ComposeNavigator<T>,
+    ComposeNavigatorByKey<T>,
+    ComposeStackNavigatorByKey<T> {
 
-    internal abstract val content: @Composable (key: Any) -> Unit
+    internal abstract val content: @Composable (key: T) -> Unit
 }
 
 @Suppress("unused")
 @PresentationComposeExperimentalApi
 @Composable
-fun rememberComposeNavigatorByContent(
-    initialKey: Any? = null,
+fun <T> rememberComposeNavigatorByContent(
+    initialKey: T,
     initialContent: @Composable () -> Unit
-): BaseComposeNavigatorByContentViewModel {
-    val nonNullInitialKey = getNonNullKey(providedKey = initialKey)
-
-    return remember {
-        ComposeNavigatorByContentViewModel(
-            initialKey = nonNullInitialKey,
-            initialContent = initialContent
-        )
-    }
+): BaseComposeNavigatorByContentViewModel<T> = remember {
+    ComposeNavigatorByContentViewModel(
+        initialKey = initialKey,
+        initialContent = initialContent
+    )
 }
 
 @Suppress("unused")
 @PresentationComposeExperimentalApi
 @Composable
-fun rememberComposeNavigatorByKey(
-    initialKey: Any,
-    content: @Composable (key: Any) -> Unit
-): BaseComposeNavigatorByKeyViewModel = remember {
+fun <T> rememberComposeNavigatorByKey(
+    initialKey: T,
+    content: @Composable (key: T) -> Unit
+): BaseComposeNavigatorByKeyViewModel<T> = remember {
     ComposeNavigatorByKeyViewModel(
         initialKey = initialKey,
         content = content

@@ -8,8 +8,8 @@ import androidx.compose.runtime.getValue
 @Suppress("unused")
 @Composable
 @PresentationComposeExperimentalApi
-fun NavContainer(
-    navigator: BaseComposeNavigatorByContentViewModel
+fun <T> NavContainer(
+    navigator: BaseComposeNavigatorByContentViewModel<T>
 ) {
     val contentKey by navigator.keyChanges.collectAsState(initial = navigator.initialKey)
     val content = navigator.getContent(contentKey)
@@ -22,8 +22,8 @@ fun NavContainer(
 @Suppress("unused")
 @Composable
 @PresentationComposeExperimentalApi
-fun NavContainer(
-    navigator: BaseComposeNavigatorByKeyViewModel
+fun <T> NavContainer(
+    navigator: BaseComposeNavigatorByKeyViewModel<T>
 ) {
     val contentKey by navigator.keyChanges.collectAsState(initial = navigator.initialKey)
 

@@ -6,24 +6,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
 @PresentationComposeExperimentalApi
-class ComposeNavigatorByKeyViewModel(
-    override val initialKey: Any,
-    override val content: @Composable (key: Any) -> Unit
-) : BaseComposeNavigatorByKeyViewModel() {
+class ComposeNavigatorByKeyViewModel<T>(
+    override val initialKey: T,
+    override val content: @Composable (key: T) -> Unit
+) : BaseComposeNavigatorByKeyViewModel<T>() {
 
-    override val keyChanges: Flow<Any>
+    override val keyChanges: Flow<T>
         get() = mutableKeyFlow.filterNotNull()
 
-    override val currentKey: Any?
+    override val currentKey: T?
         get() = mutableKeyFlow.value
 
     override val isInitialized: Boolean = true
 
-    private val mutableKeyFlow = MutableStateFlow<Any?>(value = initialKey)
+    private val mutableKeyFlow = MutableStateFlow<T?>(value = initialKey)
 
-    private val keyStack = mutableListOf<Any>()
+    private val keyStack = mutableListOf<T>()
 
-    override fun goTo(key: Any, strategy: NavStackDuplicateContentStrategy) {
+    override fun goTo(key: T, strategy: NavStackDuplicateContentStrategy) {
         if (keyStack.contains(key) && strategy == NavStackDuplicateContentStrategy.CLEAR_STACK) {
             // Go Back to the content with the provided key using the updated content
             var lastKey = keyStack.lastOrNull()
@@ -53,7 +53,7 @@ class ComposeNavigatorByKeyViewModel(
 
     override fun canGoBack(): Boolean = keyStack.isNotEmpty()
 
-    private fun addToStack(key: Any) {
+    private fun addToStack(key: T) {
         keyStack.add(key)
         mutableKeyFlow.value = key
     }
