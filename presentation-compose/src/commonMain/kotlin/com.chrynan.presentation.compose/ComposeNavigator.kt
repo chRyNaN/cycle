@@ -22,7 +22,7 @@ interface ComposeNavigatorByContent<T> : ComposeNavigator<T> {
     @Composable
     fun goTo(
         key: T,
-        strategy: NavStackDuplicateContentStrategy,
+        strategy: NavStackDuplicateContentStrategy = NavStackDuplicateContentStrategy.CLEAR_STACK,
         content: @Composable () -> Unit
     )
 }
