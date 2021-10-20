@@ -22,19 +22,33 @@ interface ComposeNavigatorByContent<T> : ComposeNavigator<T> {
     @Composable
     fun goTo(
         key: T,
-        strategy: NavStackDuplicateContentStrategy = NavStackDuplicateContentStrategy.CLEAR_STACK,
+        strategy: NavStackDuplicateContentStrategy,
         content: @Composable () -> Unit
     )
 }
+
+// Note: This is needed because defaults aren't working for @Composable functions for interfaces.
+@Suppress("unused")
+@PresentationComposeExperimentalApi
+@Composable
+fun <T> ComposeNavigatorByContent<T>.goTo(key: T, content: @Composable () -> Unit) =
+    goTo(key = key, strategy = NavStackDuplicateContentStrategy.CLEAR_STACK, content = content)
 
 @PresentationComposeExperimentalApi
 interface ComposeNavigatorByKey<T> : ComposeNavigator<T> {
 
     fun goTo(
         key: T,
-        strategy: NavStackDuplicateContentStrategy = NavStackDuplicateContentStrategy.CLEAR_STACK
+        strategy: NavStackDuplicateContentStrategy
     )
 }
+
+// Note: This is needed because defaults aren't working for @Composable functions for interfaces.
+@Suppress("unused")
+@PresentationComposeExperimentalApi
+@Composable
+fun <T> ComposeNavigatorByKey<T>.goTo(key: T) =
+    goTo(key = key, strategy = NavStackDuplicateContentStrategy.CLEAR_STACK)
 
 @PresentationComposeExperimentalApi
 interface ComposeStackNavigator<T> : ComposeNavigator<T> {
