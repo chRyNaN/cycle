@@ -33,23 +33,49 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
 
     private lateinit var job: Job
 
+    /**
+     * Binds this [Presenter].
+     *
+     * Prefer overriding the [onBind] function for setup logic.
+     */
     override fun bind() {
-        if (!isBound) onBind()
+        if (!isBound) {
+            job = SupervisorJob()
+            isBound = true
+            onBind()
+        }
     }
 
+    /**
+     * Unbinds this [Presenter].
+     *
+     * Prefer overriding the [onUnbind] function for cleanup logic.
+     */
     override fun unbind() {
-        if (isBound) onUnbind()
+        if (isBound) {
+            onUnbind()
+            job.cancel()
+            isBound = false
+        }
     }
 
-    protected open fun onBind() {
-        job = SupervisorJob()
-        isBound = true
-    }
+    /**
+     * This function will be invoked when this Presenters [bind] function is called when this
+     * Presenter is not already bound.
+     *
+     * This is a good place to setup any resources or calls. Typically, the MVI pattern flow is
+     * setup here by listening to [Intent]s emitted by the [View].
+     */
+    protected open fun onBind() {}
 
-    protected open fun onUnbind() {
-        job.cancel()
-        isBound = false
-    }
+    /**
+     * This function will be invoked when this Presenters [unbind] function is called when this
+     * Presenter is bound.
+     *
+     * This is a good place to clear up any resources. Note that this function will be invoked
+     * before the [coroutineScope] is cancelled.
+     */
+    protected open fun onUnbind() {}
 
     /**
      * Converts this [Flow] of [Intent]s of type [I] into a [Flow] of [Change]s of type [C] using the provided [action].

@@ -16,6 +16,8 @@ interface Presenter<I : Intent, S : State, C : Change> : Bindable {
 
     /**
      * The [CoroutineScope] available to this [Presenter].
+     *
+     * Avoid calling this outside the [Presenter].
      */
     val coroutineScope: CoroutineScope
 
