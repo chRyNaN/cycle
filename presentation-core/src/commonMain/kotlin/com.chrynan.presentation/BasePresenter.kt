@@ -8,13 +8,14 @@ import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
 
 /**
- * A base implementation of the [Presenter] interface that provides functions for handling common functionality, such
- * as, the [perform], [reduce], and [render] functions.
+ * A base implementation of the [Presenter] interface that provides functions for handling common
+ * functionality, such as, the [perform], [reduce], and [render] functions.
  */
 abstract class BasePresenter<I : Intent, S : State, C : Change>(
     protected val initialState: S? = null,
     protected val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers
-) : Presenter<I, S, C> {
+) : ViewModel(),
+    Presenter<I, S, C> {
 
     override val currentState: S?
         get() = stateStore.currentState
