@@ -1,4 +1,3 @@
-package com.chrynan.presentation.compose
+package com.chrynan.presentation
 
-@PresentationComposeExperimentalApi
 actual abstract class ViewModel actual constructor() : androidx.lifecycle.ViewModel()

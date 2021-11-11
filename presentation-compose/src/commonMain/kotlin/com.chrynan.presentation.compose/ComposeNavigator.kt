@@ -3,6 +3,7 @@ package com.chrynan.presentation.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.Flow
+import com.chrynan.presentation.ViewModel
 
 @PresentationComposeExperimentalApi
 interface ComposeNavigator<T> {
