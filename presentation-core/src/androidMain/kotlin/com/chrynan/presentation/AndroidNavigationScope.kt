@@ -1,9 +1,8 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation.android
+package com.chrynan.presentation
 
 import android.app.Activity
-import com.chrynan.presentation.NavigationScope
 
 interface AndroidNavigationScope : NavigationScope {
 

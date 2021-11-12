@@ -1,13 +1,10 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation.android
+package com.chrynan.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
-import com.chrynan.presentation.BasePresenter
-import com.chrynan.presentation.NavigationEventHandler
-import com.chrynan.presentation.NavigationIntent
 import kotlinx.coroutines.CoroutineScope
 
 abstract class BasePresentationActivity<SCREEN : NavigationIntent> : AppCompatActivity(),

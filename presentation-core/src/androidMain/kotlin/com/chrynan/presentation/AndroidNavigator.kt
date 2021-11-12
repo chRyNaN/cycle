@@ -1,12 +1,8 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation.android
+package com.chrynan.presentation
 
 import android.app.Activity
-import com.chrynan.presentation.NavigationEvent
-import com.chrynan.presentation.NavigationHandler
-import com.chrynan.presentation.NavigationIntent
-import com.chrynan.presentation.Navigator
 
 class AndroidNavigator<I : NavigationIntent> internal constructor(
     override val handler: NavigationHandler<I, AndroidNavigationScope>,

@@ -1,13 +1,12 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation.android
+package com.chrynan.presentation
 
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.chrynan.presentation.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
