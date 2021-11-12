@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.filterNotNull
 abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     Bindable {
 
-    abstract val key: Any?
+    open val key: Any? = this::class.qualifiedName
 
     protected abstract val presenterFactory: PresenterFactory<I, S, C>
 
@@ -73,48 +73,31 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     }
 }
 
+@Suppress("NOTHING_TO_INLINE")
 @Composable
-fun <I : Intent, S : State, C : Change> layout(
+inline fun <I : Intent, S : State, C : Change> layout(
     key: Any? = null,
     presenterFactory: PresenterFactory<I, S, C>,
-    onLayout: @Composable (S) -> Unit
-) = object : Layout<I, S, C>() {
+    noinline onLayout: @Composable (S) -> Unit
+): Layout<I, S, C> =
+    object : Layout<I, S, C>() {
 
-    override val key: Any?
-        get() = key
+        override val key: Any?
+            get() = key
 
-    override val presenterFactory: PresenterFactory<I, S, C>
-        get() = presenterFactory
+        override val presenterFactory: PresenterFactory<I, S, C>
+            get() = presenterFactory
 
-    @Composable
-    override fun OnLayout(state: S) {
-        onLayout.invoke(state)
+        @Composable
+        override fun OnLayout(state: S) {
+            onLayout.invoke(state)
+        }
     }
-}
-
-@Composable
-fun <I : Intent, S : State, C : Change> layout(
-    key: Any? = null,
-    onCreatePresenter: (view: View<I, S>) -> Presenter<I, S, C>,
-    onLayout: @Composable (S) -> Unit
-) = object : Layout<I, S, C>() {
-
-    override val key: Any?
-        get() = key
-
-    override val presenterFactory: PresenterFactory<I, S, C>
-        get() = PresenterFactory { view -> onCreatePresenter.invoke(view) }
-
-    @Composable
-    override fun OnLayout(state: S) {
-        onLayout.invoke(state)
-    }
-}
 
 @Composable
 @Suppress("unused")
 inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(layout: Layout<I, S, C>) {
-    val rememberedLayout by remember { mutableStateOf(layout) }
+    val rememberedLayout by rememberUpdatedState(layout)
 
     val state by rememberedLayout.states.collectAsState(initial = null)
 
@@ -135,17 +118,6 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> composeLa
     noinline onLayout: @Composable (S) -> Unit
 ) {
     val layout = layout(key = key, presenterFactory = presenterFactory, onLayout = onLayout)
-
-    composeLayout(layout = layout)
-}
-
-@Composable
-inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(
-    key: Any? = null,
-    noinline onCreatePresenter: (view: View<I, S>) -> Presenter<I, S, C>,
-    noinline onLayout: @Composable (S) -> Unit
-) {
-    val layout = layout(key = key, onCreatePresenter = onCreatePresenter, onLayout = onLayout)
 
     composeLayout(layout = layout)
 }
