@@ -29,7 +29,7 @@ interface Action<I : Intent, S : State, C : Change> {
      * @param [intent] The intent to perform an [Action].
      * @param [state] The current state being displayed.
      */
-    fun perform(intent: I, state: S?): Flow<C>
+    suspend fun perform(intent: I, state: S?): Flow<C>
 
     companion object
 }
@@ -37,7 +37,7 @@ interface Action<I : Intent, S : State, C : Change> {
 /**
  * A convenience function that delegates to [Action.perform] allowing the [Action] to be invoked like a function.
  */
-operator fun <I : Intent, S : State, C : Change> Action<I, S, C>.invoke(
+suspend operator fun <I : Intent, S : State, C : Change> Action<I, S, C>.invoke(
     intent: I,
     state: S?
 ): Flow<C> = perform(intent, state)

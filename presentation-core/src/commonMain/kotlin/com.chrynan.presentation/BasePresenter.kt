@@ -92,7 +92,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      * function.
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected fun Flow<I>.perform(action: (I, S?) -> Flow<C>): Flow<C> =
+    protected fun Flow<I>.perform(action: suspend (I, S?) -> Flow<C>): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
             .flatMapLatest { action(it, currentState) }
@@ -109,7 +109,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
      */
-    protected fun Flow<C>.reduce(reducer: (S?, C) -> S): Flow<S> =
+    protected fun Flow<C>.reduce(reducer: suspend (S?, C) -> S): Flow<S> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
