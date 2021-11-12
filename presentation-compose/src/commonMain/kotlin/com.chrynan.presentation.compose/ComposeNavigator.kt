@@ -47,7 +47,6 @@ interface ComposeNavigatorByKey<T> : ComposeNavigator<T> {
 // Note: This is needed because defaults aren't working for @Composable functions for interfaces.
 @Suppress("unused")
 @PresentationComposeExperimentalApi
-@Composable
 fun <T> ComposeNavigatorByKey<T>.goTo(key: T) =
     goTo(key = key, strategy = NavStackDuplicateContentStrategy.CLEAR_STACK)
 
@@ -58,14 +57,16 @@ interface ComposeStackNavigator<T> : ComposeNavigator<T> {
 }
 
 @PresentationComposeExperimentalApi
-interface ComposeStackNavigatorByContent<T> : ComposeStackNavigator<T> {
+interface ComposeStackNavigatorByContent<T> : ComposeStackNavigator<T>,
+    ComposeNavigatorByContent<T> {
 
     @Composable
     fun goBack(): Boolean
 }
 
 @PresentationComposeExperimentalApi
-interface ComposeStackNavigatorByKey<T> : ComposeStackNavigator<T> {
+interface ComposeStackNavigatorByKey<T> : ComposeStackNavigator<T>,
+    ComposeNavigatorByKey<T> {
 
     fun goBack(): Boolean
 }
