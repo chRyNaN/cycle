@@ -26,5 +26,5 @@ A [NavigationHandler](../-navigation-handler/index.md) that provides distinct fu
 
 | Name |
 |---|
-| [BasePresentationActivity](../../com.chrynan.presentation.android/-base-presentation-activity/index.md) |
-| [BasePresentationFragment](../../com.chrynan.presentation.android/-base-presentation-fragment/index.md) |
+| [BasePresentationActivity](../-base-presentation-activity/index.md) |
+| [BasePresentationFragment](../-base-presentation-fragment/index.md) |

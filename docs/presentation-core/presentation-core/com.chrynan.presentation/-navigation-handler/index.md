@@ -3,7 +3,7 @@
 # NavigationHandler
 
 [common]\
-interface [NavigationHandler](index.md)&lt;[I](index.md) : [NavigationIntent](../-navigation-intent/index.md), [S](index.md) : [NavigationScope](../-navigation-scope/index.md)&gt;
+fun interface [NavigationHandler](index.md)&lt;[I](index.md) : [NavigationIntent](../-navigation-intent/index.md), [S](index.md) : [NavigationScope](../-navigation-scope/index.md)&gt;
 
 Handles the navigation from a [Navigator](../-navigator/index.md).
 
@@ -23,5 +23,5 @@ Handles the navigation from a [Navigator](../-navigator/index.md).
 
 | Name |
 |---|
-| [AndroidNavigationHandler](../../com.chrynan.presentation.android/-android-navigation-handler/index.md) |
+| [AndroidNavigationHandler](../-android-navigation-handler/index.md) |
 | [NavigationEventHandler](../-navigation-event-handler/index.md) |

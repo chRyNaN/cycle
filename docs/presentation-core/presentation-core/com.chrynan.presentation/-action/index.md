@@ -21,10 +21,10 @@ It's common, though not required, to have [Action](index.md)s be single focused 
 
 | Name | Summary |
 |---|---|
-| [perform](perform.md) | [common]<br>abstract fun [perform](perform.md)(intent: [I](index.md), state: [S](index.md)?): Flow&lt;[C](index.md)&gt;<br>Converts the provided [intent](perform.md) of type [I](index.md) into a Flow of type [C](index.md). This means an [Intent](../-intent/index.md) can cause multiple [Change](../-change/index.md)s to be emitted ("StartedLoading", "FinishedLoading", etc). |
+| [perform](perform.md) | [common]<br>abstract suspend fun [perform](perform.md)(intent: [I](index.md), state: [S](index.md)?): Flow&lt;[C](index.md)&gt;<br>Converts the provided [intent](perform.md) of type [I](index.md) into a Flow of type [C](index.md). This means an [Intent](../-intent/index.md) can cause multiple [Change](../-change/index.md)s to be emitted ("StartedLoading", "FinishedLoading", etc). |
 
 ## Extensions
 
 | Name | Summary |
 |---|---|
-| [invoke](../invoke.md) | [common]<br>operator fun &lt;[I](../invoke.md) : [Intent](../-intent/index.md), [S](../invoke.md) : [State](../-state/index.md), [C](../invoke.md) : [Change](../-change/index.md)&gt; [Action](index.md)&lt;[I](../invoke.md), [S](../invoke.md), [C](../invoke.md)&gt;.[invoke](../invoke.md)(intent: [I](../invoke.md), state: [S](../invoke.md)?): Flow&lt;[C](../invoke.md)&gt;<br>A convenience function that delegates to [Action.perform](perform.md) allowing the [Action](index.md) to be invoked like a function. |
+| [invoke](../invoke.md) | [common]<br>suspend operator fun &lt;[I](../invoke.md) : [Intent](../-intent/index.md), [S](../invoke.md) : [State](../-state/index.md), [C](../invoke.md) : [Change](../-change/index.md)&gt; [Action](index.md)&lt;[I](../invoke.md), [S](../invoke.md), [C](../invoke.md)&gt;.[invoke](../invoke.md)(intent: [I](../invoke.md), state: [S](../invoke.md)?): Flow&lt;[C](../invoke.md)&gt;<br>A convenience function that delegates to [Action.perform](perform.md) allowing the [Action](index.md) to be invoked like a function. |

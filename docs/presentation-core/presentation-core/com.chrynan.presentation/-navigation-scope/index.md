@@ -17,4 +17,4 @@ Provides the ability for extra platform specific parameters to be provided to a 
 
 | Name |
 |---|
-| [AndroidNavigationScope](../../com.chrynan.presentation.android/-android-navigation-scope/index.md) |
+| [AndroidNavigationScope](../-android-navigation-scope/index.md) |

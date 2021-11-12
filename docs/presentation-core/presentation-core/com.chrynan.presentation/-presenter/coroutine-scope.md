@@ -6,3 +6,5 @@
 abstract val [coroutineScope](coroutine-scope.md): CoroutineScope
 
 The CoroutineScope available to this [Presenter](index.md).
+
+Avoid calling this outside the [Presenter](index.md).

@@ -3,7 +3,7 @@
 # BasePresenter
 
 [common]\
-abstract class [BasePresenter](index.md)&lt;[I](index.md) : [Intent](../-intent/index.md), [S](index.md) : [State](../-state/index.md), [C](index.md) : [Change](../-change/index.md)&gt;(initialState: [S](index.md)?, dispatchers: CoroutineDispatchers) : [Presenter](../-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt; 
+abstract class [BasePresenter](index.md)&lt;[I](index.md) : [Intent](../-intent/index.md), [S](index.md) : [State](../-state/index.md), [C](index.md) : [Change](../-change/index.md)&gt;(initialState: [S](index.md)?, dispatchers: CoroutineDispatchers) : [ViewModel](../-view-model/index.md), [Presenter](../-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt; 
 
 A base implementation of the [Presenter](../-presenter/index.md) interface that provides functions for handling common functionality, such as, the [perform](../../../../presentation-core/com.chrynan.presentation/-base-presenter/perform.md), [reduce](../../../../presentation-core/com.chrynan.presentation/-base-presenter/reduce.md), and [render](../../../../presentation-core/com.chrynan.presentation/-base-presenter/render.md) functions.
 
@@ -17,8 +17,8 @@ A base implementation of the [Presenter](../-presenter/index.md) interface that 
 
 | Name | Summary |
 |---|---|
-| [bind](bind.md) | [common]<br>open override fun [bind](bind.md)()<br>Binds and sets up this [Presenter](../-presenter/index.md) for the attached [View](../-view/index.md). |
-| [unbind](unbind.md) | [common]<br>open override fun [unbind](unbind.md)()<br>Unbinds and cleans up the resources used by this [Presenter](../-presenter/index.md). |
+| [bind](bind.md) | [common]<br>open override fun [bind](bind.md)()<br>Binds this [Presenter](../-presenter/index.md). |
+| [unbind](unbind.md) | [common]<br>open override fun [unbind](unbind.md)()<br>Unbinds this [Presenter](../-presenter/index.md). |
 
 ## Properties
 

@@ -5,7 +5,7 @@
 [common]\
 @[PresentationComposeExperimentalApi](../-presentation-compose-experimental-api/index.md)
 
-interface [ComposeStackNavigatorByKey](index.md)&lt;[T](index.md)&gt; : [ComposeStackNavigator](../-compose-stack-navigator/index.md)&lt;[T](index.md)&gt;
+interface [ComposeStackNavigatorByKey](index.md)&lt;[T](index.md)&gt; : [ComposeStackNavigator](../-compose-stack-navigator/index.md)&lt;[T](index.md)&gt; , [ComposeNavigatorByKey](../-compose-navigator-by-key/index.md)&lt;[T](index.md)&gt;
 
 ## Functions
 
@@ -13,6 +13,7 @@ interface [ComposeStackNavigatorByKey](index.md)&lt;[T](index.md)&gt; : [Compose
 |---|---|
 | [canGoBack](../-compose-stack-navigator/can-go-back.md) | [common]<br>abstract fun [canGoBack](../-compose-stack-navigator/can-go-back.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
 | [goBack](go-back.md) | [common]<br>abstract fun [goBack](go-back.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [goTo](../-compose-navigator-by-key/go-to.md) | [common]<br>abstract fun [goTo](../-compose-navigator-by-key/go-to.md)(key: [T](index.md), strategy: [NavStackDuplicateContentStrategy](../-nav-stack-duplicate-content-strategy/index.md)) |
 
 ## Properties
 
@@ -27,4 +28,5 @@ interface [ComposeStackNavigatorByKey](index.md)&lt;[T](index.md)&gt; : [Compose
 
 | Name |
 |---|
+| [ComposeNavigationIntentStackNavigatorByKey](../-compose-navigation-intent-stack-navigator-by-key/index.md) |
 | [BaseComposeNavigatorByKeyViewModel](../-base-compose-navigator-by-key-view-model/index.md) |

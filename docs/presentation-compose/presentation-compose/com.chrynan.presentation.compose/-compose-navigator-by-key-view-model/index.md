@@ -5,7 +5,7 @@
 [common]\
 @[PresentationComposeExperimentalApi](../-presentation-compose-experimental-api/index.md)
 
-class [ComposeNavigatorByKeyViewModel](index.md)&lt;[T](index.md)&gt;(initialKey: [T](index.md), content: @Composable([T](index.md)) -&gt; [Unit](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)) : [BaseComposeNavigatorByKeyViewModel](../-base-compose-navigator-by-key-view-model/index.md)&lt;[T](index.md)&gt;
+class [ComposeNavigatorByKeyViewModel](index.md)&lt;[T](index.md)&gt; : [BaseComposeNavigatorByKeyViewModel](../-base-compose-navigator-by-key-view-model/index.md)&lt;[T](index.md)&gt;
 
 ## Functions
 

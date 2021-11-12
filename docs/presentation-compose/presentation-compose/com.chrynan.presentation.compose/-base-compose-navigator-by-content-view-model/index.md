@@ -5,7 +5,7 @@
 [common]\
 @[PresentationComposeExperimentalApi](../-presentation-compose-experimental-api/index.md)
 
-abstract class [BaseComposeNavigatorByContentViewModel](index.md)&lt;[T](index.md)&gt; : [ViewModel](../-view-model/index.md), [ComposeNavigator](../-compose-navigator/index.md)&lt;[T](index.md)&gt; , [ComposeNavigatorByContent](../-compose-navigator-by-content/index.md)&lt;[T](index.md)&gt; , [ComposeStackNavigatorByContent](../-compose-stack-navigator-by-content/index.md)&lt;[T](index.md)&gt;
+abstract class [BaseComposeNavigatorByContentViewModel](index.md)&lt;[T](index.md)&gt; : [ViewModel](../../../../presentation-core/presentation-core/com.chrynan.presentation/-view-model/index.md), [ComposeNavigator](../-compose-navigator/index.md)&lt;[T](index.md)&gt; , [ComposeNavigatorByContent](../-compose-navigator-by-content/index.md)&lt;[T](index.md)&gt; , [ComposeStackNavigatorByContent](../-compose-stack-navigator-by-content/index.md)&lt;[T](index.md)&gt;
 
 ## Functions
 

@@ -5,7 +5,7 @@
 [common]\
 @[PresentationComposeExperimentalApi](../-presentation-compose-experimental-api/index.md)
 
-abstract class [BaseComposeNavigatorByKeyViewModel](index.md)&lt;[T](index.md)&gt; : [ViewModel](../-view-model/index.md), [ComposeNavigator](../-compose-navigator/index.md)&lt;[T](index.md)&gt; , [ComposeNavigatorByKey](../-compose-navigator-by-key/index.md)&lt;[T](index.md)&gt; , [ComposeStackNavigatorByKey](../-compose-stack-navigator-by-key/index.md)&lt;[T](index.md)&gt;
+abstract class [BaseComposeNavigatorByKeyViewModel](index.md)&lt;[T](index.md)&gt; : [ViewModel](../../../../presentation-core/presentation-core/com.chrynan.presentation/-view-model/index.md), [ComposeNavigator](../-compose-navigator/index.md)&lt;[T](index.md)&gt; , [ComposeNavigatorByKey](../-compose-navigator-by-key/index.md)&lt;[T](index.md)&gt; , [ComposeStackNavigatorByKey](../-compose-stack-navigator-by-key/index.md)&lt;[T](index.md)&gt;
 
 ## Functions
 
@@ -13,7 +13,7 @@ abstract class [BaseComposeNavigatorByKeyViewModel](index.md)&lt;[T](index.md)&g
 |---|---|
 | [canGoBack](../-compose-stack-navigator/can-go-back.md) | [common]<br>abstract fun [canGoBack](../-compose-stack-navigator/can-go-back.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
 | [goBack](../-compose-stack-navigator-by-key/go-back.md) | [common]<br>abstract fun [goBack](../-compose-stack-navigator-by-key/go-back.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
-| [goTo](../-compose-navigator-by-key/go-to.md) | [common]<br>abstract fun [goTo](../-compose-navigator-by-key/go-to.md)(key: [T](index.md), strategy: [NavStackDuplicateContentStrategy](../-nav-stack-duplicate-content-strategy/index.md) = NavStackDuplicateContentStrategy.CLEAR_STACK) |
+| [goTo](../-compose-navigator-by-key/go-to.md) | [common]<br>abstract fun [goTo](../-compose-navigator-by-key/go-to.md)(key: [T](index.md), strategy: [NavStackDuplicateContentStrategy](../-nav-stack-duplicate-content-strategy/index.md)) |
 
 ## Properties
 
@@ -28,4 +28,5 @@ abstract class [BaseComposeNavigatorByKeyViewModel](index.md)&lt;[T](index.md)&g
 
 | Name |
 |---|
+| [ComposeNavigationIntentNavigatorByKeyViewModel](../-compose-navigation-intent-navigator-by-key-view-model/index.md) |
 | [ComposeNavigatorByKeyViewModel](../-compose-navigator-by-key-view-model/index.md) |

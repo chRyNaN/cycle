@@ -33,4 +33,4 @@ A [View](index.md) typically contains a [Presenter](../-presenter/index.md) whic
 
 | Name |
 |---|
-| [BasePresentationFragment](../../com.chrynan.presentation.android/-base-presentation-fragment/index.md) |
+| [BasePresentationFragment](../-base-presentation-fragment/index.md) |

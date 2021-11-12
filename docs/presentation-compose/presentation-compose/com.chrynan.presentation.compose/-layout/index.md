@@ -30,6 +30,6 @@ A component that implements the [View](../../../../presentation-core/presentatio
 | Name | Summary |
 |---|---|
 | [isBound](is-bound.md) | [common]<br>open override val [isBound](is-bound.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
-| [key](key.md) | [common]<br>abstract val [key](key.md): [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)? |
+| [key](key.md) | [common]<br>open val [key](key.md): [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)? |
 | [renderState](render-state.md) | [common]<br>open override val [renderState](render-state.md): [S](index.md)? |
 | [states](states.md) | [common]<br>open override val [states](states.md): Flow&lt;[S](index.md)&gt; |

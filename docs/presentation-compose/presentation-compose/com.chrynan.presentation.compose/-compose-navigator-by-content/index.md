@@ -26,4 +26,11 @@ interface [ComposeNavigatorByContent](index.md)&lt;[T](index.md)&gt; : [ComposeN
 
 | Name |
 |---|
+| [ComposeStackNavigatorByContent](../-compose-stack-navigator-by-content/index.md) |
 | [BaseComposeNavigatorByContentViewModel](../-base-compose-navigator-by-content-view-model/index.md) |
+
+## Extensions
+
+| Name | Summary |
+|---|---|
+| [goTo](../go-to.md) | [common]<br>@[PresentationComposeExperimentalApi](../-presentation-compose-experimental-api/index.md)<br>@Composable<br>fun &lt;[T](../go-to.md)&gt; [ComposeNavigatorByContent](index.md)&lt;[T](../go-to.md)&gt;.[goTo](../go-to.md)(key: [T](../go-to.md), content: @Composable() -&gt; [Unit](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)) |

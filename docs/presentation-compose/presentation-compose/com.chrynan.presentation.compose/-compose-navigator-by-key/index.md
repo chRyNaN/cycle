@@ -11,7 +11,7 @@ interface [ComposeNavigatorByKey](index.md)&lt;[T](index.md)&gt; : [ComposeNavig
 
 | Name | Summary |
 |---|---|
-| [goTo](go-to.md) | [common]<br>abstract fun [goTo](go-to.md)(key: [T](index.md), strategy: [NavStackDuplicateContentStrategy](../-nav-stack-duplicate-content-strategy/index.md) = NavStackDuplicateContentStrategy.CLEAR_STACK) |
+| [goTo](go-to.md) | [common]<br>abstract fun [goTo](go-to.md)(key: [T](index.md), strategy: [NavStackDuplicateContentStrategy](../-nav-stack-duplicate-content-strategy/index.md)) |
 
 ## Properties
 
@@ -26,4 +26,11 @@ interface [ComposeNavigatorByKey](index.md)&lt;[T](index.md)&gt; : [ComposeNavig
 
 | Name |
 |---|
+| [ComposeStackNavigatorByKey](../-compose-stack-navigator-by-key/index.md) |
 | [BaseComposeNavigatorByKeyViewModel](../-base-compose-navigator-by-key-view-model/index.md) |
+
+## Extensions
+
+| Name | Summary |
+|---|---|
+| [goTo](../go-to.md) | [common]<br>@[PresentationComposeExperimentalApi](../-presentation-compose-experimental-api/index.md)<br>fun &lt;[T](../go-to.md)&gt; [ComposeNavigatorByKey](index.md)&lt;[T](../go-to.md)&gt;.[goTo](../go-to.md)(key: [T](../go-to.md)) |

@@ -5,4 +5,6 @@
 [common]\
 open override fun [unbind](unbind.md)()
 
-Unbinds and cleans up the resources used by this [Presenter](../-presenter/index.md).
+Unbinds this [Presenter](../-presenter/index.md).
+
+Prefer overriding the [onUnbind](../../../../presentation-core/com.chrynan.presentation/-base-presenter/on-unbind.md) function for cleanup logic.

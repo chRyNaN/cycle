@@ -29,7 +29,7 @@ A [Navigator](index.md) is responsible for changing and showing the different Sc
 
 | Name |
 |---|
-| [AndroidNavigator](../../com.chrynan.presentation.android/-android-navigator/index.md) |
+| [AndroidNavigator](../-android-navigator/index.md) |
 
 ## Extensions
 

@@ -3,7 +3,7 @@
 # invoke
 
 [common]\
-operator fun &lt;[I](invoke.md) : [Intent](-intent/index.md), [S](invoke.md) : [State](-state/index.md), [C](invoke.md) : [Change](-change/index.md)&gt; [Action](-action/index.md)&lt;[I](invoke.md), [S](invoke.md), [C](invoke.md)&gt;.[invoke](invoke.md)(intent: [I](invoke.md), state: [S](invoke.md)?): Flow&lt;[C](invoke.md)&gt;
+suspend operator fun &lt;[I](invoke.md) : [Intent](-intent/index.md), [S](invoke.md) : [State](-state/index.md), [C](invoke.md) : [Change](-change/index.md)&gt; [Action](-action/index.md)&lt;[I](invoke.md), [S](invoke.md), [C](invoke.md)&gt;.[invoke](invoke.md)(intent: [I](invoke.md), state: [S](invoke.md)?): Flow&lt;[C](invoke.md)&gt;
 
 A convenience function that delegates to [Action.perform](-action/perform.md) allowing the [Action](-action/index.md) to be invoked like a function.
 
