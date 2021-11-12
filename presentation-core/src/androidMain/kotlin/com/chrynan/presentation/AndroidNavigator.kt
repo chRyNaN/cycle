@@ -5,7 +5,7 @@ package com.chrynan.presentation
 import android.app.Activity
 
 class AndroidNavigator<I : NavigationIntent> internal constructor(
-    override val handler: NavigationHandler<I, AndroidNavigationScope>,
+    override val handler: AndroidNavigationHandler<I>,
     private val scope: AndroidNavigationScope
 ) : Navigator<I, AndroidNavigationScope> {
 
@@ -18,7 +18,7 @@ class AndroidNavigator<I : NavigationIntent> internal constructor(
 
 fun <I : NavigationIntent> navigator(
     activity: Activity,
-    handler: NavigationHandler<I, AndroidNavigationScope>
+    handler: AndroidNavigationHandler<I>
 ): Navigator<I, AndroidNavigationScope> {
     val scope = AndroidNavigationScope(activity = activity)
 
@@ -31,12 +31,7 @@ fun <I : NavigationIntent> navigator(
 ): Navigator<I, AndroidNavigationScope> {
     val scope = AndroidNavigationScope(activity = activity)
 
-    val androidHandler = object : NavigationHandler<I, AndroidNavigationScope> {
-
-        override fun AndroidNavigationScope.onNavigate(event: NavigationEvent<I>) {
-            handler.invoke(this, event)
-        }
-    }
+    val androidHandler = AndroidNavigationHandler<I> { event -> handler.invoke(this, event) }
 
     return AndroidNavigator(handler = androidHandler, scope = scope)
 }

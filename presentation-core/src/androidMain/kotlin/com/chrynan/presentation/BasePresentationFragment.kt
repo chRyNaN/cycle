@@ -18,7 +18,8 @@ import kotlin.coroutines.CoroutineContext
 abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE : Change, SCREEN : NavigationIntent> :
     Fragment(),
     View<INTENT, STATE>,
-    NavigationEventHandler<SCREEN, AndroidNavigationScope> {
+    NavigationEventHandler<SCREEN, AndroidNavigationScope>,
+    AndroidNavigationHandler<SCREEN> {
 
     override val states: Flow<STATE>
         get() = statesStateFlow.asStateFlow().filterNotNull()

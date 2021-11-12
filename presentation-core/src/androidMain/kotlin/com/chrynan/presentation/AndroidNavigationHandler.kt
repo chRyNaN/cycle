@@ -1,4 +1,4 @@
 package com.chrynan.presentation
 
-interface AndroidNavigationHandler<I : NavigationIntent> :
+fun interface AndroidNavigationHandler<I : NavigationIntent> :
     NavigationHandler<I, AndroidNavigationScope>
