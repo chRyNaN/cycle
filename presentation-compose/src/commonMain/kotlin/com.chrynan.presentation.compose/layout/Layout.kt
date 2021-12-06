@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation.compose
+package com.chrynan.presentation.compose.layout
 
 import androidx.compose.runtime.*
 import com.chrynan.presentation.*
