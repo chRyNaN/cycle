@@ -14,6 +14,18 @@ import kotlinx.coroutines.flow.filterNotNull
 /**
  * A component that implements the [View] interface and serves as the binding between this
  * presentation library and Jetpack Compose.
+ *
+ * Example usage:
+ * ```
+ * class HomeLayout : BaseLayout<HomeIntent, HomeState, HomeChange>() {
+ *
+ *     override val presenterFactory = ...
+ *
+ *     override fun OnLayout(state: HomeState) {
+ *         // Put Composable UI code here using the [state] value
+ *     }
+ * }
+ * ```
  */
 @Stable
 abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
@@ -83,8 +95,10 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     override fun toString(): String = "Layout(key=$key,renderState=$renderState,isBound=$isBound)"
 }
 
+/**
+ * Creates a [Layout] with the provided [key], [presenterFactory], and [onLayout] parameters.
+ */
 @Suppress("NOTHING_TO_INLINE")
-@Composable
 inline fun <I : Intent, S : State, C : Change> layout(
     key: Any? = null,
     presenterFactory: PresenterFactory<I, S, C>,
@@ -104,8 +118,11 @@ inline fun <I : Intent, S : State, C : Change> layout(
         }
     }
 
+/**
+ * Lays out the provided [layout] as a [Composable].
+ */
 @Composable
-@Suppress("unused")
+@Stable
 inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(layout: Layout<I, S, C>) {
     val rememberedLayout by rememberUpdatedState(layout)
 
@@ -121,6 +138,10 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> composeLa
     }
 }
 
+/**
+ * Creates a [Layout] with the provided [key], [presenterFactory], and [onLayout] parameters and then lays out the
+ * layout as a [Composable].
+ */
 @Composable
 inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(
     key: Any? = null,
