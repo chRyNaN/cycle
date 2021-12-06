@@ -1,4 +1,4 @@
-package com.chrynan.presentation.compose
+package com.chrynan.presentation.compose.navigation
 
 @Suppress("unused")
 enum class NavStackDuplicateContentStrategy {
