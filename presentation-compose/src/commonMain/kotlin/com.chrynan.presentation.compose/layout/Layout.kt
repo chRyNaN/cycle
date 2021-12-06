@@ -79,6 +79,8 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     }
 
     override fun hashCode(): Int = key?.hashCode() ?: super.hashCode()
+
+    override fun toString(): String = "Layout(key=$key,renderState=$renderState,isBound=$isBound)"
 }
 
 @Suppress("NOTHING_TO_INLINE")
