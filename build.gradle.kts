@@ -1,14 +1,14 @@
 import com.chrynan.presentation.buildSrc.LibraryConstants
 
-group LibraryConstants.group
-version LibraryConstants.versionName
+group = LibraryConstants.group
+version = LibraryConstants.versionName
 
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url = "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
-        maven { url = "https://repo.repsy.io/mvn/chrynan/public" }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        maven { url = uri("https://repo.repsy.io/mvn/chrynan/public") }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.2")
@@ -19,18 +19,18 @@ buildscript {
     }
 }
 
-apply plugin: "org.jetbrains.dokka"
+apply(plugin = "org.jetbrains.dokka")
 
 allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url = "https://repo.repsy.io/mvn/chrynan/public" }
+        maven { url = uri("https://repo.repsy.io/mvn/chrynan/public") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
 }
 
 // Documentation
-tasks.dokkaGfmMultiModule.configure {
+tasks.named<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>("dokkaGfmMultiModule").configure {
     outputDirectory.set(file("${projectDir.path}/docs"))
 }
