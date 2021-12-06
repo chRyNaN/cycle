@@ -71,6 +71,14 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     protected fun intent(to: I) {
         intentsStateFlow.value = to
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Layout<*, *, *>) return false
+
+        return this.key == other.key
+    }
+
+    override fun hashCode(): Int = key?.hashCode() ?: super.hashCode()
 }
 
 @Suppress("NOTHING_TO_INLINE")
