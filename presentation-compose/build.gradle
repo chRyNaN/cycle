@@ -17,6 +17,10 @@ kotlin {
     targets {
         android()
         jvm()
+        js(IR) {
+            browser()
+            nodejs()
+        }
     }
     sourceSets {
         all {
@@ -27,8 +31,23 @@ kotlin {
                 api(project(":presentation-core"))
 
                 implementation(compose.runtime)
+            }
+        }
+        jvmMain {
+            dependencies {
                 implementation(compose.ui)
                 implementation(compose.material)
+            }
+        }
+        androidMain {
+            dependencies {
+                implementation(compose.ui)
+                implementation(compose.material)
+            }
+        }
+        jsMain {
+            dependencies {
+                implementation(compose.web.core)
             }
         }
     }
@@ -81,6 +100,7 @@ android {
 tasks.withType(org.gradle.jvm.tasks.Jar).all { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
 
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
 }
 
 afterEvaluate {

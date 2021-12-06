@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.filterNotNull
 abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     Bindable {
 
-    open val key: Any? = this::class.qualifiedName
+    open val key: Any? = this::class.simpleName
 
     protected abstract val presenterFactory: PresenterFactory<I, S, C>
 

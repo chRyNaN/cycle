@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 
-@Suppress("unused")
 @Composable
 @PresentationComposeExperimentalApi
 internal actual fun <T> InternalNavContainer(
@@ -20,7 +19,6 @@ internal actual fun <T> InternalNavContainer(
     }
 }
 
-@Suppress("unused")
 @Composable
 @PresentationComposeExperimentalApi
 internal actual fun <T> InternalNavContainer(
