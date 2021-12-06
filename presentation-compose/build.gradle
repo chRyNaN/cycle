@@ -81,7 +81,6 @@ android {
 tasks.withType(org.gradle.jvm.tasks.Jar).all { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
 
 dependencies {
-    implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
 }
 
 afterEvaluate {
