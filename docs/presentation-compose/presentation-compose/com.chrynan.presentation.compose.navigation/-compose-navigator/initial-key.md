@@ -1,0 +1,6 @@
+//[presentation-compose](../../../index.md)/[com.chrynan.presentation.compose.navigation](../index.md)/[ComposeNavigator](index.md)/[initialKey](initial-key.md)
+
+# initialKey
+
+[common]\
+abstract val [initialKey](initial-key.md): [T](index.md)
