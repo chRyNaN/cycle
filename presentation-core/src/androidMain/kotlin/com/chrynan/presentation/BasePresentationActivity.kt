@@ -5,20 +5,22 @@ package com.chrynan.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
-import com.chrynan.presentation.navigation.NavigationEventHandler
-import com.chrynan.presentation.navigation.NavigationIntent
 import kotlinx.coroutines.CoroutineScope
 
-abstract class BasePresentationActivity<SCREEN : NavigationIntent> : AppCompatActivity(),
-    NavigationEventHandler<SCREEN, AndroidNavigationScope> {
+/**
+ * An [AppCompatActivity] base class for the presentation library. This Activity helps structure an Android application
+ * for use with the MVI Design Pattern using this presentation library. An Activity, is not a [View], but instead
+ * coordinates [BasePresentationFragment]s which are [View] implementations.
+ */
+abstract class BasePresentationActivity : AppCompatActivity() {
 
-    val coroutineScope: CoroutineScope
+    protected val coroutineScope: CoroutineScope
         get() = lifecycle.coroutineScope
 
     protected open val presenter: BasePresenter<*, *, *>? = null
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected var currentFragment: BasePresentationFragment<*, *, *, *>? = null
+    protected var currentFragment: BasePresentationFragment<*, *, *>? = null
         private set
 
     private var currentFragmentContainerId: Int = -1
@@ -53,19 +55,15 @@ abstract class BasePresentationActivity<SCREEN : NavigationIntent> : AppCompatAc
                 popBackStack()
 
                 currentFragment =
-                    supportFragmentManager.findFragmentById(currentFragmentContainerId) as? BasePresentationFragment<*, *, *, *>
+                    supportFragmentManager.findFragmentById(currentFragmentContainerId) as? BasePresentationFragment<*, *, *>
             } else {
                 super.onBackPressed()
             }
         }
     }
 
-    override fun AndroidNavigationScope.onGoBack() = onBackPressed()
-
-    override fun AndroidNavigationScope.onGoUp() = onGoBack()
-
     open fun goToFragment(
-        fragment: BasePresentationFragment<*, *, *, *>,
+        fragment: BasePresentationFragment<*, *, *>,
         fragmentContainerId: Int
     ) {
         supportFragmentManager.let {

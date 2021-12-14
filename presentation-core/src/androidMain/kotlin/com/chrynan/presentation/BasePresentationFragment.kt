@@ -7,9 +7,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.chrynan.presentation.navigation.NavigationEventHandler
-import com.chrynan.presentation.navigation.NavigationIntent
-import com.chrynan.presentation.navigation.Navigator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,11 +15,12 @@ import kotlinx.coroutines.flow.filterNotNull
 import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 
-abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE : Change, SCREEN : NavigationIntent> :
+/**
+ * An Android [Fragment] base implementation of a [View] for use with this library's MVI design pattern.
+ */
+abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE : Change> :
     Fragment(),
-    View<INTENT, STATE>,
-    NavigationEventHandler<SCREEN, AndroidNavigationScope>,
-    AndroidNavigationHandler<SCREEN> {
+    View<INTENT, STATE> {
 
     override val states: Flow<STATE>
         get() = statesStateFlow.asStateFlow().filterNotNull()
@@ -30,15 +28,13 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
     override val renderState: STATE?
         get() = statesStateFlow.value
 
-    val coroutineScope: CoroutineScope = object : CoroutineScope {
+    protected open val coroutineScope: CoroutineScope = object : CoroutineScope {
 
         override val coroutineContext: CoroutineContext
             get() = lifecycleScope.coroutineContext
     }
 
     protected open val presenter: BasePresenter<INTENT, STATE, CHANGE>? = null
-
-    protected open var navigator: Navigator<SCREEN, *>? = null
 
     protected val currentState: STATE?
         get() = presenter?.currentState ?: renderState
@@ -48,17 +44,10 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
 
     private var weakReferenceActivity: WeakReference<Activity>? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        bindNavigator()
-    }
-
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         presenter?.bind()
-        bindNavigator()
     }
 
     override fun onResume() {
@@ -81,7 +70,6 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
 
     override fun onDestroyView() {
         presenter?.unbind()
-        unbindNavigator()
 
         super.onDestroyView()
     }
@@ -92,49 +80,28 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
         statesStateFlow.value = state
     }
 
-    override fun AndroidNavigationScope.onGoBack() {
-        (activity as? BasePresentationActivity<*>)?.onBackPressed()
-    }
-
-    override fun AndroidNavigationScope.onGoUp() = onGoBack()
-
     protected open fun onRefresh() {}
 
     protected open fun goToFragment(
-        fragment: BasePresentationFragment<*, *, *, *>,
+        fragment: BasePresentationFragment<*, *, *>,
         fragmentContainerId: Int
     ) {
-        (activity as? BasePresentationActivity<*>)?.goToFragment(
+        (activity as? BasePresentationActivity)?.goToFragment(
             fragment = fragment,
             fragmentContainerId = fragmentContainerId
         )
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun startActivitySafely(f: (Context) -> android.content.Intent) =
+    protected open fun startActivitySafely(f: (Context) -> android.content.Intent) =
         startActivity(f(requireContext()))
 
-    protected fun startActivitySafelyAndFinish(f: (Context) -> android.content.Intent) =
+    protected open fun startActivitySafelyAndFinish(f: (Context) -> android.content.Intent) =
         startActivitySafely(f).also {
             activity?.finish()
         }
 
     protected fun emit(intent: INTENT) {
         intentsStateFlow.value = intent
-    }
-
-    private fun bindNavigator() {
-        val currentActivity = activity
-        val storedActivity = weakReferenceActivity?.get()
-
-        if (currentActivity != storedActivity && currentActivity != null) {
-            navigator = navigator(activity = currentActivity, handler = this)
-            weakReferenceActivity = WeakReference(currentActivity)
-        }
-    }
-
-    private fun unbindNavigator() {
-        navigator = null
-        weakReferenceActivity = null
     }
 }

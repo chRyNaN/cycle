@@ -1,10 +1,13 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation
+package com.chrynan.presentation.navigation
 
 import android.app.Activity
-import com.chrynan.presentation.navigation.NavigationScope
 
+/**
+ * A [NavigationScope] used on the Android platform that has access to a parent [Activity] that can be used to change
+ * Activities or Fragments.
+ */
 interface AndroidNavigationScope : NavigationScope {
 
     val activity: Activity
