@@ -227,11 +227,11 @@ navigator.goBack()
 
 ##### Intent
 
-This approach is similar to the key approach but they key is a `NavigationIntent` and the returned `ComposeNavigator`
+This approach is similar to the key approach, but the key is a `NavigationIntent` and the returned `ComposeNavigator`
 implements the `Navigator` interface from the `core` module.
 
 ```kotlin
-val navigator = rememberNavigatorByKey(HomeNavigationIntent.Greeting) { navigationIntent ->
+val navigator = rememberNavigatorByIntent(HomeNavigationIntent.Greeting) { navigationIntent ->
     when (navigationIntent) {
         HomeNavigationIntent.Greeting -> Text("Hello")
         HomeNavigationIntent.Farewell -> Text("Good-bye")
