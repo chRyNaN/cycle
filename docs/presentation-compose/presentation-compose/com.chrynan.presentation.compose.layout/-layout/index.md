@@ -47,3 +47,9 @@ class HomeLayout : BaseLayout&lt;HomeIntent, HomeState, HomeChange&gt;() {\
 | [key](key.md) | [common]<br>open val [key](key.md): [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)? |
 | [renderState](render-state.md) | [common]<br>open override val [renderState](render-state.md): [S](index.md)? |
 | [states](states.md) | [common]<br>open override val [states](states.md): Flow&lt;[S](index.md)&gt; |
+
+## Extensions
+
+| Name | Summary |
+|---|---|
+| [unaryPlus](../unary-plus.md) | [common]<br>@Composable<br>inline operator fun &lt;[I](../unary-plus.md) : [Intent](../../../../presentation-core/presentation-core/com.chrynan.presentation/-intent/index.md), [S](../unary-plus.md) : [State](../../../../presentation-core/presentation-core/com.chrynan.presentation/-state/index.md), [C](../unary-plus.md) : [Change](../../../../presentation-core/presentation-core/com.chrynan.presentation/-change/index.md)&gt; [Layout](index.md)&lt;[I](../unary-plus.md), [S](../unary-plus.md), [C](../unary-plus.md)&gt;.[unaryPlus](../unary-plus.md)()<br>Lays out the provided [layout](../layout.md) as a Composable. |

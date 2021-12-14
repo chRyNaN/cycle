@@ -7,6 +7,23 @@ fun interface [PresenterFactory](index.md)&lt;[I](index.md) : [Intent](../-inten
 
 A component that can create a [Presenter](../-presenter/index.md). This allows lazy instantiation of a [Presenter](../-presenter/index.md) which may be required to wait for the [View](../-view/index.md) to be created first, then passing that into the [invoke](invoke.md) function to create the [Presenter](../-presenter/index.md) that will be bound to that [View](../-view/index.md).
 
+Note that this interface is a functional interface, so an instance can be created like so:
+
+PresenterFactory { view -&gt; }
+
+Example usage:
+
+PresenterFactory { view -&gt;\
+    Presenter(view) {\
+        this.view.intents()\
+        .perform { intent, state -&gt; ... }\
+        .reduce { state, change -&gt; ... }\
+        .startWithInitialState()\
+        .render()\
+        .launchIn(coroutineScope)\
+    }\
+}
+
 ## Types
 
 | Name | Summary |

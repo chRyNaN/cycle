@@ -3,4 +3,4 @@
 # ComposeNavigationScope
 
 [common]\
-object [ComposeNavigationScope](index.md) : [NavigationScope](../../../../presentation-core/presentation-core/com.chrynan.presentation/-navigation-scope/index.md)
+object [ComposeNavigationScope](index.md) : [NavigationScope](../../../../presentation-core/presentation-core/com.chrynan.presentation.navigation/-navigation-scope/index.md)

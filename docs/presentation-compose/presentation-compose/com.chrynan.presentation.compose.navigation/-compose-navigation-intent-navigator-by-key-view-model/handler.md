@@ -3,4 +3,4 @@
 # handler
 
 [common]\
-open override val [handler](handler.md): [NavigationHandler](../../../../presentation-core/presentation-core/com.chrynan.presentation/-navigation-handler/index.md)&lt;[I](index.md), [ComposeNavigationScope](../-compose-navigation-scope/index.md)&gt;
+open override val [handler](handler.md): [NavigationHandler](../../../../presentation-core/com.chrynan.presentation/-navigation-handler/index.md)&lt;[I](index.md), [ComposeNavigationScope](../-compose-navigation-scope/index.md)&gt;

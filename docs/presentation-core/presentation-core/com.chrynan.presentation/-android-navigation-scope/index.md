@@ -3,7 +3,7 @@
 # AndroidNavigationScope
 
 [android]\
-interface [AndroidNavigationScope](index.md) : [NavigationScope](../../../../presentation-core/presentation-core/com.chrynan.presentation/-navigation-scope/index.md)
+interface [AndroidNavigationScope](index.md) : [NavigationScope](../../../../presentation-core/com.chrynan.presentation/-navigation-scope/index.md)
 
 ## Properties
 
