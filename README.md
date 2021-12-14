@@ -157,8 +157,21 @@ fun Home() {
 
 ### Navigation
 
-Navigation is handled through platform specific `NavigationScope`s. Each platform should provide their
-own `NavigationScope` which provides platform specific means of handling navigation.
+Navigation is handled differently for each platform and UI framework. This library provides some common navigation
+components that serve as a recommended structure, but each platform and UI framework is independently responsible for
+handling navigation and choosing whether to conform to the provided components.
+
+### Android
+
+To create a `Navigator` use one the provided `navigator()` functions. For instance:
+
+```kotlin
+val navigator = navigator<NavigationIntent>(activity = activity, onGoTo = { navigationIntent -> 
+    activity.startActivity(...)
+})
+
+navigator.goBack()
+```
 
 ## Building the library
 
