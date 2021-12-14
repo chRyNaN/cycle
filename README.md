@@ -8,7 +8,7 @@ and is easily compatible with modern UI Frameworks, such as Jetpack Compose.  <b
 ```kotlin
 @Composable
 fun Home() {
-    composeLayout(HomeLayout())
+    +HomeLayout()
 }
 
 class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {

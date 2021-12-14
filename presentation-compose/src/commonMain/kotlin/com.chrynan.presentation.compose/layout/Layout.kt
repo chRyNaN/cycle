@@ -152,3 +152,13 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> composeLa
 
     composeLayout(layout = layout)
 }
+
+/**
+ * Lays out the provided [layout] as a [Composable].
+ *
+ * This is a convenience function for calling [composeLayout].
+ */
+@Composable
+inline operator fun <reified I : Intent, reified S : State, reified C : Change> Layout<I, S, C>.unaryPlus() {
+    composeLayout(layout = this)
+}
