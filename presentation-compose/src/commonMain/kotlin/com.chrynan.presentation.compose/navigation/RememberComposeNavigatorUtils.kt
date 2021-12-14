@@ -42,3 +42,15 @@ fun <I : NavigationIntent> rememberNavigatorByIntent(
         content = content
     )
 }
+
+@Composable
+fun test() {
+    val navigator = rememberNavigatorByContent("Initial") {
+    }
+
+    NavContainer(navigator)
+
+    navigator.goTo("Next") {
+
+    }
+}

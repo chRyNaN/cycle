@@ -3,6 +3,7 @@ package com.chrynan.presentation.compose.navigation
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.Flow
 import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
+import com.chrynan.presentation.navigation.NavStackDuplicateContentStrategy
 
 @PresentationComposeExperimentalApi
 interface ComposeNavigator<T> {

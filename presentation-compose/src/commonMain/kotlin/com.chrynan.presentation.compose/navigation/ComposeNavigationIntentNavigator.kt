@@ -7,13 +7,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
-object ComposeNavigationScope : NavigationScope
-
 @PresentationComposeExperimentalApi
 interface ComposeNavigationIntentStackNavigatorByKey<I : NavigationIntent> :
     ComposeStackNavigatorByKey<I>,
     NavigationEventHandler<I, ComposeNavigationScope>,
-    Navigator<I, ComposeNavigationScope> {
+    Navigator<I> {
 
     override fun ComposeNavigationScope.onGoBack() {
         goBack()
@@ -42,8 +40,6 @@ class ComposeNavigationIntentNavigatorByKeyViewModel<I : NavigationIntent> inter
         get() = mutableKeyFlow.value
 
     override val isInitialized: Boolean = true
-
-    override val handler: NavigationHandler<I, ComposeNavigationScope> = this
 
     private val mutableKeyFlow = MutableStateFlow<I?>(value = initialKey)
 
