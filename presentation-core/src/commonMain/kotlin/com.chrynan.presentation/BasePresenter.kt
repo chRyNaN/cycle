@@ -81,7 +81,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      * Converts this [Flow] of [Intent]s of type [I] into a [Flow] of [Change]s of type [C] using the provided [action].
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected fun Flow<I>.performWith(action: Action<I, S, C>): Flow<C> =
+    protected open fun Flow<I>.performWith(action: Action<I, S, C>): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
             .flatMapLatest { action(it, currentState) }
@@ -92,7 +92,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      * function.
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected fun Flow<I>.perform(action: suspend (I, S?) -> Flow<C>): Flow<C> =
+    protected open fun Flow<I>.perform(action: suspend (I, S?) -> Flow<C>): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
             .flatMapLatest { action(it, currentState) }
@@ -101,7 +101,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
      */
-    protected fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S> =
+    protected open fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
@@ -109,7 +109,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
      */
-    protected fun Flow<C>.reduce(reducer: suspend (S?, C) -> S): Flow<S> =
+    protected open fun Flow<C>.reduce(reducer: suspend (S?, C) -> S): Flow<S> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
@@ -117,7 +117,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     /**
      * Emits the [initialState] value in [onStart] if it is not null.
      */
-    protected fun Flow<S>.startWithInitialState(): Flow<S> =
+    protected open fun Flow<S>.startWithInitialState(): Flow<S> =
         onStart {
             initialState?.let { emit(it) }
         }
@@ -125,7 +125,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     /**
      * Renders the [State]s of type [S] from this [Flow] with this [Presenter]s [View].
      */
-    protected fun Flow<S>.render(): Flow<S> =
+    protected open fun Flow<S>.render(): Flow<S> =
         onEach { stateStore.updateCurrentState(it) }
             .onEach { view.render(it) }
             .flowOn(dispatchers.main)

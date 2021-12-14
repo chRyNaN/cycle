@@ -157,6 +157,14 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> composeLa
  * Lays out the provided [layout] as a [Composable].
  *
  * This is a convenience function for calling [composeLayout].
+ *
+ * Example usage:
+ * ```kotlin
+ * @Composable
+ * fun Home {
+ *     +HomeLayout()
+ * }
+ * ```
  */
 @Composable
 inline operator fun <reified I : Intent, reified S : State, reified C : Change> Layout<I, S, C>.unaryPlus() {
