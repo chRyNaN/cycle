@@ -14,7 +14,16 @@ fun Home() {
 class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
 
     override val presenterFactory: PresenterFactory<HomeIntent, HomeState, HomeChange> =
-        MyDI.homePresenterFactory() // Get the Presenter Factory from your DI Service
+        PresenterFactory { view ->
+            Presenter(view) {
+                this.view.intents()
+                    .perform { intent, state -> ... }
+                    .reduce { state, change -> ... }
+                    .startWithInitialState()
+                    .render()
+                    .launchIn(coroutineScope)
+            }
+        }
 
     @Composable
     override fun OnLayout(state: HomeState) {
@@ -152,6 +161,15 @@ Then we can include this `Layout` implementation in any `@Composable` function w
 @Composable
 fun Home() {
     composeLayout(HomeLayout())
+}
+```
+
+For convenience, we can also use the `unaryPlus` function which delegates to the `composeLayout` function:
+
+```kotlin
+@Composable
+fun Home() {
+    +HomeLayout()
 }
 ```
 
