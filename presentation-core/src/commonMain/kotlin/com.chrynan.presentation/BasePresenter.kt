@@ -9,7 +9,7 @@ import kotlin.coroutines.CoroutineContext
 
 /**
  * A base implementation of the [Presenter] interface that provides functions for handling common
- * functionality, such as, the [perform], [reduce], and [render] functions.
+ * functionality, such as, the [performWith], [reduceWith], and [render] functions.
  */
 abstract class BasePresenter<I : Intent, S : State, C : Change>(
     protected val initialState: S? = null,
@@ -81,7 +81,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      * Converts this [Flow] of [Intent]s of type [I] into a [Flow] of [Change]s of type [C] using the provided [action].
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected fun Flow<I>.perform(action: Action<I, S, C>): Flow<C> =
+    protected fun Flow<I>.performWith(action: Action<I, S, C>): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
             .flatMapLatest { action(it, currentState) }
@@ -101,7 +101,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
      */
-    protected fun Flow<C>.reduce(reducer: Reducer<S, C>): Flow<S> =
+    protected fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
