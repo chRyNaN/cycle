@@ -1,4 +1,6 @@
-package com.chrynan.presentation
+package com.chrynan.presentation.navigation
+
+import com.chrynan.presentation.Intent
 
 /**
  * Represents an intent to move to a different screen in the application. This is similar to an [Intent] but for

@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation
+package com.chrynan.presentation.navigation
 
 /**
  * A convenience function for calling [Navigator.navigate] with [NavigationEvent.Back].

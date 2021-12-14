@@ -5,6 +5,8 @@ package com.chrynan.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
+import com.chrynan.presentation.navigation.NavigationEventHandler
+import com.chrynan.presentation.navigation.NavigationIntent
 import kotlinx.coroutines.CoroutineScope
 
 abstract class BasePresentationActivity<SCREEN : NavigationIntent> : AppCompatActivity(),

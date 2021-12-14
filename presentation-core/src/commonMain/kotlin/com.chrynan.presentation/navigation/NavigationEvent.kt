@@ -1,7 +1,13 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation
+package com.chrynan.presentation.navigation
 
+/**
+ * An event that is sent to a [Navigator] to coordinate the navigation between screens.
+ *
+ * @see [Navigator.navigate]
+ * @see [NavigationHandler.onNavigate]
+ */
 sealed class NavigationEvent<I : NavigationIntent> {
 
     class Back<I : NavigationIntent> : NavigationEvent<I>()

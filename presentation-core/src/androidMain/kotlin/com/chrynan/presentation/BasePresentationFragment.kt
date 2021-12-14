@@ -7,6 +7,9 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.chrynan.presentation.navigation.NavigationEventHandler
+import com.chrynan.presentation.navigation.NavigationIntent
+import com.chrynan.presentation.navigation.Navigator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -3,6 +3,7 @@
 package com.chrynan.presentation
 
 import android.app.Activity
+import com.chrynan.presentation.navigation.NavigationScope
 
 interface AndroidNavigationScope : NavigationScope {
 

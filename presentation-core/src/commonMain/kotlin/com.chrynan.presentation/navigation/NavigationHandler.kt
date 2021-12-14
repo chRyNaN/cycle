@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation
+package com.chrynan.presentation.navigation
 
 /**
  * Handles the navigation from a [Navigator].

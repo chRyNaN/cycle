@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation
+package com.chrynan.presentation.navigation
 
 /**
  * A [Navigator] is responsible for changing and showing the different Screens in the application.

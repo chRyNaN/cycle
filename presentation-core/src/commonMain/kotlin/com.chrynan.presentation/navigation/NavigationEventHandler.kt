@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation
+package com.chrynan.presentation.navigation
 
 /**
  * A [NavigationHandler] that provides distinct functions for each of the possible
