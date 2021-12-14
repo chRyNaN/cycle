@@ -1,9 +1,7 @@
 package com.chrynan.presentation.compose.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.Flow
-import com.chrynan.presentation.ViewModel
 import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 
 @PresentationComposeExperimentalApi
@@ -70,49 +68,4 @@ interface ComposeStackNavigatorByKey<T> : ComposeStackNavigator<T>,
     ComposeNavigatorByKey<T> {
 
     fun goBack(): Boolean
-}
-
-@PresentationComposeExperimentalApi
-abstract class BaseComposeNavigatorByContentViewModel<T> : ViewModel(),
-    ComposeNavigator<T>,
-    ComposeNavigatorByContent<T>,
-    ComposeStackNavigatorByContent<T> {
-
-    @Composable
-    internal abstract fun getContent(key: T): (@Composable () -> Unit)?
-}
-
-@PresentationComposeExperimentalApi
-abstract class BaseComposeNavigatorByKeyViewModel<T> : ViewModel(),
-    ComposeNavigator<T>,
-    ComposeNavigatorByKey<T>,
-    ComposeStackNavigatorByKey<T> {
-
-    internal abstract val content: @Composable (key: T) -> Unit
-}
-
-@Suppress("unused")
-@PresentationComposeExperimentalApi
-@Composable
-fun <T> rememberComposeNavigatorByContent(
-    initialKey: T,
-    initialContent: @Composable () -> Unit
-): ComposeNavigatorByContentViewModel<T> = remember {
-    ComposeNavigatorByContentViewModel(
-        initialKey = initialKey,
-        initialContent = initialContent
-    )
-}
-
-@Suppress("unused")
-@PresentationComposeExperimentalApi
-@Composable
-fun <T> rememberComposeNavigatorByKey(
-    initialKey: T,
-    content: @Composable (key: T) -> Unit
-): ComposeNavigatorByKeyViewModel<T> = remember {
-    ComposeNavigatorByKeyViewModel(
-        initialKey = initialKey,
-        content = content
-    )
 }

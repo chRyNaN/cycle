@@ -1,7 +1,6 @@
 package com.chrynan.presentation.compose.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 import com.chrynan.presentation.navigation.*
 import kotlinx.coroutines.flow.Flow
@@ -89,17 +88,4 @@ class ComposeNavigationIntentNavigatorByKeyViewModel<I : NavigationIntent> inter
         keyStack.removeLast()
         mutableKeyFlow.value = keyStack.lastOrNull()
     }
-}
-
-@Suppress("unused")
-@PresentationComposeExperimentalApi
-@Composable
-fun <I : NavigationIntent> rememberComposeNavigationIntentNavigatorByKey(
-    initialKey: I,
-    content: @Composable (key: I) -> Unit
-): ComposeNavigationIntentNavigatorByKeyViewModel<I> = remember {
-    ComposeNavigationIntentNavigatorByKeyViewModel(
-        initialKey = initialKey,
-        content = content
-    )
 }

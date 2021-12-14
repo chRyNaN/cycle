@@ -1,10 +1,21 @@
 package com.chrynan.presentation.compose.navigation
 
 import androidx.compose.runtime.Composable
+import com.chrynan.presentation.ViewModel
 import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+
+@PresentationComposeExperimentalApi
+abstract class BaseComposeNavigatorByContentViewModel<T> : ViewModel(),
+    ComposeNavigator<T>,
+    ComposeNavigatorByContent<T>,
+    ComposeStackNavigatorByContent<T> {
+
+    @Composable
+    internal abstract fun content(key: T)
+}
 
 @PresentationComposeExperimentalApi
 class ComposeNavigatorByContentViewModel<T> internal constructor(
@@ -69,14 +80,14 @@ class ComposeNavigatorByContentViewModel<T> internal constructor(
     override fun canGoBack(): Boolean = contents.isNotEmpty() && keyStack.isNotEmpty()
 
     @Composable
-    override fun getContent(key: T): (@Composable () -> Unit)? {
+    override fun content(key: T) {
         if (contents.isEmpty()) {
             addToStack(key = key, content = initialContent)
 
             isInitialized = true
         }
 
-        return contents[key]
+        contents[key]?.invoke()
     }
 
     private fun addToStack(

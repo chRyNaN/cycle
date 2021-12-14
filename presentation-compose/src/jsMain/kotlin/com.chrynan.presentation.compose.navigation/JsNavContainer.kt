@@ -12,10 +12,9 @@ internal actual fun <T> InternalNavContainer(
     navigator: BaseComposeNavigatorByContentViewModel<T>
 ) {
     val contentKey by navigator.keyChanges.collectAsState(initial = navigator.initialKey)
-    val content = navigator.getContent(contentKey)
 
     Div {
-        content?.invoke()
+        navigator.content(contentKey)
     }
 }
 
