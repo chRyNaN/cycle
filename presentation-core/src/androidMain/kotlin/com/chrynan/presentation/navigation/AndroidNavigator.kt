@@ -7,7 +7,7 @@ import android.app.Activity
 internal class AndroidNavigator<I : NavigationIntent>(
     private val handler: AndroidNavigationHandler<I>,
     private val scope: AndroidNavigationScope
-) : Navigator<I> {
+) : NavigationEventNavigator<I> {
 
     override fun navigate(event: NavigationEvent<I>) {
         handler.apply {
@@ -35,7 +35,7 @@ internal class AndroidNavigator<I : NavigationIntent>(
 fun <I : NavigationIntent> navigator(
     activity: Activity,
     handler: AndroidNavigationHandler<I>
-): Navigator<I> {
+): NavigationEventNavigator<I> {
     val scope = AndroidNavigationScope(activity = activity)
 
     return AndroidNavigator(handler = handler, scope = scope)
@@ -59,7 +59,7 @@ fun <I : NavigationIntent> navigator(
     onGoBack: () -> Unit = { activity.onBackPressed() },
     onGoUp: () -> Unit = { activity.onBackPressed() },
     onGoTo: (intent: I) -> Unit
-): Navigator<I> {
+): NavigationEventNavigator<I> {
     val scope = AndroidNavigationScope(activity = activity)
 
     return AndroidNavigator(

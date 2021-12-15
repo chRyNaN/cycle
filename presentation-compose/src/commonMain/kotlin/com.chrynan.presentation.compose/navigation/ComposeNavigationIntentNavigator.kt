@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.filterNotNull
 interface ComposeNavigationIntentStackNavigatorByKey<I : NavigationIntent> :
     ComposeStackNavigatorByKey<I>,
     NavigationEventHandler<I, ComposeNavigationScope>,
-    Navigator<I> {
+    NavigationEventNavigator<I> {
 
     override fun ComposeNavigationScope.onGoBack() {
         goBack()

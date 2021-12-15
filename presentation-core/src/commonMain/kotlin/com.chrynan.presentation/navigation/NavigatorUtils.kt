@@ -3,19 +3,19 @@
 package com.chrynan.presentation.navigation
 
 /**
- * A convenience function for calling [Navigator.navigate] with [NavigationEvent.Back].
+ * A convenience function for calling [NavigationEventNavigator.navigate] with [NavigationEvent.Back].
  */
-fun <I : NavigationIntent> Navigator<I>.goBack() =
+fun <I : NavigationIntent> NavigationEventNavigator<I>.goBack() =
     navigate(event = NavigationEvent.Back())
 
 /**
- * A convenience function for calling [Navigator.navigate] with [NavigationEvent.Up].
+ * A convenience function for calling [NavigationEventNavigator.navigate] with [NavigationEvent.Up].
  */
-fun <I : NavigationIntent> Navigator<I>.goUp() =
+fun <I : NavigationIntent> NavigationEventNavigator<I>.goUp() =
     navigate(event = NavigationEvent.Up())
 
 /**
- * A convenience function for calling [Navigator.navigate] with [NavigationEvent.To].
+ * A convenience function for calling [NavigationEventNavigator.navigate] with [NavigationEvent.To].
  */
-fun <I : NavigationIntent> Navigator<I>.goTo(intent: I) =
+fun <I : NavigationIntent> NavigationEventNavigator<I>.goTo(intent: I) =
     navigate(event = NavigationEvent.To(intent = intent))

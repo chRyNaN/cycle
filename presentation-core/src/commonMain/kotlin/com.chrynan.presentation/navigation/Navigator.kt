@@ -4,13 +4,11 @@ package com.chrynan.presentation.navigation
 
 /**
  * A [Navigator] is responsible for changing and showing the different Screens in the application.
+ *
+ * A [Navigator] is platform and UI framework dependent, so each implementation depends on the particular UI framework
+ * used, for example, Jetpack Compose.
  */
-interface Navigator<I : NavigationIntent> {
-
-    /**
-     * Navigates to the provided [event].
-     */
-    fun navigate(event: NavigationEvent<I>)
+interface Navigator {
 
     companion object
 }

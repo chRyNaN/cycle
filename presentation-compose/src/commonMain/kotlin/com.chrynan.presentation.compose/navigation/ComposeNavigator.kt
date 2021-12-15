@@ -4,9 +4,10 @@ import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.Flow
 import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 import com.chrynan.presentation.navigation.NavStackDuplicateContentStrategy
+import com.chrynan.presentation.navigation.Navigator
 
 @PresentationComposeExperimentalApi
-interface ComposeNavigator<T> {
+interface ComposeNavigator<T> : Navigator {
 
     val initialKey: T
 
@@ -15,6 +16,8 @@ interface ComposeNavigator<T> {
     val keyChanges: Flow<T>
 
     val isInitialized: Boolean
+
+    companion object
 }
 
 @PresentationComposeExperimentalApi
