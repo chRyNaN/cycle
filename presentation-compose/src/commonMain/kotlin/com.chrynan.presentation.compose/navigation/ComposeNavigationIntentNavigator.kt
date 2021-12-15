@@ -1,13 +1,12 @@
 package com.chrynan.presentation.compose.navigation
 
 import androidx.compose.runtime.Composable
-import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 import com.chrynan.presentation.navigation.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 interface ComposeNavigationIntentStackNavigatorByKey<I : NavigationIntent> :
     ComposeStackNavigatorByKey<I>,
     NavigationEventHandler<I, ComposeNavigationScope>,
@@ -26,7 +25,7 @@ interface ComposeNavigationIntentStackNavigatorByKey<I : NavigationIntent> :
     }
 }
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 class ComposeNavigationIntentNavigatorByKeyViewModel<I : NavigationIntent> internal constructor(
     override val initialKey: I,
     override val content: @Composable (key: I) -> Unit

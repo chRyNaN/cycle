@@ -3,11 +3,10 @@ package com.chrynan.presentation.compose.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 import org.jetbrains.compose.web.dom.Div
 
 @Composable
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 internal actual fun <T> InternalNavContainer(
     navigator: BaseComposeNavigatorByContentViewModel<T>
 ) {
@@ -19,7 +18,7 @@ internal actual fun <T> InternalNavContainer(
 }
 
 @Composable
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 internal actual fun <T> InternalNavContainer(
     navigator: BaseComposeNavigatorByKeyViewModel<T>
 ) {

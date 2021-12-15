@@ -2,11 +2,10 @@ package com.chrynan.presentation.compose.navigation
 
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.Flow
-import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 import com.chrynan.presentation.navigation.NavStackDuplicateContentStrategy
 import com.chrynan.presentation.navigation.Navigator
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 interface ComposeNavigator<T> : Navigator {
 
     val initialKey: T
@@ -20,7 +19,7 @@ interface ComposeNavigator<T> : Navigator {
     companion object
 }
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 interface ComposeNavigatorByContent<T> : ComposeNavigator<T> {
 
     @Composable
@@ -33,12 +32,12 @@ interface ComposeNavigatorByContent<T> : ComposeNavigator<T> {
 
 // Note: This is needed because defaults aren't working for @Composable functions for interfaces.
 @Suppress("unused")
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 @Composable
 fun <T> ComposeNavigatorByContent<T>.goTo(key: T, content: @Composable () -> Unit) =
     goTo(key = key, strategy = NavStackDuplicateContentStrategy.CLEAR_STACK, content = content)
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 interface ComposeNavigatorByKey<T> : ComposeNavigator<T> {
 
     fun goTo(
@@ -49,17 +48,17 @@ interface ComposeNavigatorByKey<T> : ComposeNavigator<T> {
 
 // Note: This is needed because defaults aren't working for @Composable functions for interfaces.
 @Suppress("unused")
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 fun <T> ComposeNavigatorByKey<T>.goTo(key: T) =
     goTo(key = key, strategy = NavStackDuplicateContentStrategy.CLEAR_STACK)
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 interface ComposeStackNavigator<T> : ComposeNavigator<T> {
 
     fun canGoBack(): Boolean
 }
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 interface ComposeStackNavigatorByContent<T> : ComposeStackNavigator<T>,
     ComposeNavigatorByContent<T> {
 
@@ -67,7 +66,7 @@ interface ComposeStackNavigatorByContent<T> : ComposeStackNavigator<T>,
     fun goBack(): Boolean
 }
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 interface ComposeStackNavigatorByKey<T> : ComposeStackNavigator<T>,
     ComposeNavigatorByKey<T> {
 

@@ -2,13 +2,12 @@ package com.chrynan.presentation.compose.navigation
 
 import androidx.compose.runtime.Composable
 import com.chrynan.presentation.ViewModel
-import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 import com.chrynan.presentation.navigation.NavStackDuplicateContentStrategy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 abstract class BaseComposeNavigatorByKeyViewModel<T> : ViewModel(),
     ComposeNavigator<T>,
     ComposeNavigatorByKey<T>,
@@ -17,7 +16,7 @@ abstract class BaseComposeNavigatorByKeyViewModel<T> : ViewModel(),
     internal abstract val content: @Composable (key: T) -> Unit
 }
 
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 class ComposeNavigatorByKeyViewModel<T> internal constructor(
     override val initialKey: T,
     override val content: @Composable (key: T) -> Unit

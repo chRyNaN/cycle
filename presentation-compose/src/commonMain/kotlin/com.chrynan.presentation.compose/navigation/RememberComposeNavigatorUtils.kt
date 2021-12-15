@@ -4,7 +4,6 @@ package com.chrynan.presentation.compose.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.chrynan.presentation.compose.PresentationComposeExperimentalApi
 import com.chrynan.presentation.navigation.NavigationIntent
 import com.chrynan.presentation.navigation.Navigator
 
@@ -31,7 +30,7 @@ import com.chrynan.presentation.navigation.Navigator
  * **Note:** That it is typical to use a [ComposeNavigator] with a [NavContainer] to display the [Composable] content
  * and listen to changes.
  */
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 @Composable
 fun <T> rememberNavigatorByContent(
     initialKey: T,
@@ -71,7 +70,7 @@ fun <T> rememberNavigatorByContent(
  * **Note:** That it is typical to use a [ComposeNavigator] with a [NavContainer] to display the [Composable] content
  * and listen to changes.
  */
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 @Composable
 fun <T> rememberNavigatorByKey(
     initialKey: T,
@@ -111,7 +110,7 @@ fun <T> rememberNavigatorByKey(
  * **Note:** That it is typical to use a [ComposeNavigator] with a [NavContainer] to display the [Composable] content
  * and listen to changes.
  */
-@PresentationComposeExperimentalApi
+@ExperimentalNavigationApi
 @Composable
 fun <I : NavigationIntent> rememberNavigatorByIntent(
     initialIntent: I,
