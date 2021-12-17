@@ -65,8 +65,8 @@ A quick breakdown of some of the components:
 
 ### Create the State and models
 
-Typically, the `Intent`, `State`, `Change`, and `NavigationIntent` are sealed classes per screen and defined in the same
-file. These components are platform independent, meaning they can live in shared code.
+Typically, the `Intent`, `State`, and `Change` are sealed classes per screen and defined in the same file. These
+components are platform independent, meaning they can live in shared code.
 
 For example, consider the following items for a home screen that displays a list of items.
 
@@ -173,92 +173,10 @@ fun Home() {
 }
 ```
 
-### Navigation
+## Navigation
 
-Navigation is handled differently for each platform and UI framework. This library provides some common navigation
-components that serve as a recommended structure, but each platform and UI framework is independently responsible for
-handling navigation and choosing whether to conform to the provided components.
-
-#### Jetpack Compose
-
-There are three different `ComposeNavigators` that can handle navigation in Jetpack Compose. Which one to use depends on
-the application needs and personal preference.
-
-##### Content
-
-This approach allows for specifying the `@Composable` content on demand, rather than up-front.
-
-```kotlin
-val navigator = rememberNavigatorByContent("Greeting") { Text("Hello") }
-
-// The NavContainer will start by displaying the initial content, which in this case is "Hello".
-NavContainer(navigator)
-
-// The above NavContainer will display "Good-bye" after the following call:
-navigator.goTo("Farewell") { Text("Good-bye") }
-
-// Goes back to the initial content: "Hello":
-navigator.goBack()
-```
-
-##### Key
-
-This approach allows for specifying the `@Composable` content for each key up-front. Then navigation can be done by
-simply providing a key.
-
-```kotlin
-val navigator = rememberNavigatorByKey("Greeting") { key ->
-    when (key) {
-        "Greeting" -> Text("Hello")
-        "Farewell" -> Text("Good-bye")
-        else -> Text("Unexpected Key: $key")
-    }
-}
-
-// The NavContainer will start by displaying the initial content, which in this case is "Hello"
-NavContainer(navigator)
-
-// The above NavContainer will display "Good Bye" after the following call:
-navigator.goTo("Farewell")
-
-// Goes back to the initial content: "Hello":
-navigator.goBack()
-```
-
-##### Intent
-
-This approach is similar to the key approach, but the key is a `NavigationIntent` and the returned `ComposeNavigator`
-implements the `NavigationEventNavigator` interface from the `core` module.
-
-```kotlin
-val navigator = rememberNavigatorByIntent(HomeNavigationIntent.Greeting) { navigationIntent ->
-    when (navigationIntent) {
-        HomeNavigationIntent.Greeting -> Text("Hello")
-        HomeNavigationIntent.Farewell -> Text("Good-bye")
-    }
-}
-
-// The NavContainer will start by displaying the initial content, which in this case is "Hello"
-NavContainer(navigator)
-
-// The above NavContainer will display "Good Bye" after the following call:
-navigator.goTo(HomeNavigationIntent.Farewell)
-
-// Goes back to the initial content: "Hello":
-navigator.goBack()
-```
-
-#### Android
-
-To create a `Navigator` use one the provided `navigator()` functions. For instance:
-
-```kotlin
-val navigator = navigator<NavigationIntent>(activity = activity, onGoTo = { navigationIntent ->
-    activity.startActivity(...)
-})
-
-navigator.goBack()
-```
+This library no longer provides a way to handle the navigation for an application. The navigation components have been
+moved to their own [library]("https://github.com/chRyNaN/navigation").
 
 ## Building the library
 
@@ -271,7 +189,7 @@ the [releases page](https://github.com/chRyNaN/presentation/releases) to get the
 ```groovy
 repositories {
     maven {
-        url = uri("https://dl.bintray.com/chrynan/chrynan")
+        url = uri("https://repo.repsy.io/mvn/chrynan/public")
     }
 }
 ```

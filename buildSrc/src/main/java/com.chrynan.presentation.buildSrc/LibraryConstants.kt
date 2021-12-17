@@ -2,7 +2,6 @@ package com.chrynan.presentation.buildSrc
 
 object LibraryConstants {
 
-    const val bintrayRepo = "chrynan"
     const val group = "com.chrynan.presentation"
     const val owner = "chrynan"
     const val repoName = "presentation"
