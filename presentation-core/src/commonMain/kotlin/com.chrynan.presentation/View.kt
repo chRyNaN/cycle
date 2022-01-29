@@ -24,7 +24,7 @@ interface View<I : Intent, S : State> {
     val renderState: S?
 
     /**
-     * A [Flow] of all of the [State]s. This [Flow] should emit all of the distinct states provided
+     * A [Flow] of all of the [State]s. This [Flow] should emit all the distinct states provided
      * to the [render] function.
      *
      * Note that the [Presenter] should not subscribe to these [states] as that would create a loop.

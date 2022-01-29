@@ -33,6 +33,11 @@ interface Presenter<I : Intent, S : State, C : Change> : Bindable {
     val renderStates: Flow<S>
 
     /**
+     * A [Flow] of all the [Intent]s of type [I] that are emitted to this [Presenter].
+     */
+    val intents: Flow<I>
+
+    /**
      * The [View] that this [Presenter] handles the presentation logic for.
      */
     val view: View<I, S>
