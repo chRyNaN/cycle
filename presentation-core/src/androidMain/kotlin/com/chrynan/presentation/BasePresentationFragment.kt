@@ -8,10 +8,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.*
 import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 
@@ -47,13 +44,13 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter?.bind()
+        bindPresenter()
     }
 
     override fun onResume() {
         super.onResume()
 
-        presenter?.bind()
+        bindPresenter()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -75,10 +72,6 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
     }
 
     override fun intents(): Flow<INTENT> = intentsStateFlow.asStateFlow().filterNotNull()
-
-    override fun render(state: STATE) {
-        statesStateFlow.value = state
-    }
 
     protected open fun onRefresh() {}
 
@@ -103,5 +96,17 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
 
     protected fun emit(intent: INTENT) {
         intentsStateFlow.value = intent
+    }
+
+    private fun bindPresenter() {
+        presenter?.let {
+            if (!it.isBound) {
+                it.bind()
+
+                it.renderStates
+                    .onEach { state -> statesStateFlow.value = state }
+                    .launchIn(it.coroutineScope)
+            }
+        }
     }
 }

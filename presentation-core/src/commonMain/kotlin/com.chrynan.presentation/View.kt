@@ -39,13 +39,5 @@ interface View<I : Intent, S : State> {
      */
     fun intents(): Flow<I>
 
-    /**
-     * Renders the provided [state] of type [S] into a UI. The [state] should have everything necessary for the [View]
-     * to display its UI.
-     *
-     * Note that this function should be called from the [Presenter].
-     */
-    fun render(state: S)
-
     companion object
 }

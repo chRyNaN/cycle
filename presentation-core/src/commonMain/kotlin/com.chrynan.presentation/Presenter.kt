@@ -38,11 +38,6 @@ interface Presenter<I : Intent, S : State, C : Change> : Bindable {
     val intents: Flow<I>
 
     /**
-     * The [View] that this [Presenter] handles the presentation logic for.
-     */
-    val view: View<I, S>
-
-    /**
      * Binds and sets up this [Presenter] for the attached [View].
      */
     override fun bind()

@@ -6,10 +6,7 @@ import androidx.compose.runtime.*
 import com.chrynan.presentation.*
 import com.chrynan.presentation.State
 import com.chrynan.presentation.Change
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.*
 
 /**
  * A component that implements the [View] interface and serves as the binding between this
@@ -54,16 +51,18 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     @Composable
     abstract fun Content(state: S)
 
-    override fun render(state: S) {
-        statesStateFlow.value = state
-    }
-
     override fun bind() {
         if (presenter == null) {
             presenter = presenterFactory.invoke(this)
         }
 
-        presenter?.bind()
+        presenter?.let {
+            it.bind()
+
+            it.renderStates
+                .onEach { state -> statesStateFlow.value = state }
+                .launchIn(it.coroutineScope)
+        }
 
         onBind()
     }

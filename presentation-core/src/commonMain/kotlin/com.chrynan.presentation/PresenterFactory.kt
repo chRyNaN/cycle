@@ -2,6 +2,8 @@
 
 package com.chrynan.presentation
 
+import kotlinx.coroutines.flow.Flow
+
 /**
  * A component that can create a [Presenter]. This allows lazy instantiation of a [Presenter] which
  * may be required to wait for the [View] to be created first, then passing that into the [invoke]
@@ -28,7 +30,10 @@ package com.chrynan.presentation
  */
 fun interface PresenterFactory<I : Intent, S : State, C : Change> {
 
-    operator fun invoke(view: View<I, S>): Presenter<I, S, C>
+    operator fun invoke(intents: Flow<I>): Presenter<I, S, C>
 
     companion object
 }
+
+operator fun <I : Intent, S : State, C : Change> PresenterFactory<I, S, C>.invoke(view: View<I, S>): Presenter<I, S, C> =
+    invoke(intents = view.intents())

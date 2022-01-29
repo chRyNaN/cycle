@@ -23,9 +23,6 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     override val renderStates: Flow<S>
         get() = stateStore.states.filterNotNull()
 
-    override val intents: Flow<I>
-        get() = view.intents()
-
     override val coroutineScope: CoroutineScope = object : CoroutineScope {
 
         override val coroutineContext: CoroutineContext
@@ -133,6 +130,5 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      */
     protected open fun Flow<S>.render(): Flow<S> =
         onEach { stateStore.updateCurrentState(it) }
-            .onEach { view.render(it) }
             .flowOn(dispatchers.main)
 }

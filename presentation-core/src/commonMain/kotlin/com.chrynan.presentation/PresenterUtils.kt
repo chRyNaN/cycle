@@ -11,8 +11,39 @@ import kotlinx.coroutines.flow.*
  *
  * Example usage:
  * ```kotlin
+ * Presenter<I, S, C>(intents = intents) {
+ *     this.intents
+ *         .perform { intent, state -> ... }
+ *         .reduce { state, change -> ... }
+ *         .startWithInitialState()
+ *         .render()
+ *         .launchIn(coroutineScope)
+ * }
+ * ```
+ */
+@Suppress("FunctionName")
+fun <I : Intent, S : State, C : Change> Presenter(
+    intents: Flow<I>,
+    initialState: S? = null,
+    dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
+    onUnbind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
+    onBind: DelegatingPresenter<I, S, C>.() -> Unit
+): DelegatingPresenter<I, S, C> = DelegatingPresenter(
+    intents = intents,
+    initialState = initialState,
+    dispatchers = dispatchers,
+    onUnbind = onUnbind,
+    onBind = onBind
+)
+
+/**
+ * A convenience function to create a [Presenter] without having to directly create an implementation. This could be
+ * especially useful for simple applications that don't have complex dependency management and testing requirements.
+ *
+ * Example usage:
+ * ```kotlin
  * Presenter<I, S, C>(view = view) {
- *     this.view.intents()
+ *     this.intents
  *         .perform { intent, state -> ... }
  *         .reduce { state, change -> ... }
  *         .startWithInitialState()
@@ -29,7 +60,7 @@ fun <I : Intent, S : State, C : Change> Presenter(
     onUnbind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
     onBind: DelegatingPresenter<I, S, C>.() -> Unit
 ): DelegatingPresenter<I, S, C> = DelegatingPresenter(
-    view = view,
+    intents = view.intents(),
     initialState = initialState,
     dispatchers = dispatchers,
     onUnbind = onUnbind,
@@ -42,7 +73,7 @@ fun <I : Intent, S : State, C : Change> Presenter(
  * be called in a scoped context.
  */
 class DelegatingPresenter<I : Intent, S : State, C : Change> internal constructor(
-    override val view: View<I, S>,
+    override val intents: Flow<I>,
     initialState: S? = null,
     dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     private val onUnbind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
@@ -95,6 +126,5 @@ class DelegatingPresenter<I : Intent, S : State, C : Change> internal constructo
 
     public override fun Flow<S>.render(): Flow<S> =
         onEach { stateStore.updateCurrentState(it) }
-            .onEach { view.render(it) }
             .flowOn(dispatchers.main)
 }
