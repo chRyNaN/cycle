@@ -1,11 +1,17 @@
 package com.chrynan.presentation
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+
 class BasicStateStore<I : Intent, C : Change, S : State>(
     override val initialState: S? = null
 ) : StateStore<I, C, S> {
 
-    override var currentState: S? = initialState
-        private set
+    override val currentState: S?
+        get() = mutableStates.value
+
+    override val states: Flow<S?>
+        get() = mutableStates
 
     override var lastIntent: I? = null
         private set
@@ -16,8 +22,10 @@ class BasicStateStore<I : Intent, C : Change, S : State>(
     override var isPendingStateUpdate: Boolean = false
         private set
 
+    private val mutableStates = MutableStateFlow(initialState)
+
     override fun updateCurrentState(state: S?) {
-        currentState = state
+        mutableStates.value = state
         isPendingStateUpdate = false
     }
 
@@ -32,7 +40,7 @@ class BasicStateStore<I : Intent, C : Change, S : State>(
     }
 
     override fun reset() {
-        currentState = initialState
+        mutableStates.value = initialState
         lastIntent = null
         lastChange = null
     }
