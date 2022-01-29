@@ -17,4 +17,10 @@ An extension on a [PresenterFactory](../-presenter-factory/index.md) that return
 
 | Name | Summary |
 |---|---|
-| [invoke](invoke.md) | [common]<br>abstract operator override fun [invoke](invoke.md)(view: [View](../-view/index.md)&lt;[I](index.md), [S](index.md)&gt;): [BasePresenter](../-base-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt; |
+| [invoke](invoke.md) | [common]<br>abstract operator override fun [invoke](invoke.md)(intents: Flow&lt;[I](index.md)&gt;): [BasePresenter](../-base-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt; |
+
+## Extensions
+
+| Name | Summary |
+|---|---|
+| [invoke](../invoke.md) | [common]<br>operator fun &lt;[I](../invoke.md) : [Intent](../-intent/index.md), [S](../invoke.md) : [State](../-state/index.md), [C](../invoke.md) : [Change](../-change/index.md)&gt; [BasePresenterFactory](index.md)&lt;[I](../invoke.md), [S](../invoke.md), [C](../invoke.md)&gt;.[invoke](../invoke.md)(view: [View](../-view/index.md)&lt;[I](../invoke.md), [S](../invoke.md)&gt;): [BasePresenter](../-base-presenter/index.md)&lt;[I](../invoke.md), [S](../invoke.md), [C](../invoke.md)&gt; |

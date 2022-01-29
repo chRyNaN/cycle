@@ -10,7 +10,7 @@ inline operator fun &lt;[I](unary-plus.md) : [Intent](../../../presentation-core
 
 Lays out the provided [layout](layout.md) as a Composable.
 
-This is a convenience function for calling [composeLayout](compose-layout.md).
+This is a convenience function for calling [ComposeLayout](-compose-layout.md).
 
 Example usage:
 

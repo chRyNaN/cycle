@@ -3,4 +3,4 @@
 # currentState
 
 [common]\
-open override var [currentState](current-state.md): [S](index.md)?
+open override val [currentState](current-state.md): [S](index.md)?

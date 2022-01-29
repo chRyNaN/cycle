@@ -5,4 +5,4 @@
 [common]\
 abstract val [renderState](render-state.md): [S](index.md)?
 
-The currently rendered [State](../-state/index.md). This property could briefly differ from the [Presenter.currentState](../-presenter/current-state.md) until that state is provided to the [render](render.md) function and is rendered to display.
+The currently rendered [State](../-state/index.md). This property could briefly differ from the [Presenter.currentState](../-presenter/current-state.md) until that state is provided to the render function and is rendered to display.

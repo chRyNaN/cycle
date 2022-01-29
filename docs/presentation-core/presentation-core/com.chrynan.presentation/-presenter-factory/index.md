@@ -9,12 +9,12 @@ A component that can create a [Presenter](../-presenter/index.md). This allows l
 
 Note that this interface is a functional interface, so an instance can be created like so:
 
-PresenterFactory { view -&gt; }
+PresenterFactory { intents -&gt; }
 
 Example usage:
 
-PresenterFactory { view -&gt;\
-    Presenter(view) {\
+PresenterFactory { intents -&gt;\
+    Presenter(intents) {\
         this.view.intents()\
         .perform { intent, state -&gt; ... }\
         .reduce { state, change -&gt; ... }\
@@ -34,10 +34,16 @@ PresenterFactory { view -&gt;\
 
 | Name | Summary |
 |---|---|
-| [invoke](invoke.md) | [common]<br>abstract operator fun [invoke](invoke.md)(view: [View](../-view/index.md)&lt;[I](index.md), [S](index.md)&gt;): [Presenter](../-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt; |
+| [invoke](invoke.md) | [common]<br>abstract operator fun [invoke](invoke.md)(intents: Flow&lt;[I](index.md)&gt;): [Presenter](../-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt; |
 
 ## Inheritors
 
 | Name |
 |---|
 | [BasePresenterFactory](../-base-presenter-factory/index.md) |
+
+## Extensions
+
+| Name | Summary |
+|---|---|
+| [invoke](../invoke.md) | [common]<br>operator fun &lt;[I](../invoke.md) : [Intent](../-intent/index.md), [S](../invoke.md) : [State](../-state/index.md), [C](../invoke.md) : [Change](../-change/index.md)&gt; [PresenterFactory](index.md)&lt;[I](../invoke.md), [S](../invoke.md), [C](../invoke.md)&gt;.[invoke](../invoke.md)(view: [View](../-view/index.md)&lt;[I](../invoke.md), [S](../invoke.md)&gt;): [Presenter](../-presenter/index.md)&lt;[I](../invoke.md), [S](../invoke.md), [C](../invoke.md)&gt; |

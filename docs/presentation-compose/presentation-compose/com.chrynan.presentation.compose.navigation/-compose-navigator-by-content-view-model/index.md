@@ -13,7 +13,7 @@ class [ComposeNavigatorByContentViewModel](index.md)&lt;[T](index.md)&gt; : [Bas
 |---|---|
 | [canGoBack](can-go-back.md) | [common]<br>open override fun [canGoBack](can-go-back.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
 | [goBack](go-back.md) | [common]<br>@Composable<br>open override fun [goBack](go-back.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
-| [goTo](go-to.md) | [common]<br>@Composable<br>open override fun [goTo](go-to.md)(key: [T](index.md), strategy: [NavStackDuplicateContentStrategy](../../../../presentation-core/presentation-core/com.chrynan.presentation.navigation/-nav-stack-duplicate-content-strategy/index.md), content: @Composable() -&gt; [Unit](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)) |
+| [goTo](go-to.md) | [common]<br>@Composable<br>open override fun [goTo](go-to.md)(key: [T](index.md), strategy: NavStackDuplicateContentStrategy, content: @Composable() -&gt; [Unit](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)) |
 
 ## Properties
 

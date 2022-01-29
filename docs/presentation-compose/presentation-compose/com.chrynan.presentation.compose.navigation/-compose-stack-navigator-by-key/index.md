@@ -13,7 +13,7 @@ interface [ComposeStackNavigatorByKey](index.md)&lt;[T](index.md)&gt; : [Compose
 |---|---|
 | [canGoBack](../-compose-stack-navigator/can-go-back.md) | [common]<br>abstract fun [canGoBack](../-compose-stack-navigator/can-go-back.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
 | [goBack](go-back.md) | [common]<br>abstract fun [goBack](go-back.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
-| [goTo](../-compose-navigator-by-key/go-to.md) | [common]<br>abstract fun [goTo](../-compose-navigator-by-key/go-to.md)(key: [T](index.md), strategy: [NavStackDuplicateContentStrategy](../../../../presentation-core/presentation-core/com.chrynan.presentation.navigation/-nav-stack-duplicate-content-strategy/index.md)) |
+| [goTo](../-compose-navigator-by-key/go-to.md) | [common]<br>abstract fun [goTo](../-compose-navigator-by-key/go-to.md)(key: [T](index.md), strategy: NavStackDuplicateContentStrategy) |
 
 ## Properties
 

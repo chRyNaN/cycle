@@ -1,0 +1,8 @@
+//[presentation-core](../../index.md)/[com.chrynan.presentation](index.md)/[basePresenterFactory](base-presenter-factory.md)
+
+# basePresenterFactory
+
+[common]\
+fun &lt;[I](base-presenter-factory.md) : [Intent](-intent/index.md), [S](base-presenter-factory.md) : [State](-state/index.md), [C](base-presenter-factory.md) : [Change](-change/index.md)&gt; [basePresenterFactory](base-presenter-factory.md)(factory: [BasePresenterFactory](-base-presenter-factory/index.md)&lt;[I](base-presenter-factory.md), [S](base-presenter-factory.md), [C](base-presenter-factory.md)&gt;): [ReadOnlyProperty](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html)&lt;[View](-view/index.md)&lt;[I](base-presenter-factory.md), [S](base-presenter-factory.md)&gt;, [Presenter](-presenter/index.md)&lt;[I](base-presenter-factory.md), [S](base-presenter-factory.md), [C](base-presenter-factory.md)&gt;&gt;
+
+fun &lt;[I](base-presenter-factory.md) : [Intent](-intent/index.md), [S](base-presenter-factory.md) : [State](-state/index.md), [C](base-presenter-factory.md) : [Change](-change/index.md)&gt; [basePresenterFactory](base-presenter-factory.md)(factory: (intents: Flow&lt;[I](base-presenter-factory.md)&gt;) -&gt; [BasePresenter](-base-presenter/index.md)&lt;[I](base-presenter-factory.md), [S](base-presenter-factory.md), [C](base-presenter-factory.md)&gt;): [ReadOnlyProperty](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html)&lt;[View](-view/index.md)&lt;[I](base-presenter-factory.md), [S](base-presenter-factory.md)&gt;, [Presenter](-presenter/index.md)&lt;[I](base-presenter-factory.md), [S](base-presenter-factory.md), [C](base-presenter-factory.md)&gt;&gt;

@@ -3,4 +3,4 @@
 # invoke
 
 [common]\
-abstract operator fun [invoke](invoke.md)(view: [View](../-view/index.md)&lt;[I](index.md), [S](index.md)&gt;): [Presenter](../-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt;
+abstract operator fun [invoke](invoke.md)(intents: Flow&lt;[I](index.md)&gt;): [Presenter](../-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt;

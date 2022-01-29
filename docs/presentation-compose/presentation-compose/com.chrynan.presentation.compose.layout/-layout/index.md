@@ -13,9 +13,9 @@ Example usage:
 
 class HomeLayout : BaseLayout&lt;HomeIntent, HomeState, HomeChange&gt;() {\
 \
-    override val presenterFactory = ...\
+    override val presenter = ...\
 \
-    override fun OnLayout(state: HomeState) {\
+    override fun Content(state: HomeState) {\
         // Put Composable UI code here using the [state] value\
     }\
 }
@@ -31,11 +31,10 @@ class HomeLayout : BaseLayout&lt;HomeIntent, HomeState, HomeChange&gt;() {\
 | Name | Summary |
 |---|---|
 | [bind](bind.md) | [common]<br>open override fun [bind](bind.md)() |
+| [Content](-content.md) | [common]<br>@Composable<br>abstract fun [Content](-content.md)(state: [S](index.md)) |
 | [equals](equals.md) | [common]<br>open operator override fun [equals](equals.md)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
 | [hashCode](hash-code.md) | [common]<br>open override fun [hashCode](hash-code.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
 | [intents](intents.md) | [common]<br>open override fun [intents](intents.md)(): Flow&lt;[I](index.md)&gt; |
-| [OnLayout](-on-layout.md) | [common]<br>@Composable<br>abstract fun [OnLayout](-on-layout.md)(state: [S](index.md)) |
-| [render](render.md) | [common]<br>open override fun [render](render.md)(state: [S](index.md)) |
 | [toString](to-string.md) | [common]<br>open override fun [toString](to-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
 | [unbind](unbind.md) | [common]<br>open override fun [unbind](unbind.md)() |
 

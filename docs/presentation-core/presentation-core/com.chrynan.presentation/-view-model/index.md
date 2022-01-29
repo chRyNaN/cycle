@@ -2,11 +2,14 @@
 
 # ViewModel
 
-[common, ios, js, jvm]\
-abstract class [ViewModel](index.md)
+[common]\
+expect abstract class [ViewModel](index.md)
 
 [android]\
-abstract class [ViewModel](index.md) : [ViewModel](https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html)
+actual abstract class [ViewModel](index.md) : [ViewModel](https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html)
+
+[ios, js, jvm]\
+actual abstract class [ViewModel](index.md)
 
 ## Functions
 

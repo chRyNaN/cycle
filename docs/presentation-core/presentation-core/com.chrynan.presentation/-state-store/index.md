@@ -31,6 +31,7 @@ A component that retains the information about the current [State](../-state/ind
 | [isPendingStateUpdate](is-pending-state-update.md) | [common]<br>abstract val [isPendingStateUpdate](is-pending-state-update.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
 | [lastChange](last-change.md) | [common]<br>abstract val [lastChange](last-change.md): [C](index.md)? |
 | [lastIntent](last-intent.md) | [common]<br>abstract val [lastIntent](last-intent.md): [I](index.md)? |
+| [states](states.md) | [common]<br>abstract val [states](states.md): Flow&lt;[S](index.md)?&gt; |
 
 ## Inheritors
 

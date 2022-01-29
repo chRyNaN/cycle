@@ -26,8 +26,9 @@ A [Presenter](index.md) handles the presentation logic for a [View](../-view/ind
 |---|---|
 | [coroutineScope](coroutine-scope.md) | [common]<br>abstract val [coroutineScope](coroutine-scope.md): CoroutineScope<br>The CoroutineScope available to this [Presenter](index.md). |
 | [currentState](current-state.md) | [common]<br>abstract val [currentState](current-state.md): [S](index.md)?<br>The current [State](../-state/index.md) of type [S](index.md) that is being displayed in the [View](../-view/index.md). |
+| [intents](intents.md) | [common]<br>abstract val [intents](intents.md): Flow&lt;[I](index.md)&gt;<br>A Flow of all the [Intent](../-intent/index.md)s of type [I](index.md) that are emitted to this [Presenter](index.md). |
 | [isBound](is-bound.md) | [common]<br>abstract override val [isBound](is-bound.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)<br>Determines if this [Presenter](index.md) is bound to the [View](../-view/index.md) or not. A [Presenter](index.md) is bound to a [View](../-view/index.md) between calls to the [bind](bind.md) and [unbind](unbind.md) functions. Returns true if this [Presenter](index.md) is bound to the [View](../-view/index.md), false otherwise. |
-| [view](view.md) | [common]<br>abstract val [view](view.md): [View](../-view/index.md)&lt;[I](index.md), [S](index.md)&gt;<br>The [View](../-view/index.md) that this [Presenter](index.md) handles the presentation logic for. |
+| [renderStates](render-states.md) | [common]<br>abstract val [renderStates](render-states.md): Flow&lt;[S](index.md)&gt;<br>A Flow of all the [State](../-state/index.md)s of type [S](index.md) that are to be rendered in the [View](../-view/index.md). |
 
 ## Inheritors
 

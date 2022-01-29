@@ -3,4 +3,4 @@
 # invoke
 
 [common]\
-abstract operator override fun [invoke](invoke.md)(view: [View](../-view/index.md)&lt;[I](index.md), [S](index.md)&gt;): [BasePresenter](../-base-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt;
+abstract operator override fun [invoke](invoke.md)(intents: Flow&lt;[I](index.md)&gt;): [BasePresenter](../-base-presenter/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt;
