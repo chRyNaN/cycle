@@ -14,15 +14,11 @@ fun Home() {
 class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
 
     override val presenterFactory: PresenterFactory<HomeIntent, HomeState, HomeChange> =
-        PresenterFactory { view ->
-            Presenter(view) {
-                this.view.intents()
-                    .perform { intent, state -> ... }
-                    .reduce { state, change -> ... }
-                    .startWithInitialState()
-                    .render()
-                    .launchIn(coroutineScope)
-            }
+        PresenterFactory { intents ->
+            Presenter(
+                intents = intents,
+                perform = { intent, state -> ... },
+                reduce = { state, change -> ... })
         }
 
     @Composable
@@ -115,7 +111,7 @@ class HomePresenter @Inject constructor(
     override fun onBind() {
         super.onBind()
 
-        view.intents()
+        this.intents
             .perform { intent, state ->
                 when (intent) {
                     is HomeIntent.LoadInitial -> loadInitialAction(intent)

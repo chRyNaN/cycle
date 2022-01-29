@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.Flow
  *
  * Note that this interface is a functional interface, so an instance can be created like so:
  * ```kotlin
- * PresenterFactory { view -> }
+ * PresenterFactory { intents -> }
  * ```
  *
  * Example usage:
  * ```kotlin
- * PresenterFactory { view ->
- *     Presenter(view) {
+ * PresenterFactory { intents ->
+ *     Presenter(intents) {
  *         this.view.intents()
  *         .perform { intent, state -> ... }
  *         .reduce { state, change -> ... }
