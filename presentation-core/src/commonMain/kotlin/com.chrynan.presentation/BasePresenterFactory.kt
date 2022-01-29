@@ -20,15 +20,38 @@ operator fun <I : Intent, S : State, C : Change> BasePresenterFactory<I, S, C>.i
     invoke(intents = view.intents())
 
 internal class BasePresenterFactoryDelegate<I : Intent, S : State, C : Change>(
-    private val factory: BasePresenterFactory<I, S, C>
+    private val factory: BasePresenterFactory<I, S, C>,
+    private val retainInstance: Boolean = true
 ) : ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> {
 
+    private var presenter: BasePresenter<I, S, C>? = null
+
     override operator fun getValue(thisRef: View<I, S>, property: KProperty<*>): BasePresenter<I, S, C> =
-        factory.invoke(thisRef.intents())
+        if (retainInstance) {
+            var currentPresenter = presenter
+
+            if (currentPresenter == null) {
+                currentPresenter = factory.invoke(thisRef.intents())
+
+                presenter = currentPresenter
+
+                currentPresenter
+            } else {
+                currentPresenter
+            }
+        } else {
+            factory.invoke(thisRef.intents())
+        }
 }
 
-fun <I : Intent, S : State, C : Change> basePresenterFactory(factory: BasePresenterFactory<I, S, C>): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
-    BasePresenterFactoryDelegate(factory = factory)
+fun <I : Intent, S : State, C : Change> basePresenterFactory(
+    retainInstance: Boolean = true,
+    factory: BasePresenterFactory<I, S, C>
+): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
+    BasePresenterFactoryDelegate(factory = factory, retainInstance = retainInstance)
 
-fun <I : Intent, S : State, C : Change> basePresenterFactory(factory: (intents: Flow<I>) -> BasePresenter<I, S, C>): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
-    BasePresenterFactoryDelegate(factory = factory)
+fun <I : Intent, S : State, C : Change> basePresenterFactory(
+    retainInstance: Boolean = true,
+    factory: (intents: Flow<I>) -> BasePresenter<I, S, C>
+): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
+    BasePresenterFactoryDelegate(factory = factory, retainInstance = retainInstance)

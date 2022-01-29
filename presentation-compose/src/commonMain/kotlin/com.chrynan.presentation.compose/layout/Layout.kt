@@ -100,7 +100,7 @@ inline fun <I : Intent, S : State, C : Change> layout(
         override val key: Any?
             get() = key
 
-        override val presenter: Presenter<I, S, C> by presenterFactory(presenterFactory)
+        override val presenter: Presenter<I, S, C> by presenterFactory(factory = presenterFactory)
 
         @Composable
         override fun Content(state: S) {

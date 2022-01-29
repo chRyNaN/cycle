@@ -41,15 +41,38 @@ operator fun <I : Intent, S : State, C : Change> PresenterFactory<I, S, C>.invok
     invoke(intents = view.intents())
 
 internal class PresenterFactoryDelegate<I : Intent, S : State, C : Change>(
-    private val factory: PresenterFactory<I, S, C>
+    private val factory: PresenterFactory<I, S, C>,
+    private val retainInstance: Boolean = true
 ) : ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> {
 
+    private var presenter: Presenter<I, S, C>? = null
+
     override operator fun getValue(thisRef: View<I, S>, property: KProperty<*>): Presenter<I, S, C> =
-        factory.invoke(thisRef.intents())
+        if (retainInstance) {
+            var currentPresenter = presenter
+
+            if (currentPresenter == null) {
+                currentPresenter = factory.invoke(thisRef.intents())
+
+                presenter = currentPresenter
+
+                currentPresenter
+            } else {
+                currentPresenter
+            }
+        } else {
+            factory.invoke(thisRef.intents())
+        }
 }
 
-fun <I : Intent, S : State, C : Change> presenterFactory(factory: PresenterFactory<I, S, C>): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
-    PresenterFactoryDelegate(factory = factory)
+fun <I : Intent, S : State, C : Change> presenterFactory(
+    retainInstance: Boolean = true,
+    factory: PresenterFactory<I, S, C>
+): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
+    PresenterFactoryDelegate(factory = factory, retainInstance = retainInstance)
 
-fun <I : Intent, S : State, C : Change> presenterFactory(factory: (intents: Flow<I>) -> Presenter<I, S, C>): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
-    PresenterFactoryDelegate(factory = factory)
+fun <I : Intent, S : State, C : Change> presenterFactory(
+    retainInstance: Boolean = true,
+    factory: (intents: Flow<I>) -> Presenter<I, S, C>
+): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
+    PresenterFactoryDelegate(factory = factory, retainInstance = retainInstance)
