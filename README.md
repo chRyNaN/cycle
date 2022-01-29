@@ -7,19 +7,15 @@ and is easily compatible with modern UI Frameworks, such as Jetpack Compose.  <b
 
 ```kotlin
 @Composable
-fun Home() {
+fun App() {
     +HomeLayout()
 }
 
 class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
 
-    override val presenterFactory: PresenterFactory<HomeIntent, HomeState, HomeChange> =
-        PresenterFactory { intents ->
-            Presenter(
-                intents = intents,
+    override val presenter = Presenter(
                 perform = { intent, state -> ... },
                 reduce = { state, change -> ... })
-        }
 
     @Composable
     override fun Content(state: HomeState) {
@@ -141,7 +137,7 @@ the `Layout` class to simplify the implementation.
 ```kotlin
 class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
 
-    override val presenterFactory: PresenterFactory<HomeIntent, HomeState, HomeChange> = ... // Get the Presenter Factory
+    override val presenter: Presenter<HomeIntent, HomeState, HomeChange> = ... // Get the Presenter
 
     @Composable
     override fun Content(state: HomeState) {
@@ -155,8 +151,8 @@ Then we can include this `Layout` implementation in any `@Composable` function w
 
 ```kotlin
 @Composable
-fun Home() {
-    composeLayout(HomeLayout())
+fun App() {
+    ComposeLayout(HomeLayout())
 }
 ```
 
@@ -164,7 +160,7 @@ For convenience, we can also use the `unaryPlus` function which delegates to the
 
 ```kotlin
 @Composable
-fun Home() {
+fun App() {
     +HomeLayout()
 }
 ```

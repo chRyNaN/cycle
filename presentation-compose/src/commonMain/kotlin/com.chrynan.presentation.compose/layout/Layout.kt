@@ -131,11 +131,11 @@ inline fun <I : Intent, S : State, C : Change> layout(
     }
 
 /**
- * Lays out the provided [layout] as a [Composable].
+ * Renders the provided [layout] as a [Composable].
  */
 @Composable
 @Stable
-inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(layout: Layout<I, S, C>) {
+inline fun <reified I : Intent, reified S : State, reified C : Change> ComposeLayout(layout: Layout<I, S, C>) {
     val rememberedLayout by rememberUpdatedState(layout)
 
     val state by rememberedLayout.states.collectAsState(initial = null)
@@ -153,7 +153,7 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> composeLa
 /**
  * Lays out the provided [layout] as a [Composable].
  *
- * This is a convenience function for calling [composeLayout].
+ * This is a convenience function for calling [ComposeLayout].
  *
  * Example usage:
  * ```kotlin
@@ -165,5 +165,5 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> composeLa
  */
 @Composable
 inline operator fun <reified I : Intent, reified S : State, reified C : Change> Layout<I, S, C>.unaryPlus() {
-    composeLayout(layout = this)
+    ComposeLayout(layout = this)
 }
