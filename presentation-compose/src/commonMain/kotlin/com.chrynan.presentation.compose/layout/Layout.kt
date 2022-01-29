@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.filterNotNull
  *
  *     override val presenterFactory = ...
  *
- *     override fun OnLayout(state: HomeState) {
+ *     override fun Content(state: HomeState) {
  *         // Put Composable UI code here using the [state] value
  *     }
  * }
@@ -52,7 +52,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     override fun intents(): Flow<I> = intentsStateFlow.asStateFlow().filterNotNull()
 
     @Composable
-    abstract fun OnLayout(state: S)
+    abstract fun Content(state: S)
 
     override fun render(state: S) {
         statesStateFlow.value = state
@@ -96,13 +96,13 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
 }
 
 /**
- * Creates a [Layout] with the provided [key], [presenterFactory], and [onLayout] parameters.
+ * Creates a [Layout] with the provided [key], [presenterFactory], and [content] parameters.
  */
 @Suppress("NOTHING_TO_INLINE")
 inline fun <I : Intent, S : State, C : Change> layout(
     key: Any? = null,
     presenterFactory: PresenterFactory<I, S, C>,
-    noinline onLayout: @Composable (S) -> Unit
+    noinline content: @Composable (S) -> Unit
 ): Layout<I, S, C> =
     object : Layout<I, S, C>() {
 
@@ -113,8 +113,8 @@ inline fun <I : Intent, S : State, C : Change> layout(
             get() = presenterFactory
 
         @Composable
-        override fun OnLayout(state: S) {
-            onLayout.invoke(state)
+        override fun Content(state: S) {
+            content.invoke(state)
         }
     }
 
@@ -134,21 +134,21 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> composeLa
     }
 
     state?.let {
-        rememberedLayout.OnLayout(it)
+        rememberedLayout.Content(it)
     }
 }
 
 /**
- * Creates a [Layout] with the provided [key], [presenterFactory], and [onLayout] parameters and then lays out the
+ * Creates a [Layout] with the provided [key], [presenterFactory], and [content] parameters and then lays out the
  * layout as a [Composable].
  */
 @Composable
 inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(
     key: Any? = null,
     presenterFactory: PresenterFactory<I, S, C>,
-    noinline onLayout: @Composable (S) -> Unit
+    noinline content: @Composable (S) -> Unit
 ) {
-    val layout = layout(key = key, presenterFactory = presenterFactory, onLayout = onLayout)
+    val layout = layout(key = key, presenterFactory = presenterFactory, content = content)
 
     composeLayout(layout = layout)
 }

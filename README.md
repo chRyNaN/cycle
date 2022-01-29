@@ -26,7 +26,7 @@ class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
         }
 
     @Composable
-    override fun OnLayout(state: HomeState) {
+    override fun Content(state: HomeState) {
         when (state) {
             is HomeState.Loading -> {
                 CircularProgressIndicator()
@@ -148,7 +148,7 @@ class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
     override val presenterFactory: PresenterFactory<HomeIntent, HomeState, HomeChange> = ... // Get the Presenter Factory
 
     @Composable
-    override fun OnLayout(state: HomeState) {
+    override fun Content(state: HomeState) {
         // Render the UI based on the state that is available
         // Emit intents using the intent(to) function
     }
