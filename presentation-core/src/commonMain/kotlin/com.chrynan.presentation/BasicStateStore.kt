@@ -2,6 +2,7 @@ package com.chrynan.presentation
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class BasicStateStore<I : Intent, C : Change, S : State>(
     override val initialState: S? = null
@@ -11,7 +12,7 @@ class BasicStateStore<I : Intent, C : Change, S : State>(
         get() = mutableStates.value
 
     override val states: Flow<S?>
-        get() = mutableStates
+        get() = mutableStates.asStateFlow()
 
     override var lastIntent: I? = null
         private set
