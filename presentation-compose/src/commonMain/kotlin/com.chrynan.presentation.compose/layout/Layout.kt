@@ -30,7 +30,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
 
     open val key: Any? = this::class.simpleName
 
-    protected abstract val presenterFactory: PresenterFactory<I, S, C>
+    protected abstract val presenter: Presenter<I, S, C>
 
     override val renderState: S?
         get() = statesStateFlow.value
@@ -39,12 +39,10 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
         get() = statesStateFlow.asStateFlow().filterNotNull()
 
     override val isBound: Boolean
-        get() = presenter?.isBound ?: false
+        get() = presenter.isBound
 
     private val intentsStateFlow = MutableStateFlow<I?>(null)
     private val statesStateFlow = MutableStateFlow<S?>(null)
-
-    private var presenter: Presenter<I, S, C>? = null
 
     override fun intents(): Flow<I> = intentsStateFlow.asStateFlow().filterNotNull()
 
@@ -52,17 +50,11 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     abstract fun Content(state: S)
 
     override fun bind() {
-        if (presenter == null) {
-            presenter = presenterFactory.invoke(this)
-        }
+        presenter.bind()
 
-        presenter?.let {
-            it.bind()
-
-            it.renderStates
-                .onEach { state -> statesStateFlow.value = state }
-                .launchIn(it.coroutineScope)
-        }
+        presenter.renderStates
+            .onEach { state -> statesStateFlow.value = state }
+            .launchIn(presenter.coroutineScope)
 
         onBind()
     }
@@ -70,7 +62,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     override fun unbind() {
         onUnbind()
 
-        presenter?.unbind()
+        presenter.unbind()
     }
 
     protected open fun onBind() {
@@ -108,8 +100,29 @@ inline fun <I : Intent, S : State, C : Change> layout(
         override val key: Any?
             get() = key
 
-        override val presenterFactory: PresenterFactory<I, S, C>
-            get() = presenterFactory
+        override val presenter: Presenter<I, S, C> by presenterFactory(presenterFactory)
+
+        @Composable
+        override fun Content(state: S) {
+            content.invoke(state)
+        }
+    }
+
+/**
+ * Creates a [Layout] with the provided [key], [presenterFactory], and [content] parameters.
+ */
+@Suppress("NOTHING_TO_INLINE")
+inline fun <I : Intent, S : State, C : Change> layout(
+    key: Any? = null,
+    presenter: Presenter<I, S, C>,
+    noinline content: @Composable (S) -> Unit
+): Layout<I, S, C> =
+    object : Layout<I, S, C>() {
+
+        override val key: Any?
+            get() = key
+
+        override val presenter: Presenter<I, S, C> = presenter
 
         @Composable
         override fun Content(state: S) {
@@ -135,21 +148,6 @@ inline fun <reified I : Intent, reified S : State, reified C : Change> composeLa
     state?.let {
         rememberedLayout.Content(it)
     }
-}
-
-/**
- * Creates a [Layout] with the provided [key], [presenterFactory], and [content] parameters and then lays out the
- * layout as a [Composable].
- */
-@Composable
-inline fun <reified I : Intent, reified S : State, reified C : Change> composeLayout(
-    key: Any? = null,
-    presenterFactory: PresenterFactory<I, S, C>,
-    noinline content: @Composable (S) -> Unit
-) {
-    val layout = layout(key = key, presenterFactory = presenterFactory, content = content)
-
-    composeLayout(layout = layout)
 }
 
 /**

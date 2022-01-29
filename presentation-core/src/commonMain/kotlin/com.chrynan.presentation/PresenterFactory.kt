@@ -3,6 +3,8 @@
 package com.chrynan.presentation
 
 import kotlinx.coroutines.flow.Flow
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 /**
  * A component that can create a [Presenter]. This allows lazy instantiation of a [Presenter] which
@@ -37,3 +39,17 @@ fun interface PresenterFactory<I : Intent, S : State, C : Change> {
 
 operator fun <I : Intent, S : State, C : Change> PresenterFactory<I, S, C>.invoke(view: View<I, S>): Presenter<I, S, C> =
     invoke(intents = view.intents())
+
+internal class PresenterFactoryDelegate<I : Intent, S : State, C : Change>(
+    private val factory: PresenterFactory<I, S, C>
+) : ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> {
+
+    override operator fun getValue(thisRef: View<I, S>, property: KProperty<*>): Presenter<I, S, C> =
+        factory.invoke(thisRef.intents())
+}
+
+fun <I : Intent, S : State, C : Change> presenterFactory(factory: PresenterFactory<I, S, C>): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
+    PresenterFactoryDelegate(factory = factory)
+
+fun <I : Intent, S : State, C : Change> presenterFactory(factory: (intents: Flow<I>) -> Presenter<I, S, C>): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
+    PresenterFactoryDelegate(factory = factory)
