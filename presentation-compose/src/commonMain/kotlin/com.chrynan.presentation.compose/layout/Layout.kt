@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.*
  * ```
  * class HomeLayout : BaseLayout<HomeIntent, HomeState, HomeChange>() {
  *
- *     override val presenterFactory = ...
+ *     override val presenter = ...
  *
  *     override fun Content(state: HomeState) {
  *         // Put Composable UI code here using the [state] value
