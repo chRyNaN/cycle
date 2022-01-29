@@ -1,6 +1,7 @@
 package com.chrynan.presentation
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 
 /**
  * A [Presenter] handles the presentation logic for a [View]. It coordinates the different presentation components,
@@ -25,6 +26,11 @@ interface Presenter<I : Intent, S : State, C : Change> : Bindable {
      * The current [State] of type [S] that is being displayed in the [View].
      */
     val currentState: S?
+
+    /**
+     * A [Flow] of all the [State]s of type [S] that are to be rendered in the [View].
+     */
+    val renderStates: Flow<S>
 
     /**
      * The [View] that this [Presenter] handles the presentation logic for.
