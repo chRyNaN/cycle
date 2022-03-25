@@ -52,6 +52,9 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
 
     protected open val presenter: BasePresenter<INTENT, STATE, CHANGE>? = null
 
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected open val key: Any? = this::class.qualifiedName
+
     private val intentEvents = MutableStateFlow<IntentEvent<INTENT>?>(null)
 
     protected abstract fun render(state: STATE)
