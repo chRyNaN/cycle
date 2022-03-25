@@ -84,10 +84,13 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      * Converts this [Flow] of [Intent]s of type [I] into a [Flow] of [Change]s of type [C] using the provided [action].
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected open fun Flow<I>.performWith(action: Action<I, S, C>): Flow<C> =
+    protected open fun Flow<I>.performWith(
+        strategy: FlatMapStrategy = FlatMapStrategy.Latest,
+        action: Action<I, S, C>
+    ): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
-            .flatMapLatest { action(it, currentState) }
+            .flatMap(strategy = strategy) { action(it, currentState) }
             .flowOn(dispatchers.io)
 
     /**
@@ -95,10 +98,13 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
      * function.
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected open fun Flow<I>.perform(action: suspend (I, S?) -> Flow<C>): Flow<C> =
+    protected open fun Flow<I>.perform(
+        strategy: FlatMapStrategy = FlatMapStrategy.Latest,
+        action: suspend (I, S?) -> Flow<C>
+    ): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
-            .flatMapLatest { action(it, currentState) }
+            .flatMap(strategy = strategy) { action(it, currentState) }
             .flowOn(dispatchers.io)
 
     /**
