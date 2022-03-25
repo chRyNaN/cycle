@@ -2,28 +2,44 @@
 
 package com.chrynan.presentation
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
-import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 
 /**
  * An Android [Fragment] base implementation of a [View] for use with this library's MVI design pattern.
+ *
+ * Example usage:
+ *
+ * ```kotlin
+ * class HomeFragment : BasePresentationFragment<HomeIntent, HomeState, HomeChange>() {
+ *
+ *     override fun onCreateView(
+ *         inflater: LayoutInflater,
+ *         container: ViewGroup?,
+ *         savedInstanceState: Bundle?) = ...
+ *
+ *     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+ *         super.onViewCreated(view, savedInstanceState)
+ *
+ *         intent(to HomeIntent.Load)
+ *     }
+ *
+ *     override fun render(state: HomeState) {
+ *         when (state) { ... }
+ *     }
+ * }
+ * ```
  */
 abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE : Change> :
     Fragment(),
     View<INTENT, STATE> {
 
-    protected val states: Flow<STATE>
-        get() = statesStateFlow.asStateFlow().filterNotNull()
-
-    override val renderState: STATE?
-        get() = statesStateFlow.value
+    override var renderState: STATE? = null
+        protected set
 
     protected val currentState: STATE?
         get() = presenter?.currentState ?: renderState
@@ -37,9 +53,8 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
     protected open val presenter: BasePresenter<INTENT, STATE, CHANGE>? = null
 
     private val intentEvents = MutableStateFlow<IntentEvent<INTENT>?>(null)
-    private var statesStateFlow = MutableStateFlow<STATE?>(null)
 
-    private var weakReferenceActivity: WeakReference<Activity>? = null
+    protected abstract fun render(state: STATE)
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,27 +88,6 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
 
     override fun intentEvents(): Flow<IntentEvent<INTENT>> = intentEvents.asStateFlow().filterNotNull()
 
-    protected open fun onRefresh() {}
-
-    protected open fun goToFragment(
-        fragment: BasePresentationFragment<*, *, *>,
-        fragmentContainerId: Int
-    ) {
-        (activity as? BasePresentationActivity)?.goToFragment(
-            fragment = fragment,
-            fragmentContainerId = fragmentContainerId
-        )
-    }
-
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected open fun startActivitySafely(f: (Context) -> android.content.Intent) =
-        startActivity(f(requireContext()))
-
-    protected open fun startActivitySafelyAndFinish(f: (Context) -> android.content.Intent) =
-        startActivitySafely(f).also {
-            activity?.finish()
-        }
-
     protected fun intent(to: INTENT) {
         intentEvents.value = IntentEvent(intent = to)
     }
@@ -104,7 +98,10 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
                 it.bind()
 
                 it.renderStates
-                    .onEach { state -> statesStateFlow.value = state }
+                    .onEach { state ->
+                        render(state = state)
+                        renderState = state
+                    }
                     .launchIn(it.coroutineScope)
             }
         }
