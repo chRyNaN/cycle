@@ -36,10 +36,10 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 
                 // Coroutine Dispatchers
-                api("com.chrynan.dispatchers:dispatchers:0.2.3")
+                api("com.chrynan.dispatchers:dispatchers:0.3.0")
 
                 // Mapper
-                api("com.chrynan.mapper:mapper-core:1.5.2")
+                api("com.chrynan.mapper:mapper-core:1.6.0")
             }
         }
     }

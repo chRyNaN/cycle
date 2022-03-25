@@ -15,7 +15,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.10")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
-        classpath("org.jetbrains.compose:compose-gradle-plugin:1.0.1")
+        classpath("org.jetbrains.compose:compose-gradle-plugin:1.1.1")
     }
 }
 
