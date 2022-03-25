@@ -33,18 +33,18 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     protected abstract val presenter: Presenter<I, S, C>
 
     override val renderState: S?
-        get() = statesStateFlow.value
+        get() = renderStates.value
 
     override val states: Flow<S>
-        get() = statesStateFlow.asStateFlow().filterNotNull()
+        get() = renderStates.asStateFlow().filterNotNull()
 
     override val isBound: Boolean
         get() = presenter.isBound
 
-    private val intentsStateFlow = MutableStateFlow<I?>(null)
-    private val statesStateFlow = MutableStateFlow<S?>(null)
+    private val intentEvents = MutableStateFlow<IntentEvent<I>?>(null)
+    private val renderStates = MutableStateFlow<S?>(null)
 
-    override fun intents(): Flow<I> = intentsStateFlow.asStateFlow().filterNotNull()
+    override fun intentEvents(): Flow<IntentEvent<I>> = intentEvents.asStateFlow().filterNotNull()
 
     @Composable
     abstract fun Content(state: S)
@@ -53,7 +53,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
         presenter.bind()
 
         presenter.renderStates
-            .onEach { state -> statesStateFlow.value = state }
+            .onEach { state -> renderStates.value = state }
             .launchIn(presenter.coroutineScope)
 
         onBind()
@@ -72,7 +72,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     }
 
     protected fun intent(to: I) {
-        intentsStateFlow.value = to
+        intentEvents.value = IntentEvent(intent = to)
     }
 
     override fun equals(other: Any?): Boolean {
