@@ -78,6 +78,7 @@ fun <I : Intent, S : State, C : Change> View<I, S>.Presenter(
  *     reduce = { state, change -> ... })
  * ```
  */
+@OptIn(FlowPreview::class)
 @Suppress("FunctionName")
 fun <I : Intent, S : State, C : Change> Presenter(
     intents: Flow<I>,
@@ -98,14 +99,14 @@ fun <I : Intent, S : State, C : Change> Presenter(
 
         if (startWithInitialState) {
             this.intents
-                .perform(perform)
+                .perform(strategy = FlatMapStrategy.Latest, action = perform)
                 .reduce(reduce)
                 .startWithInitialState()
                 .render()
                 .launchIn(coroutineScope)
         } else {
             this.intents
-                .perform(perform)
+                .perform(strategy = FlatMapStrategy.Latest, action = perform)
                 .reduce(reduce)
                 .render()
                 .launchIn(coroutineScope)
@@ -124,6 +125,7 @@ fun <I : Intent, S : State, C : Change> Presenter(
  *     reduce = { state, change -> ... })
  * ```
  */
+@OptIn(FlowPreview::class)
 @Suppress("FunctionName")
 fun <I : Intent, S : State, C : Change> View<I, S>.Presenter(
     initialState: S? = null,
@@ -143,14 +145,14 @@ fun <I : Intent, S : State, C : Change> View<I, S>.Presenter(
 
         if (startWithInitialState) {
             this.intents
-                .perform(perform)
+                .perform(strategy = FlatMapStrategy.Latest, action = perform)
                 .reduce(reduce)
                 .startWithInitialState()
                 .render()
                 .launchIn(coroutineScope)
         } else {
             this.intents
-                .perform(perform)
+                .perform(strategy = FlatMapStrategy.Latest, action = perform)
                 .reduce(reduce)
                 .render()
                 .launchIn(coroutineScope)
@@ -187,17 +189,23 @@ class DelegatingPresenter<I : Intent, S : State, C : Change> internal constructo
     }
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    public override fun Flow<I>.performWith(action: Action<I, S, C>): Flow<C> =
+    public override fun Flow<I>.performWith(
+        strategy: FlatMapStrategy,
+        action: Action<I, S, C>
+    ): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
             .flatMapLatest { action(it, currentState) }
             .flowOn(dispatchers.io)
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    public override fun Flow<I>.perform(action: suspend (I, S?) -> Flow<C>): Flow<C> =
+    public override fun Flow<I>.perform(
+        strategy: FlatMapStrategy,
+        action: suspend (I, S?) -> Flow<C>
+    ): Flow<C> =
         flowOn(dispatchers.main)
             .onEach { stateStore.updateLastIntent(it) }
-            .flatMapLatest { action(it, currentState) }
+            .flatMap(strategy = strategy) { action(it, currentState) }
             .flowOn(dispatchers.io)
 
     public override fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S> =

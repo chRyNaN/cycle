@@ -19,11 +19,14 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
     Fragment(),
     View<INTENT, STATE> {
 
-    override val states: Flow<STATE>
+    protected val states: Flow<STATE>
         get() = statesStateFlow.asStateFlow().filterNotNull()
 
     override val renderState: STATE?
         get() = statesStateFlow.value
+
+    protected val currentState: STATE?
+        get() = presenter?.currentState ?: renderState
 
     protected open val coroutineScope: CoroutineScope = object : CoroutineScope {
 
@@ -33,10 +36,7 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
 
     protected open val presenter: BasePresenter<INTENT, STATE, CHANGE>? = null
 
-    protected val currentState: STATE?
-        get() = presenter?.currentState ?: renderState
-
-    private val intentsStateFlow = MutableStateFlow<INTENT?>(null)
+    private val intentEvents = MutableStateFlow<IntentEvent<INTENT>?>(null)
     private var statesStateFlow = MutableStateFlow<STATE?>(null)
 
     private var weakReferenceActivity: WeakReference<Activity>? = null
@@ -71,7 +71,7 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
         super.onDestroyView()
     }
 
-    override fun intents(): Flow<INTENT> = intentsStateFlow.asStateFlow().filterNotNull()
+    override fun intentEvents(): Flow<IntentEvent<INTENT>> = intentEvents.asStateFlow().filterNotNull()
 
     protected open fun onRefresh() {}
 
@@ -94,8 +94,8 @@ abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE :
             activity?.finish()
         }
 
-    protected fun emit(intent: INTENT) {
-        intentsStateFlow.value = intent
+    protected fun intent(to: INTENT) {
+        intentEvents.value = IntentEvent(intent = to)
     }
 
     private fun bindPresenter() {

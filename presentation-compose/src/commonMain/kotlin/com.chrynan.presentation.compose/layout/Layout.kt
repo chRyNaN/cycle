@@ -35,7 +35,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     override val renderState: S?
         get() = renderStates.value
 
-    override val states: Flow<S>
+    internal val states: Flow<S>
         get() = renderStates.asStateFlow().filterNotNull()
 
     override val isBound: Boolean
@@ -135,7 +135,7 @@ inline fun <I : Intent, S : State, C : Change> layout(
  */
 @Composable
 @Stable
-inline fun <reified I : Intent, reified S : State, reified C : Change> ComposeLayout(layout: Layout<I, S, C>) {
+fun <I : Intent, S : State, C : Change> ComposeLayout(layout: Layout<I, S, C>) {
     val rememberedLayout by rememberUpdatedState(layout)
 
     val state by rememberedLayout.states.collectAsState(initial = null)

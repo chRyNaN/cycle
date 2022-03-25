@@ -19,18 +19,10 @@ interface View<I : Intent, S : State> {
 
     /**
      * The currently rendered [State]. This property could briefly differ from the
-     * [Presenter.currentState] until that state is provided to the render function and is
+     * [Presenter.currentState] until that state is provided to the render function of this [View] and is
      * rendered to display.
      */
     val renderState: S?
-
-    /**
-     * A [Flow] of all of the [State]s. This [Flow] should emit all the distinct states provided
-     * to the render function.
-     *
-     * Note that the [Presenter] should not subscribe to these [states] as that would create a loop.
-     */
-    val states: Flow<S>
 
     /**
      * Provides all the [Intent]s of type [I] as a [Flow] to the caller. These can be caused by user input events
