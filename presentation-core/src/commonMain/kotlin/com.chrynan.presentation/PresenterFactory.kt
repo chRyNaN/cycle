@@ -65,12 +65,48 @@ internal class PresenterFactoryDelegate<I : Intent, S : State, C : Change>(
         }
 }
 
+/**
+ * Creates a [PresenterFactory] delegate.
+ *
+ * Example usage:
+ *
+ * ```kotlin
+ * val presenter by presenterFactory { intents ->
+ *     Presenter(intents) {
+ *         this.view.intents()
+ *         .perform { intent, state -> ... }
+ *         .reduce { state, change -> ... }
+ *         .startWithInitialState()
+ *         .render()
+ *         .launchIn(coroutineScope)
+ *     }
+ * }
+ * ```
+ */
 fun <I : Intent, S : State, C : Change> presenterFactory(
     retainInstance: Boolean = true,
     factory: PresenterFactory<I, S, C>
 ): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
     PresenterFactoryDelegate(factory = factory, retainInstance = retainInstance)
 
+/**
+ * Creates a [PresenterFactory] delegate.
+ *
+ * Example usage:
+ *
+ * ```kotlin
+ * val presenter by presenterFactory { intents ->
+ *     Presenter(intents) {
+ *         this.view.intents()
+ *         .perform { intent, state -> ... }
+ *         .reduce { state, change -> ... }
+ *         .startWithInitialState()
+ *         .render()
+ *         .launchIn(coroutineScope)
+ *     }
+ * }
+ * ```
+ */
 fun <I : Intent, S : State, C : Change> presenterFactory(
     retainInstance: Boolean = true,
     factory: (intents: Flow<I>) -> Presenter<I, S, C>
