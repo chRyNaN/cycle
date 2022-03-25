@@ -23,6 +23,7 @@ kotlin {
             nodejs()
         }
         ios()
+        iosSimulatorArm64()
     }
     sourceSets {
         all {
@@ -42,6 +43,9 @@ kotlin {
                 api("com.chrynan.mapper:mapper-core:1.6.0")
             }
         }
+        val iosMain by sourceSets.getting
+        val iosSimulatorArm64Main by sourceSets.getting
+        iosSimulatorArm64Main.dependsOn(iosMain)
     }
 }
 
