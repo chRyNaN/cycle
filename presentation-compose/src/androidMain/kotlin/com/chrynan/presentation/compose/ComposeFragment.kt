@@ -14,7 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import com.chrynan.presentation.BasePresentationFragment
+import com.chrynan.presentation.PresentationFragment
 import com.chrynan.presentation.Change
 import com.chrynan.presentation.Intent
 import com.chrynan.presentation.State
@@ -24,12 +24,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
 /**
- * An implementation of a [BasePresentationFragment] that supports Jetpack Compose.
+ * An implementation of a [PresentationFragment] that supports Jetpack Compose.
  *
  * Example Usage:
  *
  * ```kotlin
- * class HomeFragment : BaseComposeFragment<HomeIntent, HomeState, HomeChange>() {
+ * class HomeFragment : ComposeFragment<HomeIntent, HomeState, HomeChange>() {
  *
  *     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
  *         super.onViewCreated(view, savedInstanceState)
@@ -44,8 +44,8 @@ import kotlinx.coroutines.flow.filterNotNull
  * }
  * ```
  */
-abstract class BaseComposeFragment<INTENT : Intent, STATE : State, CHANGE : Change> :
-    BasePresentationFragment<INTENT, STATE, CHANGE>() {
+abstract class ComposeFragment<INTENT : Intent, STATE : State, CHANGE : Change> :
+    PresentationFragment<INTENT, STATE, CHANGE>() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val states: Flow<STATE>

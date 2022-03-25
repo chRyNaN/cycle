@@ -15,7 +15,7 @@ import kotlin.coroutines.CoroutineContext
  * Example usage:
  *
  * ```kotlin
- * class HomeFragment : BasePresentationFragment<HomeIntent, HomeState, HomeChange>() {
+ * class HomeFragment : PresentationFragment<HomeIntent, HomeState, HomeChange>() {
  *
  *     override fun onCreateView(
  *         inflater: LayoutInflater,
@@ -34,7 +34,7 @@ import kotlin.coroutines.CoroutineContext
  * }
  * ```
  */
-abstract class BasePresentationFragment<INTENT : Intent, STATE : State, CHANGE : Change> :
+abstract class PresentationFragment<INTENT : Intent, STATE : State, CHANGE : Change> :
     Fragment(),
     View<INTENT, STATE> {
 
