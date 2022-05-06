@@ -71,15 +71,19 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     abstract fun Content()
 
     final override fun bind() {
-        presenter.bind()
+        if (!isBound) {
+            presenter.bind()
 
-        onBind()
+            onBind()
+        }
     }
 
     final override fun unbind() {
-        onUnbind()
+        if (isBound) {
+            onUnbind()
 
-        presenter.unbind()
+            presenter.unbind()
+        }
     }
 
     protected open fun onBind() {
