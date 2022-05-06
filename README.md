@@ -18,7 +18,9 @@ class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
                 reduce = { state, change -> ... })
 
     @Composable
-    override fun Content(state: HomeState) {
+    override fun Content() {
+        val state by stateChanges()
+        
         when (state) {
             is HomeState.Loading -> {
                 CircularProgressIndicator()

@@ -50,7 +50,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
      * implementations if they need more control over the state flow, otherwise, prefer the [stateChanges] function.
      */
     protected val states: StateFlow<S?>
-        get() = renderStates.asStateFlow()
+        get() = presenter.renderStates
 
     override fun intentEvents(): Flow<IntentEvent<I>> = intentEvents.asStateFlow().filterNotNull()
 
@@ -72,10 +72,6 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
 
     final override fun bind() {
         presenter.bind()
-
-        presenter.renderStates
-            .onEach { state -> renderStates.value = state }
-            .launchIn(presenter.coroutineScope)
 
         onBind()
     }

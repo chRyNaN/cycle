@@ -20,8 +20,8 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     override val currentState: S?
         get() = stateStore.currentState
 
-    override val renderStates: Flow<S>
-        get() = stateStore.states.filterNotNull()
+    override val renderStates: StateFlow<S?>
+        get() = stateStore.states
 
     override val coroutineScope: CoroutineScope = object : CoroutineScope {
 

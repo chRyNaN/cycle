@@ -1,6 +1,6 @@
 package com.chrynan.presentation
 
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * A component that retains the information about the current [State] for a [Presenter].
@@ -11,7 +11,7 @@ interface StateStore<I : Intent, C : Change, S : State> {
 
     val currentState: S?
 
-    val states: Flow<S?>
+    val states: StateFlow<S?>
 
     val lastIntent: I?
 
