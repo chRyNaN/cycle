@@ -23,7 +23,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     override val renderStates: StateFlow<S?>
         get() = stateStore.states
 
-    override val coroutineScope: CoroutineScope = object : CoroutineScope {
+    val coroutineScope: CoroutineScope = object : CoroutineScope {
 
         override val coroutineContext: CoroutineContext
             get() = job + dispatchers.main

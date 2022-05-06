@@ -57,7 +57,7 @@ abstract class PresentationFragment<INTENT : Intent, STATE : State, CHANGE : Cha
 
     private val intentEvents = MutableStateFlow<IntentEvent<INTENT>?>(null)
 
-    protected abstract fun render(state: STATE)
+    protected abstract fun render(state: STATE?)
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -105,7 +105,7 @@ abstract class PresentationFragment<INTENT : Intent, STATE : State, CHANGE : Cha
                         render(state = state)
                         renderState = state
                     }
-                    .launchIn(it.coroutineScope)
+                    .launchIn(coroutineScope)
             }
         }
     }
