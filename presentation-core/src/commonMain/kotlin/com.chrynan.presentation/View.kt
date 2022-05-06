@@ -32,18 +32,18 @@ interface View<I : Intent, S : State> {
      * perform the appropriate [Action]s.
      *
      * Note that the default implementation of this function returns the result of the [intentEvents] function mapped
-     * to just the [IntentEvent.intent] values.
+     * to just the [Event.value] values.
      *
      * @see [intentEvents]
      */
-    fun intents(): Flow<I> = intentEvents().map { it.intent }
+    fun intents(): Flow<I> = intentEvents().map { it.value }
 
     /**
-     * Retrieves a [Flow] of [IntentEvent]s that are emitted by this [View].
+     * Retrieves a [Flow] of [Event]s that are emitted by this [View].
      *
      * @see [intents]
      */
-    fun intentEvents(): Flow<IntentEvent<I>>
+    fun intentEvents(): Flow<Event<I>>
 
     companion object
 }

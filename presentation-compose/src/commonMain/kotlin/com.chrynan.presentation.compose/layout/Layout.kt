@@ -42,7 +42,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     override val isBound: Boolean
         get() = presenter.isBound
 
-    private val intentEvents = MutableStateFlow<IntentEvent<I>?>(null)
+    private val intentEvents = MutableStateFlow<Event<I>?>(null)
     private val renderStates = MutableStateFlow<S?>(null)
 
     /**
@@ -52,7 +52,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
     protected val states: StateFlow<S?>
         get() = presenter.renderStates
 
-    override fun intentEvents(): Flow<IntentEvent<I>> = intentEvents.asStateFlow().filterNotNull()
+    override fun intentEvents(): Flow<Event<I>> = intentEvents.asStateFlow().filterNotNull()
 
     /**
      * Renders the UI content for this Layout.
@@ -97,7 +97,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
      * rendered.
      */
     protected fun intent(to: I) {
-        intentEvents.value = IntentEvent(intent = to)
+        intentEvents.value = Event(value = to)
     }
 
     /**

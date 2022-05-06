@@ -72,7 +72,7 @@ abstract class ComposeFragment<INTENT : Intent, STATE : State, CHANGE : Change> 
             }
         }
 
-    override fun render(state: STATE) {
+    override fun render(state: STATE?) {
         renderStates.value = state
     }
 

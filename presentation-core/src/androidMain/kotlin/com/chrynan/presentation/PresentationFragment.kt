@@ -55,7 +55,7 @@ abstract class PresentationFragment<INTENT : Intent, STATE : State, CHANGE : Cha
     @Suppress("MemberVisibilityCanBePrivate")
     protected open val key: Any? = this::class.qualifiedName
 
-    private val intentEvents = MutableStateFlow<IntentEvent<INTENT>?>(null)
+    private val intentEvents = MutableStateFlow<Event<INTENT>?>(null)
 
     protected abstract fun render(state: STATE?)
 
@@ -89,10 +89,10 @@ abstract class PresentationFragment<INTENT : Intent, STATE : State, CHANGE : Cha
         super.onDestroyView()
     }
 
-    override fun intentEvents(): Flow<IntentEvent<INTENT>> = intentEvents.asStateFlow().filterNotNull()
+    override fun intentEvents(): Flow<Event<INTENT>> = intentEvents.asStateFlow().filterNotNull()
 
     protected fun intent(to: INTENT) {
-        intentEvents.value = IntentEvent(intent = to)
+        intentEvents.value = Event(value = to)
     }
 
     private fun bindPresenter() {
