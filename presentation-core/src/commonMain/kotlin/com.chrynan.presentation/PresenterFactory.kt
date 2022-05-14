@@ -2,7 +2,6 @@
 
 package com.chrynan.presentation
 
-import kotlinx.coroutines.flow.Flow
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -32,27 +31,24 @@ import kotlin.reflect.KProperty
  */
 fun interface PresenterFactory<I : Intent, S : State, C : Change> {
 
-    operator fun invoke(intents: Flow<I>): Presenter<I, S, C>
+    operator fun invoke(): Presenter<I, S, C>
 
     companion object
 }
 
-operator fun <I : Intent, S : State, C : Change> PresenterFactory<I, S, C>.invoke(view: View<I, S>): Presenter<I, S, C> =
-    invoke(intents = view.intents())
-
 internal class PresenterFactoryDelegate<I : Intent, S : State, C : Change>(
     private val factory: PresenterFactory<I, S, C>,
     private val retainInstance: Boolean = true
-) : ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> {
+) : ReadOnlyProperty<View<I, S, C>, Presenter<I, S, C>> {
 
     private var presenter: Presenter<I, S, C>? = null
 
-    override operator fun getValue(thisRef: View<I, S>, property: KProperty<*>): Presenter<I, S, C> =
+    override operator fun getValue(thisRef: View<I, S, C>, property: KProperty<*>): Presenter<I, S, C> =
         if (retainInstance) {
             var currentPresenter = presenter
 
             if (currentPresenter == null) {
-                currentPresenter = factory.invoke(thisRef.intents())
+                currentPresenter = factory.invoke()
 
                 presenter = currentPresenter
 
@@ -61,7 +57,7 @@ internal class PresenterFactoryDelegate<I : Intent, S : State, C : Change>(
                 currentPresenter
             }
         } else {
-            factory.invoke(thisRef.intents())
+            factory.invoke()
         }
 }
 
@@ -86,7 +82,7 @@ internal class PresenterFactoryDelegate<I : Intent, S : State, C : Change>(
 fun <I : Intent, S : State, C : Change> presenterFactory(
     retainInstance: Boolean = true,
     factory: PresenterFactory<I, S, C>
-): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
+): ReadOnlyProperty<View<I, S, C>, Presenter<I, S, C>> =
     PresenterFactoryDelegate(factory = factory, retainInstance = retainInstance)
 
 /**
@@ -109,6 +105,6 @@ fun <I : Intent, S : State, C : Change> presenterFactory(
  */
 fun <I : Intent, S : State, C : Change> presenterFactory(
     retainInstance: Boolean = true,
-    factory: (intents: Flow<I>) -> Presenter<I, S, C>
-): ReadOnlyProperty<View<I, S>, Presenter<I, S, C>> =
+    factory: () -> Presenter<I, S, C>
+): ReadOnlyProperty<View<I, S, C>, Presenter<I, S, C>> =
     PresenterFactoryDelegate(factory = factory, retainInstance = retainInstance)

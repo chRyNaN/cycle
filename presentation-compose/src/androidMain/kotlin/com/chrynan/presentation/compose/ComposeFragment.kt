@@ -6,22 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.chrynan.presentation.PresentationFragment
 import com.chrynan.presentation.Change
 import com.chrynan.presentation.Intent
 import com.chrynan.presentation.State
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 
 /**
  * An implementation of a [PresentationFragment] that supports Jetpack Compose.
@@ -44,17 +35,12 @@ import kotlinx.coroutines.flow.filterNotNull
  * }
  * ```
  */
-abstract class ComposeFragment<INTENT : Intent, STATE : State, CHANGE : Change> :
-    PresentationFragment<INTENT, STATE, CHANGE>() {
-
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected val states: Flow<STATE>
-        get() = renderStates.asStateFlow().filterNotNull()
-
-    private val renderStates = MutableStateFlow<STATE?>(null)
+abstract class ComposeFragment<I : Intent, S : State, C : Change> :
+    PresentationFragment<I, S, C>(),
+    com.chrynan.presentation.View<I, S, C> {
 
     @Composable
-    abstract fun Content(state: STATE)
+    abstract fun Content()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         ComposeView(requireContext()).apply {
@@ -66,28 +52,13 @@ abstract class ComposeFragment<INTENT : Intent, STATE : State, CHANGE : Change> 
             composeViewInitializer()
 
             setContent {
-                val state by states.collectAsState(initial = null)
-
-                ContentWrapper(state = state)
+                this@ComposeFragment.Content()
             }
         }
 
-    override fun render(state: STATE?) {
-        renderStates.value = state
+    override fun render() {
+        // No-op - handled by the Content function
     }
 
     open fun ComposeView.composeViewInitializer() {}
-
-    @Composable
-    open fun ContentWrapper(state: STATE?) {
-        AnimatedVisibility(
-            visible = state != null,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            state?.let {
-                Content(it)
-            }
-        }
-    }
 }

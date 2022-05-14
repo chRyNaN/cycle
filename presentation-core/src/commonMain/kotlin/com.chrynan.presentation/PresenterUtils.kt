@@ -11,37 +11,6 @@ import kotlinx.coroutines.flow.*
  *
  * Example usage:
  * ```kotlin
- * Presenter<I, S, C>(intents = intents) {
- *     this.intents
- *         .perform { intent, state -> ... }
- *         .reduce { state, change -> ... }
- *         .startWithInitialState()
- *         .render()
- *         .launchIn(coroutineScope)
- * }
- * ```
- */
-@Suppress("FunctionName")
-fun <I : Intent, S : State, C : Change> Presenter(
-    intents: Flow<I>,
-    initialState: S? = null,
-    dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
-    onUnbind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
-    onBind: DelegatingPresenter<I, S, C>.() -> Unit
-): DelegatingPresenter<I, S, C> = DelegatingPresenter(
-    intents = intents,
-    initialState = initialState,
-    dispatchers = dispatchers,
-    onUnbind = onUnbind,
-    onBind = onBind
-)
-
-/**
- * A convenience function to create a [Presenter] without having to directly create an implementation. This could be
- * especially useful for simple applications that don't have complex dependency management and testing requirements.
- *
- * Example usage:
- * ```kotlin
  * Presenter<I, S, C> {
  *     this.intents
  *         .perform { intent, state -> ... }
@@ -53,13 +22,12 @@ fun <I : Intent, S : State, C : Change> Presenter(
  * ```
  */
 @Suppress("FunctionName")
-fun <I : Intent, S : State, C : Change> View<I, S>.Presenter(
+fun <I : Intent, S : State, C : Change> Presenter(
     initialState: S? = null,
     dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     onUnbind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
     onBind: DelegatingPresenter<I, S, C>.() -> Unit
 ): DelegatingPresenter<I, S, C> = DelegatingPresenter(
-    intents = this.intents(),
     initialState = initialState,
     dispatchers = dispatchers,
     onUnbind = onUnbind,
@@ -73,7 +41,6 @@ fun <I : Intent, S : State, C : Change> View<I, S>.Presenter(
  * Example usage:
  * ```kotlin
  * Presenter<I, S, C>(
- *     intents = intents,
  *     perform = { intent, state -> ... },
  *     reduce = { state, change -> ... })
  * ```
@@ -81,16 +48,16 @@ fun <I : Intent, S : State, C : Change> View<I, S>.Presenter(
 @OptIn(FlowPreview::class)
 @Suppress("FunctionName")
 fun <I : Intent, S : State, C : Change> Presenter(
-    intents: Flow<I>,
     initialState: S? = null,
     dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     onUnbind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
     onBind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
+    onError: (() -> Unit)? = null,
     startWithInitialState: Boolean = true,
+    flatMapStrategy: FlatMapStrategy = FlatMapStrategy.Latest,
     perform: suspend (I, S?) -> Flow<C>,
     reduce: suspend (S?, C) -> S
 ): DelegatingPresenter<I, S, C> = DelegatingPresenter(
-    intents = intents,
     initialState = initialState,
     dispatchers = dispatchers,
     onUnbind = onUnbind,
@@ -99,62 +66,18 @@ fun <I : Intent, S : State, C : Change> Presenter(
 
         if (startWithInitialState) {
             this.intents
-                .perform(strategy = FlatMapStrategy.Latest, action = perform)
+                .perform(strategy = flatMapStrategy, action = perform)
                 .reduce(reduce)
                 .startWithInitialState()
                 .render()
+                .catch { onError?.invoke() }
                 .launchIn(coroutineScope)
         } else {
             this.intents
-                .perform(strategy = FlatMapStrategy.Latest, action = perform)
+                .perform(strategy = flatMapStrategy, action = perform)
                 .reduce(reduce)
                 .render()
-                .launchIn(coroutineScope)
-        }
-    }
-)
-
-/**
- * A convenience function to create a [Presenter] without having to directly create an implementation. This could be
- * especially useful for simple applications that don't have complex dependency management and testing requirements.
- *
- * Example usage:
- * ```kotlin
- * Presenter<I, S, C>(
- *     perform = { intent, state -> ... },
- *     reduce = { state, change -> ... })
- * ```
- */
-@OptIn(FlowPreview::class)
-@Suppress("FunctionName")
-fun <I : Intent, S : State, C : Change> View<I, S>.Presenter(
-    initialState: S? = null,
-    dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
-    onUnbind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
-    onBind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,
-    startWithInitialState: Boolean = true,
-    perform: suspend (I, S?) -> Flow<C>,
-    reduce: suspend (S?, C) -> S
-): DelegatingPresenter<I, S, C> = DelegatingPresenter(
-    intents = this.intents(),
-    initialState = initialState,
-    dispatchers = dispatchers,
-    onUnbind = onUnbind,
-    onBind = {
-        onBind?.invoke(this)
-
-        if (startWithInitialState) {
-            this.intents
-                .perform(strategy = FlatMapStrategy.Latest, action = perform)
-                .reduce(reduce)
-                .startWithInitialState()
-                .render()
-                .launchIn(coroutineScope)
-        } else {
-            this.intents
-                .perform(strategy = FlatMapStrategy.Latest, action = perform)
-                .reduce(reduce)
-                .render()
+                .catch { onError?.invoke() }
                 .launchIn(coroutineScope)
         }
     }
@@ -166,7 +89,6 @@ fun <I : Intent, S : State, C : Change> View<I, S>.Presenter(
  * be called in a scoped context.
  */
 class DelegatingPresenter<I : Intent, S : State, C : Change> internal constructor(
-    override val intents: Flow<I>,
     initialState: S? = null,
     dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     private val onUnbind: (DelegatingPresenter<I, S, C>.() -> Unit)? = null,

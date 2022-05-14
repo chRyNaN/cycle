@@ -34,15 +34,12 @@ import kotlin.coroutines.CoroutineContext
  * }
  * ```
  */
-abstract class PresentationFragment<INTENT : Intent, STATE : State, CHANGE : Change> :
+abstract class PresentationFragment<I : Intent, S : State, C : Change> :
     Fragment(),
-    View<INTENT, STATE> {
+    View<I, S, C> {
 
-    override var renderState: STATE? = null
-        protected set
-
-    protected val currentState: STATE?
-        get() = presenter?.currentState ?: renderState
+    override val renderState: S?
+        get() = presenter.currentState
 
     protected open val coroutineScope: CoroutineScope = object : CoroutineScope {
 
@@ -50,14 +47,12 @@ abstract class PresentationFragment<INTENT : Intent, STATE : State, CHANGE : Cha
             get() = lifecycleScope.coroutineContext
     }
 
-    protected open val presenter: BasePresenter<INTENT, STATE, CHANGE>? = null
+    abstract override val presenter: BasePresenter<I, S, C>
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected open val key: Any? = this::class.qualifiedName
 
-    private val intentEvents = MutableStateFlow<Event<INTENT>?>(null)
-
-    protected abstract fun render(state: STATE?)
+    protected abstract fun render()
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,40 +67,31 @@ abstract class PresentationFragment<INTENT : Intent, STATE : State, CHANGE : Cha
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        presenter?.unbind()
+        presenter.unbind()
 
         super.onSaveInstanceState(outState)
     }
 
     override fun onPause() {
-        presenter?.unbind()
+        presenter.unbind()
 
         super.onPause()
     }
 
     override fun onDestroyView() {
-        presenter?.unbind()
+        presenter.unbind()
 
         super.onDestroyView()
     }
 
-    override fun intentEvents(): Flow<Event<INTENT>> = intentEvents.asStateFlow().filterNotNull()
-
-    protected fun intent(to: INTENT) {
-        intentEvents.value = Event(value = to)
-    }
+    protected fun stateChanges(): Flow<S?> = presenter.renderStates
 
     private fun bindPresenter() {
-        presenter?.let {
+        presenter.let {
             if (!it.isBound) {
                 it.bind()
 
-                it.renderStates
-                    .onEach { state ->
-                        render(state = state)
-                        renderState = state
-                    }
-                    .launchIn(coroutineScope)
+                render()
             }
         }
     }

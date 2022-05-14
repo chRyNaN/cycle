@@ -20,17 +20,20 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     override val currentState: S?
         get() = stateStore.currentState
 
-    override val renderStates: StateFlow<S?>
-        get() = stateStore.states
+    override val renderStates: Flow<S?>
+        get() = stateStore.states.map { it.value }
+
+    override val intents: Flow<I>
+        get() = stateStore.intents.mapNotNull { it?.value }
+
+    override var isBound = false
+        internal set
 
     val coroutineScope: CoroutineScope = object : CoroutineScope {
 
         override val coroutineContext: CoroutineContext
             get() = job + dispatchers.main
     }
-
-    override var isBound = false
-        internal set
 
     protected open val stateStore: StateStore<I, C, S> = BasicStateStore(initialState)
 
@@ -62,6 +65,10 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
         }
     }
 
+    override fun intent(to: I) {
+        stateStore.updateLastIntent(intent = to)
+    }
+
     /**
      * This function will be invoked when this Presenters [bind] function is called when this
      * Presenter is not already bound.
@@ -89,7 +96,6 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
         action: Action<I, S, C>
     ): Flow<C> =
         flowOn(dispatchers.main)
-            .onEach { stateStore.updateLastIntent(it) }
             .flatMap(strategy = strategy) { action(it, currentState) }
             .flowOn(dispatchers.io)
 
@@ -103,7 +109,6 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
         action: suspend (I, S?) -> Flow<C>
     ): Flow<C> =
         flowOn(dispatchers.main)
-            .onEach { stateStore.updateLastIntent(it) }
             .flatMap(strategy = strategy) { action(it, currentState) }
             .flowOn(dispatchers.io)
 

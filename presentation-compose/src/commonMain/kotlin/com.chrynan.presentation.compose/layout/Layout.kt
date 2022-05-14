@@ -6,9 +6,6 @@ import androidx.compose.runtime.*
 import com.chrynan.presentation.*
 import com.chrynan.presentation.State
 import com.chrynan.presentation.Change
-import kotlinx.coroutines.flow.*
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * A component that implements the [View] interface and serves as the binding between this presentation library and
@@ -29,30 +26,18 @@ import kotlin.coroutines.EmptyCoroutineContext
  * ```
  */
 @Stable
-abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
+abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
     Bindable {
 
     open val key: Any? = this::class.simpleName
 
-    protected abstract val presenter: Presenter<I, S, C>
+    abstract override val presenter: Presenter<I, S, C>
 
     override val renderState: S?
-        get() = renderStates.value
+        get() = presenter.currentState
 
     override val isBound: Boolean
         get() = presenter.isBound
-
-    private val intentEvents = MutableStateFlow<Event<I>?>(null)
-    private val renderStates = MutableStateFlow<S?>(null)
-
-    /**
-     * A [StateFlow] of all the [State]s rendered to this [Layout]. This is provided as a convenience for the [Layout]
-     * implementations if they need more control over the state flow, otherwise, prefer the [stateChanges] function.
-     */
-    protected val states: StateFlow<S?>
-        get() = presenter.renderStates
-
-    override fun intentEvents(): Flow<Event<I>> = intentEvents.asStateFlow().filterNotNull()
 
     /**
      * Renders the UI content for this Layout.
@@ -91,56 +76,6 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S>,
 
     protected open fun onUnbind() {
     }
-
-    /**
-     * Emits the provided [to] [Intent] value to trigger an action, that may eventually result in a new [State] being
-     * rendered.
-     */
-    protected fun intent(to: I) {
-        intentEvents.value = Event(value = to)
-    }
-
-    /**
-     * Obtains the changes to the underlying [State] as a Jetpack Compose [androidx.compose.runtime.State] value, so
-     * that the changes can cause the [Composable] function to be re-composed.
-     *
-     * Example usage:
-     * ```
-     * @Composable
-     * override fun Content() {
-     *     val state by stateChanges()
-     *
-     *     // Create the UI using the 'state' variable
-     * }
-     * ```
-     */
-    @Composable
-    protected fun stateChanges(context: CoroutineContext = EmptyCoroutineContext): androidx.compose.runtime.State<S?> =
-        renderStates.asStateFlow()
-            .collectAsState(context = context)
-
-    /**
-     * Obtains the changes to the underlying [State], starting with the provided [initial] value, as a Jetpack Compose
-     * [androidx.compose.runtime.State] value, so that the changes can cause the [Composable] function to be
-     * re-composed.
-     *
-     * Example usage:
-     * ```
-     * @Composable
-     * override fun Content() {
-     *     val state by stateChanges()
-     *
-     *     // Create the UI using the 'state' variable
-     * }
-     * ```
-     */
-    @Composable
-    protected fun stateChanges(
-        initial: S?,
-        context: CoroutineContext = EmptyCoroutineContext
-    ): androidx.compose.runtime.State<S?> =
-        renderStates.asStateFlow()
-            .collectAsState(initial = initial, context = context)
 
     override fun equals(other: Any?): Boolean {
         if (other !is Layout<*, *, *>) return false

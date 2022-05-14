@@ -2,20 +2,17 @@
 
 package com.chrynan.presentation
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-
 /**
  * Represents a piece of UI, such as, a Screen. A [View] emits [Intent]s of type [I] that are accessible to callers of
  * the [intents] function. A [View] displays the UI for a provided [State] when the render function is called.
- * Other than the render function being called, a [View] should avoid updating it's UI state internally as it desires
+ * Other than the render function being called, a [View] should avoid updating its UI state internally as it desires
  * (excluding non-UI state changes such as immediate and temporary reactions to [Intent]s, such as, the background
- * color briefly changing when the User clicks on a item in a list).
+ * color briefly changing when the User clicks on an item in a list).
  *
  * A [View] typically contains a [Presenter] which is responsible for listening to the [View]s [intents] and performing
  * all the logic to derive a new [State] which it then passes back to the [View] via the render function.
  */
-interface View<I : Intent, S : State> {
+interface View<I : Intent, S : State, C : Change> {
 
     /**
      * The currently rendered [State]. This property could briefly differ from the
@@ -24,26 +21,15 @@ interface View<I : Intent, S : State> {
      */
     val renderState: S?
 
-    /**
-     * Provides all the [Intent]s of type [I] as a [Flow] to the caller. These can be caused by user input events
-     * (clicks, scrolls, etc.) or by other means.
-     *
-     * Note that this function should be called from the [Presenter] so that it can subscribe to the [Intent]s and
-     * perform the appropriate [Action]s.
-     *
-     * Note that the default implementation of this function returns the result of the [intentEvents] function mapped
-     * to just the [Event.value] values.
-     *
-     * @see [intentEvents]
-     */
-    fun intents(): Flow<I> = intentEvents().map { it.value }
-
-    /**
-     * Retrieves a [Flow] of [Event]s that are emitted by this [View].
-     *
-     * @see [intents]
-     */
-    fun intentEvents(): Flow<Event<I>>
+    val presenter: Presenter<I, S, C>
 
     companion object
+}
+
+/**
+ * Emits the provided [to] [Intent] value to trigger an action, that may eventually result in a new [State] being
+ * rendered.
+ */
+fun <I : Intent, S : State, C : Change> View<I, S, C>.intent(to: I) {
+    presenter.intent(to = to)
 }

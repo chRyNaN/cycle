@@ -8,41 +8,42 @@ class BasicStateStore<I : Intent, C : Change, S : State>(
     override val initialState: S? = null
 ) : StateStore<I, C, S> {
 
-    override val currentState: S?
-        get() = mutableStates.value
-
-    override val states: StateFlow<S?>
-        get() = mutableStates.asStateFlow()
-
-    override var lastIntent: I? = null
-        private set
-
-    override var lastChange: C? = null
-        private set
-
     override var isPendingStateUpdate: Boolean = false
         private set
 
-    private val mutableStates = MutableStateFlow(initialState)
+    override val states: StateFlow<Event<S?>>
+        get() = mutableStates.asStateFlow()
+
+    override val intents: StateFlow<Event<I>?>
+        get() = mutableIntents.asStateFlow()
+
+    override val changes: StateFlow<Event<C>?>
+        get() = mutableChanges.asStateFlow()
+
+    private val initialStateEvent by lazy { Event(value = initialState) }
+
+    private val mutableStates = MutableStateFlow(initialStateEvent)
+    private val mutableIntents = MutableStateFlow<Event<I>?>(null)
+    private val mutableChanges = MutableStateFlow<Event<C>?>(null)
 
     override fun updateCurrentState(state: S?) {
-        mutableStates.value = state
+        mutableStates.value = Event(value = state)
         isPendingStateUpdate = false
     }
 
     override fun updateLastIntent(intent: I) {
-        lastIntent = intent
+        mutableIntents.value = Event(value = intent)
         isPendingStateUpdate = true
     }
 
     override fun updateLastChange(change: C) {
-        lastChange = change
+        mutableChanges.value = Event(value = change)
         isPendingStateUpdate = true
     }
 
     override fun reset() {
-        mutableStates.value = initialState
-        lastIntent = null
-        lastChange = null
+        mutableStates.value = initialStateEvent
+        mutableIntents.value = null
+        mutableChanges.value = null
     }
 }
