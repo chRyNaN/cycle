@@ -9,7 +9,7 @@ interface Reducer<S : State, C : Change> {
     /**
      * Retrieves a new [State] of type [S] from the [previous] [State] of type [S] and the [change] of type [C].
      */
-    suspend fun reduce(previous: S?, change: C): S
+    suspend fun reduce(previous: S?, change: C): S?
 
     companion object
 }
@@ -18,5 +18,5 @@ interface Reducer<S : State, C : Change> {
  * A convenience operator function that delegates to the [reduce] function, so that the [Reducer] class can be
  * invoked like a function.
  */
-suspend operator fun <S : State, C : Change> Reducer<S, C>.invoke(previous: S?, change: C): S =
+suspend operator fun <S : State, C : Change> Reducer<S, C>.invoke(previous: S?, change: C): S? =
     reduce(previous, change)

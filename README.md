@@ -13,14 +13,14 @@ fun App() {
 
 class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
 
-    override val presenter = Presenter(
-                perform = { intent, state -> ... },
-                reduce = { state, change -> ... })
+    override val viewModel = ViewModel(
+        perform = { intent, state -> ... },
+        reduce = { state, change -> ... })
 
     @Composable
     override fun Content() {
         val state by stateChanges()
-        
+
         when (state) {
             is HomeState.Loading -> {
                 CircularProgressIndicator()
@@ -45,17 +45,33 @@ flow of data looks like the following:
 View --------> Action --------> Reducer -------> View
 ```
 
-A quick breakdown of some of the components:
+A quick breakdown of some components:
 
 * **View** - The View component renders the State to the UI and emits Intents after events, such as User actions.
 * **Intent** - The Intent component is simply an indicator of what action the View intends to perform.
 * **Action** - The Action component handles the application logic for a particular Intent and outputs a Flow of Changes.
-  It is responsible for connecting the business logic (Usecases, Repositories, etc) to this design pattern.
+  It is responsible for connecting the business logic (UseCases, Repositories, etc) to this design pattern.
 * **Change** - The Change component is simply an indicator of what change to the State must be performed.
 * **Reducer** - The Reducer component takes the current State and a Change and deduces a new State.
-* **State** - The State component contains all of the necessary data to completely render the UI.
-* **Presenter** - The Presenter component is the connecting piece that coordinates the flow of data between each of the
+* **State** - The State component contains all the necessary data to completely render the UI.
+* **ViewModel** - The ViewModel component is the connecting piece that coordinates the flow of data between each of the
   other components.
+
+The communication channel between the `View` and `ViewModel` looks like the following:
+
+```
+              States
+   ┌─────────────◄─────────────┐
+   │                           ▲
+   │                           │
+┌──▼───┐                 ┌─────┴─────┐
+│ View │                 │ ViewModel │
+└──┬───┘                 └─────▲─────┘
+   │                           │
+   ▼                           │
+   └─────────────►─────────────┘
+              Intent
+```
 
 ### Create the State and models
 
@@ -97,14 +113,14 @@ sealed class HomeState : State {
 }
 ```
 
-### Create the Presenter
+### Create the ViewModel
 
-The `Presenter` is a platform independent component that coordinates the flow of data between the other components.
+The `ViewModel` is a platform independent component that coordinates the flow of data between the other components.
 
 ```kotlin
-class HomePresenter @Inject constructor(
+class HomeViewModel @Inject constructor(
     ...
-) : BasePresenter<HomeIntent, HomeState, HomeChange>() {
+) : ViewModel<HomeIntent, HomeState, HomeChange>() {
 
     override fun onBind() {
         super.onBind()
@@ -139,10 +155,12 @@ the `Layout` class to simplify the implementation.
 ```kotlin
 class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
 
-    override val presenter: Presenter<HomeIntent, HomeState, HomeChange> = ... // Get the Presenter
+    override val viewModel: ViewModel<HomeIntent, HomeState, HomeChange> = ... // Get the ViewModel
 
     @Composable
-    override fun Content(state: HomeState) {
+    override fun Content() {
+        val state by stateChanges()
+
         // Render the UI based on the state that is available
         // Emit intents using the intent(to) function
     }

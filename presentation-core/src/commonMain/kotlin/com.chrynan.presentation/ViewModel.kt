@@ -8,7 +8,15 @@ import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
 
 /**
- * A base implementation of the [ViewModel] interface that provides functions for handling common
+ * A [ViewModel] is a design pattern component that acts as a bridge between the [View] and the application logic. It
+ * is responsible for coordinating the application logic, in the uni-directional flow established by this design
+ * pattern, to ultimately derive a new [State] that is to be rendered by the [View]. This [ViewModel] component does
+ * not have a reference to the [View], instead the [View] has a reference to a [ViewModel], and calls the
+ * [ViewModel.renderStates] property to obtain a [Flow] of [State] changes that it subscribes to, so that it can update
+ * whenever the [ViewModel] derives a new [State]. This simplifies the communication between the two components, by
+ * removing the cyclic dependency between the two (as is common in a traditional MVP design pattern).
+ *
+ * This is a base implementation of the [Presenter] interface that provides functions for handling common
  * functionality, such as, the [performWith], [reduceWith], and [render] functions.
  */
 abstract class ViewModel<I : Intent, S : State, C : Change>(
@@ -74,7 +82,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
      * Presenter is not already bound.
      *
      * This is a good place to setup any resources or calls. Typically, the MVI pattern flow is
-     * setup here by listening to [Intent]s emitted by the [View].
+     * set up here by listening to [Intent]s emitted by the [View].
      */
     protected open fun onBind() {}
 
@@ -115,7 +123,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [ViewModel]s [Reducer].
      */
-    protected open fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S> =
+    protected open fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S?> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
@@ -123,7 +131,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [ViewModel]s [Reducer].
      */
-    protected open fun Flow<C>.reduce(reducer: suspend (S?, C) -> S): Flow<S> =
+    protected open fun Flow<C>.reduce(reducer: suspend (S?, C) -> S?): Flow<S?> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
@@ -131,15 +139,15 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
     /**
      * Emits the [initialState] value in [onStart] if it is not null.
      */
-    protected open fun Flow<S>.startWithInitialState(): Flow<S> =
+    protected open fun Flow<S?>.startWithInitialState(): Flow<S?> =
         onStart {
-            initialState?.let { emit(it) }
+            emit(initialState)
         }
 
     /**
      * Renders the [State]s of type [S] from this [Flow] with this [ViewModel]s [View].
      */
-    protected open fun Flow<S>.render(): Flow<S> =
+    protected open fun Flow<S?>.render(): Flow<S?> =
         onEach { stateStore.updateCurrentState(it) }
             .flowOn(dispatchers.main)
 }

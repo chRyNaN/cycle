@@ -13,9 +13,8 @@ package com.chrynan.presentation
  * instead new updated [ViewData] objects should be created and the whole [State] should be updated with these new
  * objects. This way it conforms to the uni-directional paradigm.
  *
- * Note that there is some terminology conflation between this class "ViewData" and components in other popular
- * frameworks and design patterns, such as, the Android Architecture Component's "ViewModel" class. Here a [ViewData]
- * should perform no logic, and just be a model representation of a UI.
+ * Note that there is some terminology conflation between this class "ViewData" and the [ViewModel] class. Here a
+ * [ViewData] should perform no logic, and just be a model representation of a UI.
  */
 interface ViewData {
 

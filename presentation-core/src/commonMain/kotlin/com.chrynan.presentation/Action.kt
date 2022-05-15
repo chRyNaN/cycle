@@ -5,9 +5,9 @@ package com.chrynan.presentation
 import kotlinx.coroutines.flow.Flow
 
 /**
- * An [Action] performs the function of converting an [Intent] of type [I] into a [Change] of type [C]. Unlike other
- * components, such as, [Intent]s and [Change]s, [Action]s are not model classes and actually perform logic. They are
- * responsible for connecting to the business logic.
+ * An [Action] performs the function of converting an [Intent] of type [I] into a [Flow] of [Change]s of type [C].
+ * Unlike other components, such as, [Intent]s and [Change]s, [Action]s are not model classes and actually perform
+ * logic. They are responsible for connecting to the business logic.
  *
  * Note, however, that [Action]s shouldn't perform business logic themselves as they are still application logic
  * components. Instead, the business logic should be handled in UseCases and Repositories and the like. The [Action] is

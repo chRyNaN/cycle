@@ -40,7 +40,7 @@ fun <I : Intent, S : State, C : Change> View<I, S, C>.stateChanges(context: Coro
  * ```
  * @Composable
  * override fun Content() {
- *     val state by stateChanges()
+ *     val state by stateChanges(initial = null)
  *
  *     // Create the UI using the 'state' variable
  * }

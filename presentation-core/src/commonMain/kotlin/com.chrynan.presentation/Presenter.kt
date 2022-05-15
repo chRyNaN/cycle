@@ -3,8 +3,8 @@ package com.chrynan.presentation
 import kotlinx.coroutines.flow.Flow
 
 /**
- * A [ViewModel] handles the presentation logic for a [View]. It coordinates the different presentation components,
- * such as, the [Action]s and the [Reducer].
+ * A [Presenter] handles the presentation logic for a [View]. It coordinates the different presentation components,
+ * such as, the [Action]s and the [Reducer]. This acts as the contract interface for the [ViewModel] component.
  */
 interface Presenter<I : Intent, S : State, C : Change> : Bindable {
 

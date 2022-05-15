@@ -130,22 +130,22 @@ class DelegatingViewModel<I : Intent, S : State, C : Change> internal constructo
             .flatMap(strategy = strategy) { action(it, currentState) }
             .flowOn(dispatchers.io)
 
-    public override fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S> =
+    public override fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S?> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
 
-    public override fun Flow<C>.reduce(reducer: suspend (S?, C) -> S): Flow<S> =
+    public override fun Flow<C>.reduce(reducer: suspend (S?, C) -> S?): Flow<S?> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
 
-    public override fun Flow<S>.startWithInitialState(): Flow<S> =
+    public override fun Flow<S?>.startWithInitialState(): Flow<S?> =
         onStart {
-            initialState?.let { emit(it) }
+            emit(initialState)
         }
 
-    public override fun Flow<S>.render(): Flow<S> =
+    public override fun Flow<S?>.render(): Flow<S?> =
         onEach { stateStore.updateCurrentState(it) }
             .flowOn(dispatchers.main)
 }

@@ -15,8 +15,11 @@ import com.chrynan.presentation.Change
  * ```
  * class HomeLayout : Layout<HomeIntent, HomeState, HomeChange>() {
  *
- *     override val viewModel = ...
+ *     override val viewModel = ViewModel<I, S, C>(
+ *             perform = { intent, state -> ... },
+ *             reduce = { state, change -> ... })
  *
+ *     @Composable
  *     override fun Content() {
  *         val state by stateChanges()
  *
