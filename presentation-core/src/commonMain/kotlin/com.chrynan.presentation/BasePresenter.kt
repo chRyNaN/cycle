@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
 abstract class BasePresenter<I : Intent, S : State, C : Change>(
     protected val initialState: S? = null,
     protected val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers
-) : ViewModel(),
+) : BaseViewModel(),
     Presenter<I, S, C> {
 
     override val currentState: S?
