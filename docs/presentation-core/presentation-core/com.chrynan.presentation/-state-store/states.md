@@ -3,4 +3,4 @@
 # states
 
 [common]\
-abstract val [states](states.md): Flow&lt;[S](index.md)?&gt;
+abstract val [states](states.md): StateFlow&lt;[Event](../-event/index.md)&lt;[S](index.md)?&gt;&gt;

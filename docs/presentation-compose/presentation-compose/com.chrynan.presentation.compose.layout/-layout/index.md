@@ -5,17 +5,22 @@
 [common]\
 @Stable
 
-abstract class [Layout](index.md)&lt;[I](index.md) : [Intent](../../../../presentation-core/presentation-core/com.chrynan.presentation/-intent/index.md), [S](index.md) : [State](../../../../presentation-core/presentation-core/com.chrynan.presentation/-state/index.md), [C](index.md) : [Change](../../../../presentation-core/presentation-core/com.chrynan.presentation/-change/index.md)&gt; : [View](../../../../presentation-core/presentation-core/com.chrynan.presentation/-view/index.md)&lt;[I](index.md), [S](index.md)&gt; , [Bindable](../../../../presentation-core/presentation-core/com.chrynan.presentation/-bindable/index.md)
+abstract class [Layout](index.md)&lt;[I](index.md) : [Intent](../../../../presentation-core/presentation-core/com.chrynan.presentation/-intent/index.md), [S](index.md) : [State](../../../../presentation-core/presentation-core/com.chrynan.presentation/-state/index.md), [C](index.md) : [Change](../../../../presentation-core/presentation-core/com.chrynan.presentation/-change/index.md)&gt; : [View](../../../../presentation-core/presentation-core/com.chrynan.presentation/-view/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt; , [Bindable](../../../../presentation-core/presentation-core/com.chrynan.presentation/-bindable/index.md)
 
-A component that implements the [View](../../../../presentation-core/presentation-core/com.chrynan.presentation/-view/index.md) interface and serves as the binding between this presentation library and Jetpack Compose.
+A component that implements the [View](../../../../presentation-core/presentation-core/com.chrynan.presentation/-view/index.md) interface and serves as the binding between this presentation library and Jetpack Compose. Typically, [Layout](index.md)s are used to represent the "Screen" components in an application.
 
 Example usage:
 
-class HomeLayout : BaseLayout&lt;HomeIntent, HomeState, HomeChange&gt;() {\
+class HomeLayout : Layout&lt;HomeIntent, HomeState, HomeChange&gt;() {\
 \
-    override val presenter = ...\
+    override val viewModel = ViewModel&lt;I, S, C&gt;(\
+            perform = { intent, state -&gt; ... },\
+            reduce = { state, change -&gt; ... })\
 \
-    override fun Content(state: HomeState) {\
+    @Composable\
+    override fun Content() {\
+        val state by stateChanges()\
+\
         // Put Composable UI code here using the [state] value\
     }\
 }
@@ -30,13 +35,12 @@ class HomeLayout : BaseLayout&lt;HomeIntent, HomeState, HomeChange&gt;() {\
 
 | Name | Summary |
 |---|---|
-| [bind](bind.md) | [common]<br>open override fun [bind](bind.md)() |
-| [Content](-content.md) | [common]<br>@Composable<br>abstract fun [Content](-content.md)(state: [S](index.md)) |
+| [bind](bind.md) | [common]<br>override fun [bind](bind.md)() |
+| [Content](-content.md) | [common]<br>@Composable<br>abstract fun [Content](-content.md)()<br>Renders the UI content for this Layout. |
 | [equals](equals.md) | [common]<br>open operator override fun [equals](equals.md)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
 | [hashCode](hash-code.md) | [common]<br>open override fun [hashCode](hash-code.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
-| [intents](intents.md) | [common]<br>open override fun [intents](intents.md)(): Flow&lt;[I](index.md)&gt; |
 | [toString](to-string.md) | [common]<br>open override fun [toString](to-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
-| [unbind](unbind.md) | [common]<br>open override fun [unbind](unbind.md)() |
+| [unbind](unbind.md) | [common]<br>override fun [unbind](unbind.md)() |
 
 ## Properties
 
@@ -45,7 +49,7 @@ class HomeLayout : BaseLayout&lt;HomeIntent, HomeState, HomeChange&gt;() {\
 | [isBound](is-bound.md) | [common]<br>open override val [isBound](is-bound.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
 | [key](key.md) | [common]<br>open val [key](key.md): [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)? |
 | [renderState](render-state.md) | [common]<br>open override val [renderState](render-state.md): [S](index.md)? |
-| [states](states.md) | [common]<br>open override val [states](states.md): Flow&lt;[S](index.md)&gt; |
+| [viewModel](view-model.md) | [common]<br>abstract override val [viewModel](view-model.md): [ViewModel](../../../../presentation-core/presentation-core/com.chrynan.presentation/-view-model/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt; |
 
 ## Extensions
 

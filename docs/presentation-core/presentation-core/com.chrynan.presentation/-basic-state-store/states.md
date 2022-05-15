@@ -3,4 +3,4 @@
 # states
 
 [common]\
-open override val [states](states.md): Flow&lt;[S](index.md)?&gt;
+open override val [states](states.md): StateFlow&lt;[Event](../-event/index.md)&lt;[S](index.md)?&gt;&gt;

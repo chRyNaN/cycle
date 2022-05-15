@@ -18,3 +18,11 @@ Example usage:
 fun Home {\
     +HomeLayout()\
 }
+
+## See also
+
+common
+
+| | |
+|---|---|
+| [ComposeLayout](-compose-layout.md) |  |

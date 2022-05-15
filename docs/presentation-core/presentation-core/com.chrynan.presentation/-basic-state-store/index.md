@@ -18,9 +18,11 @@ class [BasicStateStore](index.md)&lt;[I](index.md) : [Intent](../-intent/index.m
 
 | Name | Summary |
 |---|---|
-| [currentState](current-state.md) | [common]<br>open override val [currentState](current-state.md): [S](index.md)? |
+| [changes](changes.md) | [common]<br>open override val [changes](changes.md): StateFlow&lt;[Event](../-event/index.md)&lt;[C](index.md)&gt;?&gt; |
+| [currentState](../-state-store/current-state.md) | [common]<br>open val [currentState](../-state-store/current-state.md): [S](index.md)? |
 | [initialState](initial-state.md) | [common]<br>open override val [initialState](initial-state.md): [S](index.md)? = null |
+| [intents](intents.md) | [common]<br>open override val [intents](intents.md): StateFlow&lt;[Event](../-event/index.md)&lt;[I](index.md)&gt;?&gt; |
 | [isPendingStateUpdate](is-pending-state-update.md) | [common]<br>open override var [isPendingStateUpdate](is-pending-state-update.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) = false |
-| [lastChange](last-change.md) | [common]<br>open override var [lastChange](last-change.md): [C](index.md)? = null |
-| [lastIntent](last-intent.md) | [common]<br>open override var [lastIntent](last-intent.md): [I](index.md)? = null |
-| [states](states.md) | [common]<br>open override val [states](states.md): Flow&lt;[S](index.md)?&gt; |
+| [lastChange](../-state-store/last-change.md) | [common]<br>open val [lastChange](../-state-store/last-change.md): [C](index.md)? |
+| [lastIntent](../-state-store/last-intent.md) | [common]<br>open val [lastIntent](../-state-store/last-intent.md): [I](index.md)? |
+| [states](states.md) | [common]<br>open override val [states](states.md): StateFlow&lt;[Event](../-event/index.md)&lt;[S](index.md)?&gt;&gt; |

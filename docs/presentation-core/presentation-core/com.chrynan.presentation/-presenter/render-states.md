@@ -3,6 +3,6 @@
 # renderStates
 
 [common]\
-abstract val [renderStates](render-states.md): Flow&lt;[S](index.md)&gt;
+abstract val [renderStates](render-states.md): Flow&lt;[S](index.md)?&gt;
 
 A Flow of all the [State](../-state/index.md)s of type [S](index.md) that are to be rendered in the [View](../-view/index.md).

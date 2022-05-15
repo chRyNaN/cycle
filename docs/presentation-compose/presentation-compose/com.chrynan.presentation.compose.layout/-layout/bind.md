@@ -3,4 +3,4 @@
 # bind
 
 [common]\
-open override fun [bind](bind.md)()
+override fun [bind](bind.md)()

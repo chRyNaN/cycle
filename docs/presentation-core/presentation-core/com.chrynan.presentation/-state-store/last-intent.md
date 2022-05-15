@@ -3,4 +3,4 @@
 # lastIntent
 
 [common]\
-abstract val [lastIntent](last-intent.md): [I](index.md)?
+open val [lastIntent](last-intent.md): [I](index.md)?

@@ -9,7 +9,7 @@ Represents a model that contains the data required for a UI. Note a [State](../-
 
 Note that a [ViewData](index.md) should not contain any logic. A [ViewData](index.md) is typically an immutable data class containing necessary information for displaying a UI. Typically, fields shouldn't be updated or altered on a [ViewData](index.md) but instead new updated [ViewData](index.md) objects should be created and the whole [State](../-state/index.md) should be updated with these new objects. This way it conforms to the uni-directional paradigm.
 
-Note that there is some terminology conflation between this class "ViewData" and components in other popular frameworks and design patterns, such as, the Android Architecture Component's "ViewModel" class. Here a [ViewData](index.md) should perform no logic, and just be a model representation of a UI.
+Note that there is some terminology conflation between this class "ViewData" and the [ViewModel](../-view-model/index.md) class. Here a [ViewData](index.md) should perform no logic, and just be a model representation of a UI.
 
 ## Types
 

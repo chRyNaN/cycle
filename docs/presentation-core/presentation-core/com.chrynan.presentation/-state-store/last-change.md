@@ -3,4 +3,4 @@
 # lastChange
 
 [common]\
-abstract val [lastChange](last-change.md): [C](index.md)?
+open val [lastChange](last-change.md): [C](index.md)?

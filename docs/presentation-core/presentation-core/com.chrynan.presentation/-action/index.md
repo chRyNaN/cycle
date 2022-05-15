@@ -5,7 +5,7 @@
 [common]\
 interface [Action](index.md)&lt;[I](index.md) : [Intent](../-intent/index.md), [S](index.md) : [State](../-state/index.md), [C](index.md) : [Change](../-change/index.md)&gt;
 
-An [Action](index.md) performs the function of converting an [Intent](../-intent/index.md) of type [I](index.md) into a [Change](../-change/index.md) of type [C](index.md). Unlike other components, such as, [Intent](../-intent/index.md)s and [Change](../-change/index.md)s, [Action](index.md)s are not model classes and actually perform logic. They are responsible for connecting to the business logic.
+An [Action](index.md) performs the function of converting an [Intent](../-intent/index.md) of type [I](index.md) into a Flow of [Change](../-change/index.md)s of type [C](index.md). Unlike other components, such as, [Intent](../-intent/index.md)s and [Change](../-change/index.md)s, [Action](index.md)s are not model classes and actually perform logic. They are responsible for connecting to the business logic.
 
 Note, however, that [Action](index.md)s shouldn't perform business logic themselves as they are still application logic components. Instead, the business logic should be handled in UseCases and Repositories and the like. The [Action](index.md) is what connects the business and application logic. It has reference to the business logic classes and invokes the appropriate functions and performs application logic on top of that to coerce the returned values into application layer components ([ViewData](../-view-data/index.md)s, [Change](../-change/index.md)s, etc).
 

@@ -3,4 +3,4 @@
 # currentState
 
 [common]\
-abstract val [currentState](current-state.md): [S](index.md)?
+open val [currentState](current-state.md): [S](index.md)?

@@ -2,9 +2,5 @@
 
 # ViewModel
 
-[common, android, ios, js, jvm]\
 [common]\
-expect fun [ViewModel](-view-model.md)()
-
-[android, ios, js, jvm]\
-actual fun [ViewModel](-view-model.md)()
+fun &lt;[S](index.md) : [State](../-state/index.md)&gt; [ViewModel](-view-model.md)(initialState: [S](index.md)? = null, dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers)

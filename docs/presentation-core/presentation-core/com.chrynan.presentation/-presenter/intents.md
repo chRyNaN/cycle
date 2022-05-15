@@ -5,4 +5,4 @@
 [common]\
 abstract val [intents](intents.md): Flow&lt;[I](index.md)&gt;
 
-A Flow of all the [Intent](../-intent/index.md)s of type [I](index.md) that are emitted to this [Presenter](index.md).
+A Flow of all the [Intent](../-intent/index.md)s of type [I](index.md) that are emitted to this [ViewModel](../-view-model/index.md).

@@ -6,4 +6,15 @@
 
 @Composable
 
-abstract fun [Content](-content.md)(state: [S](index.md))
+abstract fun [Content](-content.md)()
+
+Renders the UI content for this Layout.
+
+Example usage:
+
+@Composable\
+override fun Content() {\
+    val state by stateChanges()\
+\
+    Text("State = $state")\
+}
