@@ -3,7 +3,7 @@ package com.chrynan.presentation
 import kotlinx.coroutines.flow.StateFlow
 
 /**
- * A component that retains the information about the current [State] for a [Presenter].
+ * A component that retains the information about the current [State] for a [ViewModel].
  */
 interface StateStore<I : Intent, C : Change, S : State> {
 

@@ -22,6 +22,8 @@ import com.chrynan.presentation.State
  * ```kotlin
  * class HomeFragment : ComposeFragment<HomeIntent, HomeState, HomeChange>() {
  *
+ *     override val viewModel = ...
+ *
  *     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
  *         super.onViewCreated(view, savedInstanceState)
  *

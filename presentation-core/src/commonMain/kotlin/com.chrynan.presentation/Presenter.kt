@@ -3,7 +3,7 @@ package com.chrynan.presentation
 import kotlinx.coroutines.flow.Flow
 
 /**
- * A [Presenter] handles the presentation logic for a [View]. It coordinates the different presentation components,
+ * A [ViewModel] handles the presentation logic for a [View]. It coordinates the different presentation components,
  * such as, the [Action]s and the [Reducer].
  */
 interface Presenter<I : Intent, S : State, C : Change> : Bindable {
@@ -19,7 +19,7 @@ interface Presenter<I : Intent, S : State, C : Change> : Bindable {
     val renderStates: Flow<S?>
 
     /**
-     * A [Flow] of all the [Intent]s of type [I] that are emitted to this [Presenter].
+     * A [Flow] of all the [Intent]s of type [I] that are emitted to this [ViewModel].
      */
     val intents: Flow<I>
 

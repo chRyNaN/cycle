@@ -17,6 +17,8 @@ import kotlin.coroutines.CoroutineContext
  * ```kotlin
  * class HomeFragment : PresentationFragment<HomeIntent, HomeState, HomeChange>() {
  *
+ *     override val viewModel = ...
+ *
  *     override fun onCreateView(
  *         inflater: LayoutInflater,
  *         container: ViewGroup?,
@@ -39,7 +41,7 @@ abstract class PresentationFragment<I : Intent, S : State, C : Change> :
     View<I, S, C> {
 
     override val renderState: S?
-        get() = presenter.currentState
+        get() = viewModel.currentState
 
     protected open val coroutineScope: CoroutineScope = object : CoroutineScope {
 
@@ -47,7 +49,7 @@ abstract class PresentationFragment<I : Intent, S : State, C : Change> :
             get() = lifecycleScope.coroutineContext
     }
 
-    abstract override val presenter: BasePresenter<I, S, C>
+    abstract override val viewModel: ViewModel<I, S, C>
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected open val key: Any? = this::class.qualifiedName
@@ -67,27 +69,27 @@ abstract class PresentationFragment<I : Intent, S : State, C : Change> :
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        presenter.unbind()
+        viewModel.unbind()
 
         super.onSaveInstanceState(outState)
     }
 
     override fun onPause() {
-        presenter.unbind()
+        viewModel.unbind()
 
         super.onPause()
     }
 
     override fun onDestroyView() {
-        presenter.unbind()
+        viewModel.unbind()
 
         super.onDestroyView()
     }
 
-    protected fun stateChanges(): Flow<S?> = presenter.renderStates
+    protected fun stateChanges(): Flow<S?> = viewModel.renderStates
 
     private fun bindPresenter() {
-        presenter.let {
+        viewModel.let {
             if (!it.isBound) {
                 it.bind()
 

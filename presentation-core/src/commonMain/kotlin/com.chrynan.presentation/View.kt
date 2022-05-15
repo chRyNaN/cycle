@@ -9,19 +9,19 @@ package com.chrynan.presentation
  * (excluding non-UI state changes such as immediate and temporary reactions to [Intent]s, such as, the background
  * color briefly changing when the User clicks on an item in a list).
  *
- * A [View] typically contains a [Presenter] which is responsible for listening to the [View]s [intents] and performing
+ * A [View] typically contains a [ViewModel] which is responsible for listening to the [View]s [intents] and performing
  * all the logic to derive a new [State] which it then passes back to the [View] via the render function.
  */
 interface View<I : Intent, S : State, C : Change> {
 
     /**
      * The currently rendered [State]. This property could briefly differ from the
-     * [Presenter.currentState] until that state is provided to the render function of this [View] and is
+     * [ViewModel.currentState] until that state is provided to the render function of this [View] and is
      * rendered to display.
      */
     val renderState: S?
 
-    val presenter: Presenter<I, S, C>
+    val viewModel: ViewModel<I, S, C>
 
     companion object
 }
@@ -31,5 +31,5 @@ interface View<I : Intent, S : State, C : Change> {
  * rendered.
  */
 fun <I : Intent, S : State, C : Change> View<I, S, C>.intent(to: I) {
-    presenter.intent(to = to)
+    viewModel.intent(to = to)
 }

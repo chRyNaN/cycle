@@ -28,8 +28,8 @@ import kotlin.coroutines.EmptyCoroutineContext
  */
 @Composable
 fun <I : Intent, S : State, C : Change> View<I, S, C>.stateChanges(context: CoroutineContext = EmptyCoroutineContext): androidx.compose.runtime.State<S?> =
-    (presenter.renderStates as? StateFlow<S?>)?.collectAsState(context = context)
-        ?: presenter.renderStates.collectAsState(initial = null, context = context)
+    (viewModel.renderStates as? StateFlow<S?>)?.collectAsState(context = context)
+        ?: viewModel.renderStates.collectAsState(initial = null, context = context)
 
 /**
  * Obtains the changes to the underlying [State], starting with the provided [initial] value, as a Jetpack Compose
@@ -51,4 +51,4 @@ fun <I : Intent, S : State, C : Change> View<I, S, C>.stateChanges(
     initial: S?,
     context: CoroutineContext = EmptyCoroutineContext
 ): androidx.compose.runtime.State<S?> =
-    presenter.renderStates.collectAsState(initial = initial, context = context)
+    viewModel.renderStates.collectAsState(initial = initial, context = context)

@@ -13,9 +13,9 @@ import com.chrynan.presentation.Change
  *
  * Example usage:
  * ```
- * class HomeLayout : BaseLayout<HomeIntent, HomeState, HomeChange>() {
+ * class HomeLayout : Layout<HomeIntent, HomeState, HomeChange>() {
  *
- *     override val presenter = ...
+ *     override val viewModel = ...
  *
  *     override fun Content() {
  *         val state by stateChanges()
@@ -31,13 +31,13 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
 
     open val key: Any? = this::class.simpleName
 
-    abstract override val presenter: Presenter<I, S, C>
+    abstract override val viewModel: ViewModel<I, S, C>
 
     override val renderState: S?
-        get() = presenter.currentState
+        get() = viewModel.currentState
 
     override val isBound: Boolean
-        get() = presenter.isBound
+        get() = viewModel.isBound
 
     /**
      * Renders the UI content for this Layout.
@@ -57,7 +57,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
 
     final override fun bind() {
         if (!isBound) {
-            presenter.bind()
+            viewModel.bind()
 
             onBind()
         }
@@ -67,7 +67,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
         if (isBound) {
             onUnbind()
 
-            presenter.unbind()
+            viewModel.unbind()
         }
     }
 
@@ -89,12 +89,12 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
 }
 
 /**
- * Creates a [Layout] with the provided [key], [presenterFactory], and [content] parameters.
+ * Creates a [Layout] with the provided [key], [viewModelFactory], and [content] parameters.
  */
 @Suppress("NOTHING_TO_INLINE")
 inline fun <I : Intent, S : State, C : Change> layout(
     key: Any? = null,
-    presenterFactory: PresenterFactory<I, S, C>,
+    viewModelFactory: ViewModelFactory<I, S, C>,
     noinline content: @Composable () -> Unit
 ): Layout<I, S, C> =
     object : Layout<I, S, C>() {
@@ -102,7 +102,7 @@ inline fun <I : Intent, S : State, C : Change> layout(
         override val key: Any?
             get() = key
 
-        override val presenter: Presenter<I, S, C> by presenterFactory(factory = presenterFactory)
+        override val viewModel: ViewModel<I, S, C> by viewModelFactory(factory = viewModelFactory)
 
         @Composable
         override fun Content() {
@@ -111,12 +111,12 @@ inline fun <I : Intent, S : State, C : Change> layout(
     }
 
 /**
- * Creates a [Layout] with the provided [key], [presenterFactory], and [content] parameters.
+ * Creates a [Layout] with the provided [key], [viewModel], and [content] parameters.
  */
 @Suppress("NOTHING_TO_INLINE")
 inline fun <I : Intent, S : State, C : Change> layout(
     key: Any? = null,
-    presenter: Presenter<I, S, C>,
+    viewModel: ViewModel<I, S, C>,
     noinline content: @Composable () -> Unit
 ): Layout<I, S, C> =
     object : Layout<I, S, C>() {
@@ -124,7 +124,7 @@ inline fun <I : Intent, S : State, C : Change> layout(
         override val key: Any?
             get() = key
 
-        override val presenter: Presenter<I, S, C> = presenter
+        override val viewModel: ViewModel<I, S, C> = viewModel
 
         @Composable
         override fun Content() {

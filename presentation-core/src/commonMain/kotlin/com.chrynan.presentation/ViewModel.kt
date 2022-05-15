@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
 
 /**
- * A base implementation of the [Presenter] interface that provides functions for handling common
+ * A base implementation of the [ViewModel] interface that provides functions for handling common
  * functionality, such as, the [performWith], [reduceWith], and [render] functions.
  */
-abstract class BasePresenter<I : Intent, S : State, C : Change>(
+abstract class ViewModel<I : Intent, S : State, C : Change>(
     protected val initialState: S? = null,
     protected val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers
 ) : BaseViewModel(),
@@ -40,7 +40,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     private lateinit var job: Job
 
     /**
-     * Binds this [Presenter].
+     * Binds this [ViewModel].
      *
      * Prefer overriding the [onBind] function for setup logic.
      */
@@ -53,7 +53,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
     }
 
     /**
-     * Unbinds this [Presenter].
+     * Unbinds this [ViewModel].
      *
      * Prefer overriding the [onUnbind] function for cleanup logic.
      */
@@ -113,7 +113,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
             .flowOn(dispatchers.io)
 
     /**
-     * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
+     * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [ViewModel]s [Reducer].
      */
     protected open fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S> =
         onEach { stateStore.updateLastChange(it) }
@@ -121,7 +121,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
             .flowOn(dispatchers.io)
 
     /**
-     * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [Presenter]s [Reducer].
+     * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [ViewModel]s [Reducer].
      */
     protected open fun Flow<C>.reduce(reducer: suspend (S?, C) -> S): Flow<S> =
         onEach { stateStore.updateLastChange(it) }
@@ -137,7 +137,7 @@ abstract class BasePresenter<I : Intent, S : State, C : Change>(
         }
 
     /**
-     * Renders the [State]s of type [S] from this [Flow] with this [Presenter]s [View].
+     * Renders the [State]s of type [S] from this [Flow] with this [ViewModel]s [View].
      */
     protected open fun Flow<S>.render(): Flow<S> =
         onEach { stateStore.updateCurrentState(it) }
