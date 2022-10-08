@@ -36,10 +36,10 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
 
     abstract override val viewModel: ViewModel<I, S, C>
 
-    override val renderState: S?
+    final override val renderState: S?
         get() = viewModel.currentState
 
-    override val isBound: Boolean
+    final override val isBound: Boolean
         get() = viewModel.isBound
 
     /**
