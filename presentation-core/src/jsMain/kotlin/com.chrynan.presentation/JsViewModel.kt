@@ -1,3 +1,3 @@
 package com.chrynan.presentation
 
-actual abstract class BaseViewModel internal actual constructor()
+actual abstract class PlatformViewModel internal actual constructor()
