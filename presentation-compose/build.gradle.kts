@@ -21,8 +21,9 @@ kotlin {
         jvm()
         js(IR) {
             browser()
-            nodejs()
         }
+        ios()
+        iosSimulatorArm64()
     }
     sourceSets {
         all {
@@ -35,23 +36,9 @@ kotlin {
                 implementation(compose.runtime)
             }
         }
-        val jvmMain by getting {
-            dependencies {
-                implementation(compose.ui)
-                implementation(compose.material)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation(compose.ui)
-                implementation(compose.material)
-            }
-        }
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.web.core)
-            }
-        }
+        val iosMain by sourceSets.getting
+        val iosSimulatorArm64Main by sourceSets.getting
+        iosSimulatorArm64Main.dependsOn(iosMain)
     }
 }
 
