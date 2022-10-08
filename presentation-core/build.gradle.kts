@@ -91,10 +91,10 @@ tasks.withType<Jar> { duplicatesStrategy = DuplicatesStrategy.INHERIT }
 
 // Android Specific Dependencies
 dependencies {
-    implementation("androidx.activity:activity-ktx:1.5.1")
-    implementation("androidx.fragment:fragment-ktx:1.5.2")
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.5.0")
+    implementation("androidx.activity:activity-ktx:1.6.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.3")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
 
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
 
