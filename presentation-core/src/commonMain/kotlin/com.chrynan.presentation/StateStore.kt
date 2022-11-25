@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 /**
  * A component that retains the information about the current [State] for a [ViewModel].
  */
-interface StateStore<I : Intent, C : Change, S : State> {
+interface StateStore<I : Intent, S : State, C : Change> {
 
     val initialState: S?
 
@@ -26,6 +26,11 @@ interface StateStore<I : Intent, C : Change, S : State> {
 
     val changes: StateFlow<Event<C>?>
 
+    companion object
+}
+
+interface MutableStateStore<I : Intent, S : State, C : Change> : StateStore<I, S, C> {
+
     fun updateCurrentState(state: S?)
 
     fun updateLastIntent(intent: I)
@@ -33,6 +38,4 @@ interface StateStore<I : Intent, C : Change, S : State> {
     fun updateLastChange(change: C)
 
     fun reset()
-
-    companion object
 }

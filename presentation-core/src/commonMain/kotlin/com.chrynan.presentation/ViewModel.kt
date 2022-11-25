@@ -21,9 +21,11 @@ import kotlin.coroutines.CoroutineContext
  */
 abstract class ViewModel<I : Intent, S : State, C : Change>(
     protected val initialState: S? = null,
-    protected val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers
+    protected val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
+    private val resetOnUnbind: Boolean = false
 ) : PlatformViewModel(),
-    Presenter<I, S, C> {
+    Presenter<I, S, C>,
+    ViewModelFlowScope<I, S, C> {
 
     override val currentState: S?
         get() = stateStore.currentState
@@ -43,7 +45,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
             get() = job + dispatchers.main
     }
 
-    protected open val stateStore: StateStore<I, C, S> = BasicStateStore(initialState)
+    protected open val stateStore: MutableStateStore<I, S, C> = BasicStateStore(initialState)
 
     private lateinit var job: Job
 
@@ -52,7 +54,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
      *
      * Prefer overriding the [onBind] function for setup logic.
      */
-    override fun bind() {
+    final override fun bind() {
         if (!isBound) {
             job = SupervisorJob()
             isBound = true
@@ -65,11 +67,15 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
      *
      * Prefer overriding the [onUnbind] function for cleanup logic.
      */
-    override fun unbind() {
+    final override fun unbind() {
         if (isBound) {
             onUnbind()
             job.cancel()
             isBound = false
+
+            if (resetOnUnbind) {
+                stateStore.reset()
+            }
         }
     }
 
@@ -99,8 +105,8 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
      * Converts this [Flow] of [Intent]s of type [I] into a [Flow] of [Change]s of type [C] using the provided [action].
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected open fun Flow<I>.performWith(
-        strategy: FlatMapStrategy = FlatMapStrategy.Latest,
+    override fun Flow<I>.performWith(
+        strategy: FlatMapStrategy,
         action: Action<I, S, C>
     ): Flow<C> =
         flowOn(dispatchers.main)
@@ -112,8 +118,8 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
      * function.
      */
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    protected open fun Flow<I>.perform(
-        strategy: FlatMapStrategy = FlatMapStrategy.Latest,
+    override fun Flow<I>.perform(
+        strategy: FlatMapStrategy,
         action: suspend (I, S?) -> Flow<C>
     ): Flow<C> =
         flowOn(dispatchers.main)
@@ -123,7 +129,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [ViewModel]s [Reducer].
      */
-    protected open fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S?> =
+    override fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S?> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
@@ -131,7 +137,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
     /**
      * Converts this [Flow] of [Change]s of type [C] into a [Flow] of type [S] using this [ViewModel]s [Reducer].
      */
-    protected open fun Flow<C>.reduce(reducer: suspend (S?, C) -> S?): Flow<S?> =
+    override fun Flow<C>.reduce(reducer: suspend (S?, C) -> S?): Flow<S?> =
         onEach { stateStore.updateLastChange(it) }
             .map { reducer.invoke(currentState, it) }
             .flowOn(dispatchers.io)
@@ -139,7 +145,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
     /**
      * Emits the [initialState] value in [onStart] if it is not null.
      */
-    protected open fun Flow<S?>.startWithInitialState(): Flow<S?> =
+    override fun Flow<S?>.startWithInitialState(): Flow<S?> =
         onStart {
             emit(initialState)
         }
@@ -147,7 +153,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
     /**
      * Renders the [State]s of type [S] from this [Flow] with this [ViewModel]s [View].
      */
-    protected open fun Flow<S?>.render(): Flow<S?> =
+    override fun Flow<S?>.render(): Flow<S?> =
         onEach { stateStore.updateCurrentState(it) }
             .flowOn(dispatchers.main)
 }

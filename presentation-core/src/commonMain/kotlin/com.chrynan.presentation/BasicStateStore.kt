@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class BasicStateStore<I : Intent, C : Change, S : State>(
+class BasicStateStore<I : Intent, S : State, C : Change>(
     override val initialState: S? = null
-) : StateStore<I, C, S> {
+) : MutableStateStore<I, S, C> {
 
     override var isPendingStateUpdate: Boolean = false
         private set
