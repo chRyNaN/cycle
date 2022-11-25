@@ -34,6 +34,7 @@ kotlin {
                 api(project(":presentation-core"))
 
                 implementation(compose.runtime)
+                implementation(compose.foundation)
             }
         }
         val iosMain by sourceSets.getting
