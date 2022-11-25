@@ -110,7 +110,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
         action: Action<I, S, C>
     ): Flow<C> =
         flowOn(dispatchers.main)
-            .flatMap(strategy = strategy) { action(it, currentState) }
+            .flatMap(strategy = strategy) { action.create(it, currentState) }
             .flowOn(dispatchers.io)
 
     /**
@@ -131,7 +131,7 @@ abstract class ViewModel<I : Intent, S : State, C : Change>(
      */
     override fun Flow<C>.reduceWith(reducer: Reducer<S, C>): Flow<S?> =
         onEach { stateStore.updateLastChange(it) }
-            .map { reducer.invoke(currentState, it) }
+            .map { reducer.create(currentState, it) }
             .flowOn(dispatchers.io)
 
     /**

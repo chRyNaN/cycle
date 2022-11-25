@@ -37,7 +37,7 @@ interface Action<I : Intent, S : State, C : Change> {
 /**
  * A convenience function that delegates to [Action.perform] allowing the [Action] to be invoked like a function.
  */
-suspend operator fun <I : Intent, S : State, C : Change> Action<I, S, C>.invoke(
+suspend fun <I : Intent, S : State, C : Change> Action<I, S, C>.create(
     intent: I,
     state: S?
 ): Flow<C> = perform(intent, state)

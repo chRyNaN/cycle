@@ -92,28 +92,6 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
 }
 
 /**
- * Creates a [Layout] with the provided [key], [viewModelFactory], and [content] parameters.
- */
-@Suppress("NOTHING_TO_INLINE")
-inline fun <I : Intent, S : State, C : Change> layout(
-    key: Any? = null,
-    viewModelFactory: ViewModelFactory<I, S, C>,
-    noinline content: @Composable () -> Unit
-): Layout<I, S, C> =
-    object : Layout<I, S, C>() {
-
-        override val key: Any?
-            get() = key
-
-        override val viewModel: ViewModel<I, S, C> by viewModelFactory(factory = viewModelFactory)
-
-        @Composable
-        override fun Content() {
-            content.invoke()
-        }
-    }
-
-/**
  * Creates a [Layout] with the provided [key], [viewModel], and [content] parameters.
  */
 @Suppress("NOTHING_TO_INLINE")
