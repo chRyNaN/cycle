@@ -3,4 +3,4 @@
 # renderState
 
 [common]\
-open override val [renderState](render-state.md): [S](index.md)?
+override val [renderState](render-state.md): [S](index.md)?

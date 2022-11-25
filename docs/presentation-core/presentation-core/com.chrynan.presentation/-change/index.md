@@ -11,16 +11,18 @@ Represents the result of performing an [Action](../-action/index.md) and is used
 
 For example:
 
-sealed class FeedChange : Change {\
-\
-    data class Loaded(val items: List&lt;Item&gt;) : FeedChange()\
-\
-    data class StartedLoading(val currentItems: List&lt;Item&gt;) : FeedChange()\
-\
-    data class StartedRefreshing(val currentItems: List&lt;Item&gt;): FeedChange()\
-}
+```kotlin
+sealed class FeedChange : Change {
 
-It's common to name the sealed class after the name of the screen that the [Change](index.md) represents ("FeedChange" -> "FeedScreen"). Also, it's common to name the descendants of the sealed class in a past tense verb manner since, at this point, the [Action](../-action/index.md) has already been performed ("StartedLoading", "Loaded", etc).
+    data class Loaded(val items: List<Item>) : FeedChange()
+
+    data class StartedLoading(val currentItems: List<Item>) : FeedChange()
+
+    data class StartedRefreshing(val currentItems: List<Item>): FeedChange()
+}
+```
+
+It's common to name the sealed class after the name of the screen that the [Change](index.md) represents (&quot;FeedChange&quot; -> &quot;FeedScreen&quot;). Also, it's common to name the descendants of the sealed class in a past tense verb manner since, at this point, the [Action](../-action/index.md) has already been performed (&quot;StartedLoading&quot;, &quot;Loaded&quot;, etc).
 
 ## Types
 

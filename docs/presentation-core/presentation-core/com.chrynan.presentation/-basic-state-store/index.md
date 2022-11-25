@@ -3,7 +3,13 @@
 # BasicStateStore
 
 [common]\
-class [BasicStateStore](index.md)&lt;[I](index.md) : [Intent](../-intent/index.md), [C](index.md) : [Change](../-change/index.md), [S](index.md) : [State](../-state/index.md)&gt;(initialState: [S](index.md)?) : [StateStore](../-state-store/index.md)&lt;[I](index.md), [C](index.md), [S](index.md)&gt;
+class [BasicStateStore](index.md)&lt;[I](index.md) : [Intent](../-intent/index.md), [S](index.md) : [State](../-state/index.md), [C](index.md) : [Change](../-change/index.md)&gt;(val initialState: [S](index.md)? = null) : [MutableStateStore](../-mutable-state-store/index.md)&lt;[I](index.md), [S](index.md), [C](index.md)&gt;
+
+## Constructors
+
+| | |
+|---|---|
+| [BasicStateStore](-basic-state-store.md) | [common]<br>fun &lt;[S](index.md) : [State](../-state/index.md)&gt; [BasicStateStore](-basic-state-store.md)(initialState: [S](index.md)? = null) |
 
 ## Functions
 

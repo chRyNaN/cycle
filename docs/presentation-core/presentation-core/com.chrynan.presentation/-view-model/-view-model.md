@@ -3,4 +3,4 @@
 # ViewModel
 
 [common]\
-fun &lt;[S](index.md) : [State](../-state/index.md)&gt; [ViewModel](-view-model.md)(initialState: [S](index.md)? = null, dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers)
+fun &lt;[S](index.md) : [State](../-state/index.md)&gt; [ViewModel](-view-model.md)(initialState: [S](index.md)? = null, dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers, resetOnUnbind: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) = false)

@@ -7,10 +7,10 @@ object [Concat](index.md) : [FlatMapStrategy](../index.md)
 
 Equivalent to the Flow.flatMapConcat function.
 
-## See also
+#### See also
 
 common
 
-| | |
-|---|---|
-| flatMapConcat |  |
+| |
+|---|
+| flatMapConcat |

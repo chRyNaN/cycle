@@ -3,7 +3,7 @@
 # Event
 
 [common]\
-data class [Event](index.md)&lt;[T](index.md)&gt;(value: [T](index.md), elapsedSystemTime: [Duration](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/index.html))
+data class [Event](index.md)&lt;[T](index.md)&gt;(val value: [T](index.md), val elapsedSystemTime: [Duration](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/index.html) = currentElapsedSystemTime)
 
 An event wrapper class around an [Intent](../-intent/index.md) of type [T](index.md). This class represents the event of an [Intent](../-intent/index.md) being emitted. It contains additional event related properties, such as the [elapsedSystemTime](elapsed-system-time.md) when this event was created.
 

@@ -7,10 +7,10 @@ object [Latest](index.md) : [FlatMapStrategy](../index.md)
 
 Equivalent to the Flow.flatMapLatest function.
 
-## See also
+#### See also
 
 common
 
-| | |
-|---|---|
-| flatMapLatest |  |
+| |
+|---|
+| flatMapLatest |

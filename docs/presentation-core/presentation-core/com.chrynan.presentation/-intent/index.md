@@ -11,16 +11,18 @@ Represents the desire to perform an action. A [View](../-view/index.md) emits [I
 
 For example:
 
-sealed class FeedIntent : Intent {\
-\
-    object LoadInitial : FeedIntent()\
-\
-    data class LoadMore(val currentItems: List&lt;Item&gt;) : FeedIntent()\
-\
-    data class Refresh(val currentItems: List&lt;Item&gt;) : FeedIntent()\
-}
+```kotlin
+sealed class FeedIntent : Intent {
 
-It's common to name the sealed class after the name of the screen that the [Intent](index.md) represents ("FeedIntent" -> "FeedScreen"). Also, it's common to name the descendants of the sealed class in a declarative manner ("load", "refresh", etc).
+    object LoadInitial : FeedIntent()
+
+    data class LoadMore(val currentItems: List<Item>) : FeedIntent()
+
+    data class Refresh(val currentItems: List<Item>) : FeedIntent()
+}
+```
+
+It's common to name the sealed class after the name of the screen that the [Intent](index.md) represents (&quot;FeedIntent&quot; -> &quot;FeedScreen&quot;). Also, it's common to name the descendants of the sealed class in a declarative manner (&quot;load&quot;, &quot;refresh&quot;, etc).
 
 ## Types
 

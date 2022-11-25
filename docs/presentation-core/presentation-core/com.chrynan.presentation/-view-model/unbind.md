@@ -3,7 +3,7 @@
 # unbind
 
 [common]\
-open override fun [unbind](unbind.md)()
+override fun [unbind](unbind.md)()
 
 Unbinds this [ViewModel](index.md).
 

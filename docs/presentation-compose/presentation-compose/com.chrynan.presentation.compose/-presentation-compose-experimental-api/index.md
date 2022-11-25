@@ -8,9 +8,3 @@
 annotation class [PresentationComposeExperimentalApi](index.md)
 
 Indicates that the component annotated with this annotation is experimental and could change or be removed in the future.
-
-## Constructors
-
-| | |
-|---|---|
-| [PresentationComposeExperimentalApi](-presentation-compose-experimental-api.md) | [common]<br>fun [PresentationComposeExperimentalApi](-presentation-compose-experimental-api.md)() |

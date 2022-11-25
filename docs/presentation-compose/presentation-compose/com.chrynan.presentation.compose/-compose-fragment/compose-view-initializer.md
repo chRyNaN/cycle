@@ -3,4 +3,4 @@
 # composeViewInitializer
 
 [android]\
-open fun ComposeView.[composeViewInitializer](compose-view-initializer.md)()
+open fun [ComposeView](https://developer.android.com/reference/kotlin/androidx/compose/ui/platform/ComposeView.html).[composeViewInitializer](compose-view-initializer.md)()

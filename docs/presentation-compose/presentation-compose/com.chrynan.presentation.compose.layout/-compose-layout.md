@@ -4,17 +4,19 @@
 
 [common]\
 
-@Composable
+@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-@Stable
+@[Stable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Stable.html)
 
 fun &lt;[I](-compose-layout.md) : [Intent](../../../presentation-core/presentation-core/com.chrynan.presentation/-intent/index.md), [S](-compose-layout.md) : [State](../../../presentation-core/presentation-core/com.chrynan.presentation/-state/index.md), [C](-compose-layout.md) : [Change](../../../presentation-core/presentation-core/com.chrynan.presentation/-change/index.md)&gt; [ComposeLayout](-compose-layout.md)(layout: [Layout](-layout/index.md)&lt;[I](-compose-layout.md), [S](-compose-layout.md), [C](-compose-layout.md)&gt;)
 
-Renders the provided [layout](-compose-layout.md) as a Composable.
+Renders the provided [layout](-compose-layout.md) as a [Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html).
 
 Example usage:
 
-@Composable\
-fun Home {\
-    ComposeLayout(homeLayout)\
+```kotlin
+@Composable
+fun Home {
+    ComposeLayout(homeLayout)
 }
+```

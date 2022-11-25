@@ -3,7 +3,7 @@
 # StateStore
 
 [common]\
-interface [StateStore](index.md)&lt;[I](index.md) : [Intent](../-intent/index.md), [C](index.md) : [Change](../-change/index.md), [S](index.md) : [State](../-state/index.md)&gt;
+interface [StateStore](index.md)&lt;[I](index.md) : [Intent](../-intent/index.md), [S](index.md) : [State](../-state/index.md), [C](index.md) : [Change](../-change/index.md)&gt;
 
 A component that retains the information about the current [State](../-state/index.md) for a [ViewModel](../-view-model/index.md).
 
@@ -12,15 +12,6 @@ A component that retains the information about the current [State](../-state/ind
 | Name | Summary |
 |---|---|
 | [Companion](-companion/index.md) | [common]<br>object [Companion](-companion/index.md) |
-
-## Functions
-
-| Name | Summary |
-|---|---|
-| [reset](reset.md) | [common]<br>abstract fun [reset](reset.md)() |
-| [updateCurrentState](update-current-state.md) | [common]<br>abstract fun [updateCurrentState](update-current-state.md)(state: [S](index.md)?) |
-| [updateLastChange](update-last-change.md) | [common]<br>abstract fun [updateLastChange](update-last-change.md)(change: [C](index.md)) |
-| [updateLastIntent](update-last-intent.md) | [common]<br>abstract fun [updateLastIntent](update-last-intent.md)(intent: [I](index.md)) |
 
 ## Properties
 
@@ -39,4 +30,4 @@ A component that retains the information about the current [State](../-state/ind
 
 | Name |
 |---|
-| [BasicStateStore](../-basic-state-store/index.md) |
+| [MutableStateStore](../-mutable-state-store/index.md) |

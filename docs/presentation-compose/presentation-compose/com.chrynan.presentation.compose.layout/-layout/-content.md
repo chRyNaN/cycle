@@ -4,7 +4,7 @@
 
 [common]\
 
-@Composable
+@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
 abstract fun [Content](-content.md)()
 
@@ -12,9 +12,11 @@ Renders the UI content for this Layout.
 
 Example usage:
 
-@Composable\
-override fun Content() {\
-    val state by stateChanges()\
-\
-    Text("State = $state")\
+```kotlin
+@Composable
+override fun Content() {
+    val state by stateChanges()
+
+    Text("State = $state")
 }
+```

@@ -4,6 +4,6 @@
 
 [android]\
 
-@Composable
+@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
 abstract fun [Content](-content.md)()
