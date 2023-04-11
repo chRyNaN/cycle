@@ -1,4 +1,5 @@
 import com.chrynan.presentation.buildSrc.LibraryConstants
+import com.chrynan.presentation.buildSrc.isBuildingOnOSX
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -22,8 +23,11 @@ kotlin {
             browser()
             nodejs()
         }
-        ios()
-        iosSimulatorArm64()
+
+        if (isBuildingOnOSX()) {
+            ios()
+            iosSimulatorArm64()
+        }
     }
     sourceSets {
         all {
@@ -31,21 +35,22 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-
                 // Kotlin Coroutines
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                api(KotlinX.coroutines.core)
 
                 // Coroutine Dispatchers
-                api("com.chrynan.dispatchers:dispatchers:0.4.0")
+                api("com.chrynan.dispatchers:dispatchers:_")
 
                 // Mapper
-                api("com.chrynan.mapper:mapper-core:1.7.0")
+                api("com.chrynan.mapper:mapper-core:_")
             }
         }
-        val iosMain by sourceSets.getting
-        val iosSimulatorArm64Main by sourceSets.getting
-        iosSimulatorArm64Main.dependsOn(iosMain)
+
+        if (isBuildingOnOSX()) {
+            val iosMain by sourceSets.getting
+            val iosSimulatorArm64Main by sourceSets.getting
+            iosSimulatorArm64Main.dependsOn(iosMain)
+        }
     }
 }
 
@@ -91,14 +96,14 @@ tasks.withType<Jar> { duplicatesStrategy = DuplicatesStrategy.INHERIT }
 
 // Android Specific Dependencies
 dependencies {
-    implementation("androidx.activity:activity-ktx:1.6.1")
-    implementation("androidx.fragment:fragment-ktx:1.5.4")
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation(AndroidX.activity.ktx)
+    implementation(AndroidX.fragment.ktx)
+    implementation(AndroidX.core.ktx)
+    implementation(AndroidX.appCompat)
 
-    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    api(AndroidX.lifecycle.viewModelKtx)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation(KotlinX.coroutines.android)
 }
 
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
