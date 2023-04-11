@@ -18,3 +18,4 @@ rootProject.name = "presentation"
 
 include(":presentation-core")
 include(":presentation-compose")
+include(":presentation-ksp")
