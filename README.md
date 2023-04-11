@@ -1,204 +1,40 @@
+![presentation](assets/branding_image.png)
+
 # presentation
 
 Kotlin multi-platform presentation layer design pattern. This is a uni-directional data flow (UDF) design pattern
 library that is closely related to the MVI (Model-View-Intent) pattern on Android. It utilizes kotlinx.coroutines Flows
-and is easily compatible with modern UI Frameworks, such as Jetpack Compose.  <br/>
+and is easily compatible with modern UI Frameworks, such as Jetpack Compose.
+
+### Perform > Reduce > Compose
+
 <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/presentation">
 
 ```kotlin
 @Composable
-fun App() {
-    +HomeLayout()
-}
+fun Home(viewModel: HomeViewModel) {
+    val state by viewModel.stateChanges()
 
-class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
-
-    override val viewModel = ViewModel(
-        perform = { intent, state -> ... },
-        reduce = { state, change -> ... })
-
-    @Composable
-    override fun Content() {
-        val state by stateChanges()
-
-        when (state) {
-            is HomeState.Loading -> {
-                CircularProgressIndicator()
-            }
-            is HomeState.Loaded -> {
-                Text("Hello ${state.name}")
-            }
+    when (state) {
+        is HomeState.Loading -> {
+            CircularProgressIndicator()
+        }
+        is HomeState.Loaded -> {
+            Text("Hello ${state.name}")
         }
     }
-
-    override fun onBind() = intent(to = HomeIntent.Load)
 }
 ```
 
-## Usage
+## Getting Started 🏁
 
-The library introduces components that interact with each other using a uni-directional, cyclic data flow. Roughly, the
-flow of data looks like the following:
-
-```
-      Intent           Change            State
-View --------> Action --------> Reducer -------> View
-```
-
-A quick breakdown of some components:
-
-* **View** - The View component renders the State to the UI and emits Intents after events, such as User actions.
-* **Intent** - The Intent component is simply an indicator of what action the View intends to perform.
-* **Action** - The Action component handles the application logic for a particular Intent and outputs a Flow of Changes.
-  It is responsible for connecting the business logic (UseCases, Repositories, etc) to this design pattern.
-* **Change** - The Change component is simply an indicator of what change to the State must be performed.
-* **Reducer** - The Reducer component takes the current State and a Change and deduces a new State.
-* **State** - The State component contains all the necessary data to completely render the UI.
-* **ViewModel** - The ViewModel component is the connecting piece that coordinates the flow of data between each of the
-  other components.
-
-The communication channel between the `View` and `ViewModel` looks like the following:
-
-```
-              States
-   ┌─────────────◄─────────────┐
-   │                           ▲
-   │                           │
-┌──▼───┐                 ┌─────┴─────┐
-│ View │                 │ ViewModel │
-└──┬───┘                 └─────▲─────┘
-   │                           │
-   ▼                           │
-   └─────────────►─────────────┘
-              Intent
-```
-
-### Create the State and models
-
-Typically, the `Intent`, `State`, and `Change` are sealed classes per screen and defined in the same file. These
-components are platform independent, meaning they can live in shared code.
-
-For example, consider the following items for a home screen that displays a list of items.
-
-```kotlin
-sealed class HomeIntent : Intent {
-
-    object LoadInitial : HomeIntent()
-
-    data class LoadMore(val currentItems: List<Item>) : HomeIntent()
-
-    data class Refresh(val currentItems: List<Item>) : HomeIntent()
-}
-
-sealed class HomeChange : Change {
-
-    data class Loaded(val items: List<Item>) : HomeChange()
-
-    data class StartedLoading(val currentItems: List<Item>) : HomeChange()
-
-    data class StartedRefreshing(val currentItems: List<Item>) : HomeChange()
-}
-
-sealed class HomeState : State {
-
-    object LoadingInitial : HomeState()
-
-    data class LoadingMore(val currentItems: List<Item>) : HomeState()
-
-    data class Refreshing(val currentItems: List<Item>) : HomeState()
-
-    object DisplayingEmpty : HomeState()
-
-    data class DisplayingLoaded(val items: List<Item>) : HomeState()
-}
-```
-
-### Create the ViewModel
-
-The `ViewModel` is a platform independent component that coordinates the flow of data between the other components.
-
-```kotlin
-class HomeViewModel @Inject constructor(
-    ...
-) : ViewModel<HomeIntent, HomeState, HomeChange>() {
-
-    override fun onBind() {
-        super.onBind()
-
-        this.intents
-            .perform { intent, state ->
-                when (intent) {
-                    is HomeIntent.LoadInitial -> loadInitialAction(intent)
-                    is HomeIntent.Refresh -> refreshAction(intent)
-                    is HomeIntent.LoadMore -> loadMoreAction(intent)
-                }
-            }
-            .reduce { state, change ->
-                // deduce new State
-            }
-            .render()
-            .launchIn(this)
-    }
-}
-```
-
-### Create the View
-
-The `View` implementation is a platform specific class. For instance, the `View` implementation on Android might be
-a `Fragment` or this library's `Layout` class if using Jetpack Compose.
-
-#### Jetpack Compose
-
-Let's consider a Jetpack Compose implementation of the `View` interface. In this scenario, we can extend from
-the `Layout` class to simplify the implementation.
-
-```kotlin
-class HomeLayout : Layout<HomeIntent, HomeState, HomeChange> {
-
-    override val viewModel: ViewModel<HomeIntent, HomeState, HomeChange> = ... // Get the ViewModel
-
-    @Composable
-    override fun Content() {
-        val state by stateChanges()
-
-        // Render the UI based on the state that is available
-        // Emit intents using the intent(to) function
-    }
-}
-```
-
-Then we can include this `Layout` implementation in any `@Composable` function with the `composeLayout` function:
-
-```kotlin
-@Composable
-fun App() {
-    ComposeLayout(HomeLayout())
-}
-```
-
-For convenience, we can also use the `unaryPlus` function which delegates to the `composeLayout` function:
-
-```kotlin
-@Composable
-fun App() {
-    +HomeLayout()
-}
-```
-
-## Navigation
-
-This library no longer provides a way to handle the navigation for an application. The navigation components have been
-moved to their own [library]("https://github.com/chRyNaN/navigation").
-
-## Building the library
-
-The library is provided through [Repsy.io](https://repsy.io/). Checkout
-the [releases page](https://github.com/chRyNaN/presentation/releases) to get the latest version. <br/>
+The library is provided through [Repsy.io](https://repsy.io/). Checkout the
+[releases page](https://github.com/chRyNaN/presentation/releases) to get the latest version. <br/><br/>
 <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/presentation">
 
 ### Repository
 
-```groovy
+```kotlin
 repositories {
     maven {
         url = uri("https://repo.repsy.io/mvn/chrynan/public")
@@ -210,22 +46,157 @@ repositories {
 
 #### core
 
-```groovy
-implementation("com.chrynan.presentation:presentation-core:VERSION")
+```kotlin
+implementation("com.chrynan.presentation:presentation-core:$VERSION")
 ```
 
 #### compose
 
-```groovy
-implementation("com.chrynan.presentation:presentation-compose:VERSION")
+```kotlin
+implementation("com.chrynan.presentation:presentation-compose:$VERSION")
 ```
 
-## Documentation
+#### processor
+
+```kotlin
+ksp("com.chrynan.presentation:presentation-ksp:$VERSION")
+```
+
+**Note:** This dependency requires you setup the [KSP plugin](https://kotlinlang.org/docs/ksp-quickstart.html).
+
+```kotlin
+plugins {
+    id("com.google.devtools.ksp") version "1.8.10-1.0.9"
+}
+```
+
+**Note:** It may be required
+to [add the generated sources](https://kotlinlang.org/docs/ksp-quickstart.html#make-ide-aware-of-generated-code) of the
+KSP processor for the IDE to recognize the generated code and resources. The following is an example of adding the
+generated sources for a Kotlin JVM project:
+
+```kotlin
+kotlin {
+    sourceSets.main {
+        kotlin.srcDir("build/generated/ksp/main/kotlin")
+        resources.srcDir("build/generated/ksp/main/resources/")
+    }
+}
+```
+
+## Usage 👨‍💻
+
+### State Definition
+
+Define your state models for a component with a sealed class or interface that inherits from the `State` interface:
+
+```kotlin
+sealed class HomeState : State {
+
+    abstract val items: List<Item>
+
+    data class Loading(override val items: List<ListItem> = emptyList()) : HomeState()
+
+    data class Refreshing(override val items: List<ListItem> = emptyList()) : HomeState()
+
+    data class Success(override val items: List<Item>) : HomeState()
+
+    data class Error(
+        override val items: List<ListItem> = emptyList(),
+        val message: String
+    )
+}
+```
+
+### Perform
+
+All application logic related to a `State` is encapsulated in separate functions for each responsibility that are
+annotated with `@Perform`. These functions can be member functions of a class or interface (such as an `Action`), or
+they can be globally scoped functions. The functions can optionally have an extension receiver of the state model which
+represents the current state. The return type of these functions can be any value except for `Unit` and `Nothing`; you
+can even return a `Flow` of items!
+
+```kotlin
+@Perform(HomeState::class)
+fun HomeState.loadMoreItems(count: UInt = 25): Flow<HomeChange> =
+    flow {
+        emit(HomeChange.StartedLoading)
+
+        val items = ItemRepo().get(after = this.items.lastOrNull()?.id, count = count)
+
+        emit(HomeChange.FinishedLoading(items = items))
+    }
+```
+
+### Reduce
+
+For every `@Perform` annotated function return type, there must be a corresponding `@Reduce` annotated function.
+Functions annotated with `@Reduce` are responsible for creating new `States` from the previous `State` and the value
+returned from a `@Perform` annotated function.
+
+```kotlin
+@Reduce(HomeState::class)
+fun HomeState.reduce(change: HomeChange): HomeState =
+    when (change) {
+        is HomeChange.StartedLoading -> HomeState.Loading(items = this.items)
+        is HomeChange.FinishedLoading -> HomeState.Success(items = this.items)
+    }
+```
+
+### Compose
+
+The `@Perform` and `@Reduce` annotated functions associated with a `State` cause the auto-generation of a `ViewModel`
+that can be instantiated and whose state changes can be observed within a Jetpack Compose composable function:
+
+```kotlin
+@Compose
+fun Home(viewModel: HomeViewModel = HomeViewModel()) {
+    val state = viewModel.stateChanges()
+    val lazyListState = rememberLazyListState()
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        state = lazyListState
+    ) {
+        items(
+            items = state.items,
+            key = { it.value.id }
+        ) { item ->
+            ItemLayout(item)
+        }
+    }
+
+    LaunchLazyLoader(
+        state = lazyListState,
+        onLoadMore = {
+            viewModel.loadMoreItems()
+        }
+    )
+}
+```
+
+## Documentation 📃
 
 More detailed documentation is available in the [docs](docs/) folder. The entry point to the documentation can be
 found [here](docs/index.md).
 
-## License
+## Security 🛡️
+
+For security vulnerabilities, concerns, or issues, please responsibly disclose the information either by opening a
+public GitHub Issue or reaching out to the project owner.
+
+## Contributing ✍️
+
+Outside contributions are welcome for this project. Please follow the [code of conduct](CODE_OF_CONDUCT.md)
+and [coding conventions](CODING_CONVENTIONS.md) when contributing. If contributing code, please add thorough documents.
+and tests. Thank you!
+
+## Sponsorship ❤️
+
+Support this project by [becoming a sponsor](https://www.buymeacoffee.com/chrynan) of my work! And make sure to give the
+repository a ⭐
+
+## License ⚖️
 
 ```
 Copyright 2021 chRyNaN
