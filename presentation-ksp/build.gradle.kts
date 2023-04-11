@@ -20,6 +20,7 @@ dependencies {
     implementation("com.google.devtools.ksp:symbol-processing-api:_")
 
     implementation(Square.kotlinPoet)
+    implementation("com.squareup:kotlinpoet-ksp:_")
 }
 
 tasks.withType<Jar> { duplicatesStrategy = DuplicatesStrategy.INHERIT }
