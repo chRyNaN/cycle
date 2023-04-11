@@ -18,5 +18,5 @@ interface Reducer<S : State, C : Change> {
  * A convenience operator function that delegates to the [reduce] function, so that the [Reducer] class can be
  * invoked like a function.
  */
-suspend fun <S : State, C : Change> Reducer<S, C>.create(previous: S?, change: C): S? =
+suspend operator fun <S : State, C : Change> Reducer<S, C>.invoke(previous: S?, change: C): S? =
     reduce(previous, change)
