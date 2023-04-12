@@ -31,6 +31,15 @@ internal class PerformVisitor(
             return
         }
 
+        if (function.annotations.any { it.shortName.asString() == "Composable" }) {
+            logger.error(
+                message = "${function.simpleName}: A function annotated with @Reduce cannot be a @Composable function.",
+                symbol = function
+            )
+
+            return
+        }
+
         function.extensionReceiver?.let { receiver ->
             if (!receiver.resolve().declaration.isSubtypeOf(performAnnotation.forState)) {
                 logger.error(

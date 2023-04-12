@@ -149,7 +149,7 @@ The `@Perform` and `@Reduce` annotated functions associated with a `State` cause
 that can be instantiated and whose state changes can be observed within a Jetpack Compose composable function:
 
 ```kotlin
-@Compose
+@Composable
 fun Home(viewModel: HomeViewModel = HomeViewModel()) {
     val state = viewModel.stateChanges()
     val lazyListState = rememberLazyListState()

@@ -33,6 +33,10 @@ internal class PresentationSymbolProcessor(
         resolver.getSymbolsWithAnnotation(Reduce::class)
             .forEach { it.accept(reduceVisitor) }
 
+        registrar.annotationGroups.forEach { group ->
+            validator.validate(group)
+        }
+
         TODO("Not yet implemented")
     }
 }
