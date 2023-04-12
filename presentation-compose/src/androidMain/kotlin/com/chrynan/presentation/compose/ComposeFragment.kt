@@ -10,9 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.chrynan.presentation.PresentationFragment
-import com.chrynan.presentation.Change
-import com.chrynan.presentation.Intent
-import com.chrynan.presentation.State
 
 /**
  * An implementation of a [PresentationFragment] that supports Jetpack Compose.
@@ -37,9 +34,9 @@ import com.chrynan.presentation.State
  * }
  * ```
  */
-abstract class ComposeFragment<I : Intent, S : State, C : Change> :
-    PresentationFragment<I, S, C>(),
-    com.chrynan.presentation.View<I, S, C> {
+abstract class ComposeFragment<State, Change> :
+    PresentationFragment<State, Change>(),
+    com.chrynan.presentation.View<State, Change> {
 
     @Composable
     abstract fun Content()

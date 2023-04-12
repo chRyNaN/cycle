@@ -36,11 +36,11 @@ import kotlin.coroutines.CoroutineContext
  * }
  * ```
  */
-abstract class PresentationFragment<I : Intent, S : State, C : Change> :
+abstract class PresentationFragment<State, Change> :
     Fragment(),
-    View<I, S, C> {
+    View<State, Change> {
 
-    override val renderState: S?
+    override val renderState: State?
         get() = viewModel.currentState
 
     protected open val coroutineScope: CoroutineScope = object : CoroutineScope {
@@ -49,7 +49,7 @@ abstract class PresentationFragment<I : Intent, S : State, C : Change> :
             get() = lifecycleScope.coroutineContext
     }
 
-    abstract override val viewModel: ViewModel<I, S, C>
+    abstract override val viewModel: ViewModel<State, Change>
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected open val key: Any? = this::class.qualifiedName
@@ -86,7 +86,7 @@ abstract class PresentationFragment<I : Intent, S : State, C : Change> :
         super.onDestroyView()
     }
 
-    protected fun stateChanges(): Flow<S?> = viewModel.renderStates
+    protected fun stateChanges(): Flow<State?> = viewModel.states
 
     private fun bindPresenter() {
         viewModel.let {

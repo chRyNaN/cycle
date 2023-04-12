@@ -12,11 +12,11 @@ val LocalViewModelProvider: ProvidableCompositionLocal<ViewModelProvider> =
 
 @Composable
 @PublishedApi
-internal expect inline fun <I : Intent, S : State, C : Change, reified V : ViewModel<I, S, C>> internalRememberViewModel(
+internal expect inline fun <State, Change, reified V : ViewModel<State, Change>> internalRememberViewModel(
     key: Any?
 ): V
 
 @Composable
-inline fun <I : Intent, S : State, C : Change, reified V : ViewModel<I, S, C>> rememberViewModel(
+inline fun <State, Change, reified V : ViewModel<State, Change>> rememberViewModel(
     key: Any? = null
 ): V = internalRememberViewModel(key = key)

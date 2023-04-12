@@ -9,7 +9,7 @@ import com.chrynan.presentation.ViewModel
 
 @Composable
 @PublishedApi
-internal actual inline fun <I : Intent, S : State, C : Change, reified V : ViewModel<I, S, C>> internalRememberViewModel(
+internal actual inline fun <State, Change, reified V : ViewModel<S, C>> internalRememberViewModel(
     key: Any?
 ): V {
     val provider = LocalViewModelProvider.current

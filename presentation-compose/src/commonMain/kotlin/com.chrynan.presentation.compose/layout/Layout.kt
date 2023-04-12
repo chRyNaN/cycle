@@ -4,8 +4,6 @@ package com.chrynan.presentation.compose.layout
 
 import androidx.compose.runtime.*
 import com.chrynan.presentation.*
-import com.chrynan.presentation.State
-import com.chrynan.presentation.Change
 
 /**
  * A component that implements the [View] interface and serves as the binding between this presentation library and
@@ -29,14 +27,14 @@ import com.chrynan.presentation.Change
  * ```
  */
 @Stable
-abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
+abstract class Layout<State, Change> : View<State, Change>,
     Bindable {
 
     open val key: Any? = this::class.simpleName
 
-    abstract override val viewModel: ViewModel<I, S, C>
+    abstract override val viewModel: ViewModel<State, Change>
 
-    final override val renderState: S?
+    final override val renderState: State?
         get() = viewModel.currentState
 
     final override val isBound: Boolean
@@ -81,7 +79,7 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is Layout<*, *, *>) return false
+        if (other !is Layout<*, *>) return false
 
         return this.key == other.key
     }
@@ -95,17 +93,17 @@ abstract class Layout<I : Intent, S : State, C : Change> : View<I, S, C>,
  * Creates a [Layout] with the provided [key], [viewModel], and [content] parameters.
  */
 @Suppress("NOTHING_TO_INLINE")
-inline fun <I : Intent, S : State, C : Change> layout(
+inline fun <State, Change> layout(
     key: Any? = null,
-    viewModel: ViewModel<I, S, C>,
+    viewModel: ViewModel<State, Change>,
     noinline content: @Composable () -> Unit
-): Layout<I, S, C> =
-    object : Layout<I, S, C>() {
+): Layout<State, Change> =
+    object : Layout<State, Change>() {
 
         override val key: Any?
             get() = key
 
-        override val viewModel: ViewModel<I, S, C> = viewModel
+        override val viewModel: ViewModel<State, Change> = viewModel
 
         @Composable
         override fun Content() {
@@ -126,7 +124,7 @@ inline fun <I : Intent, S : State, C : Change> layout(
  */
 @Composable
 @Stable
-fun <I : Intent, S : State, C : Change> ComposeLayout(layout: Layout<I, S, C>) {
+fun <State, Change> ComposeLayout(layout: Layout<State, Change>) {
     val rememberedLayout by rememberUpdatedState(layout)
 
     DisposableEffect(key1 = layout.key) {
@@ -153,6 +151,6 @@ fun <I : Intent, S : State, C : Change> ComposeLayout(layout: Layout<I, S, C>) {
  * @see [ComposeLayout]
  */
 @Composable
-inline operator fun <reified I : Intent, reified S : State, reified C : Change> Layout<I, S, C>.unaryPlus() {
+inline operator fun <reified State, reified Change> Layout<State, Change>.unaryPlus() {
     ComposeLayout(layout = this)
 }

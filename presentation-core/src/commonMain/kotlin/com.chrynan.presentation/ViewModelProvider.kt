@@ -2,11 +2,15 @@
 
 package com.chrynan.presentation
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlin.reflect.KClass
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 interface ViewModelProvider {
 
-    operator fun <I : Intent, S : State, C : Change, V : ViewModel<I, S, C>> get(
+    operator fun <State, Change, V : ViewModel<State, Change>> get(
         key: String? = null,
         kClass: KClass<V>
     ): V
@@ -14,7 +18,9 @@ interface ViewModelProvider {
     companion object
 }
 
-fun <I : Intent, S : State, C : Change, V : ViewModel<I, S, C>> ViewModelProvider.getOrNull(
+@ExperimentalCoroutinesApi
+@FlowPreview
+fun <State, Change, V : ViewModel<State, Change>> ViewModelProvider.getOrNull(
     key: String? = null,
     kClass: KClass<V>
 ): V? = try {
@@ -23,11 +29,15 @@ fun <I : Intent, S : State, C : Change, V : ViewModel<I, S, C>> ViewModelProvide
     null
 }
 
-inline fun <I : Intent, S : State, C : Change, reified V : ViewModel<I, S, C>> ViewModelProvider.get(
+@ExperimentalCoroutinesApi
+@FlowPreview
+inline fun <State, Change, reified V : ViewModel<State, Change>> ViewModelProvider.get(
     key: String? = null
 ): V = this@get.get(key = key, kClass = V::class)
 
-inline fun <I : Intent, S : State, C : Change, reified V : ViewModel<I, S, C>> ViewModelProvider.getOrNull(
+@ExperimentalCoroutinesApi
+@FlowPreview
+inline fun <State, Change, reified V : ViewModel<State, Change>> ViewModelProvider.getOrNull(
     key: String? = null
 ): V? = try {
     get(key = key, kClass = V::class)
@@ -39,17 +49,21 @@ inline fun <I : Intent, S : State, C : Change, reified V : ViewModel<I, S, C>> V
  * Constructs a [ViewModelProvider] using the provided [ViewModelFactory] to create instances of the ViewModels and
  * caching the values in a [MutableMap] by their associated keys for faster subsequent access.
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
 fun ViewModelProvider(factory: ViewModelFactory): ViewModelProvider =
     DefaultViewModelProvider(factory = factory)
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 internal class DefaultViewModelProvider(
     private val factory: ViewModelFactory
 ) : ViewModelProvider {
 
-    private val cache = mutableMapOf<String, ViewModel<*, *, *>>()
+    private val cache = mutableMapOf<String, ViewModel<*, *>>()
 
     @Suppress("UNCHECKED_CAST")
-    override fun <I : Intent, S : State, C : Change, V : ViewModel<I, S, C>> get(key: String?, kClass: KClass<V>): V {
+    override fun <State, Change, V : ViewModel<State, Change>> get(key: String?, kClass: KClass<V>): V {
         val cacheKey = key ?: kClass.simpleName
 
         if (cacheKey != null) {
