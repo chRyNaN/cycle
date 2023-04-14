@@ -24,18 +24,19 @@ fun counterReducer(state: Int?, change: CounterChange): Int {
     }
 }
 
-fun testCounter() {
-    val viewModel = ViewModel.create(reducer = ::counterReducer).apply { bind() }
+@Composable
+fun Counter() {
+    val viewModel = remember { ViewModel.create(reducer = ::counterReducer) }
 
-    viewModel.subscribe { state ->
-        println(state)
+    val state by viewModel.stateChanges()
+
+    Text("Count = $state")
+
+    LaunchedEffect(Unit) {
+        viewModel.dispatch(CounterChange.INCREMENT) // 1
+        viewModel.dispatch(CounterChange.INCREMENT) // 2
+        viewModel.dispatch(CounterChange.DECREMENT) // 1
     }
-
-    viewModel.dispatch(CounterChange.INCREMENT) // 1
-    viewModel.dispatch(CounterChange.INCREMENT) // 2
-    viewModel.dispatch(CounterChange.DECREMENT) // 1
-
-    viewModel.unbind()
 }
 ```
 
