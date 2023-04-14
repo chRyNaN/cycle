@@ -2,7 +2,7 @@
 
 # PlatformViewModel
 
-expect abstract class [PlatformViewModel](index.md)actual abstract class [PlatformViewModel](index.md) : [ViewModel](https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html)actual abstract class [PlatformViewModel](index.md)actual abstract class [PlatformViewModel](index.md)
+expect abstract class [PlatformViewModel](index.md)actual abstract class [PlatformViewModel](index.md) : [ViewModel](https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html)actual abstract class [PlatformViewModel](index.md)actual abstract class [PlatformViewModel](index.md)actual abstract class [PlatformViewModel](index.md)
 
 The base class that a [ViewModel](../-view-model/index.md) inherits from. This allows each supported platform to have a platform-specific base ViewModel component implementation. For instance, on Android this class can extend from the `androidx.lifecycle.ViewModel` component so that it can be used with the Android lifecycle.
 
