@@ -11,15 +11,15 @@ buildscript {
         maven { url = uri("https://repo.repsy.io/mvn/chrynan/public") }
     }
     dependencies {
-        classpath("org.jetbrains.compose:compose-gradle-plugin:1.4.0-rc03")
+        classpath("org.jetbrains.compose:compose-gradle-plugin:1.4.0")
     }
 }
 
 plugins {
-    kotlin("jvm") version "1.8.10" apply false
-    kotlin("multiplatform") version "1.8.10" apply false
-    kotlin("android") version "1.8.10" apply false
-    kotlin("plugin.serialization") version "1.8.10" apply false
+    kotlin("jvm") version "1.8.20" apply false
+    kotlin("multiplatform") version "1.8.20" apply false
+    kotlin("android") version "1.8.20" apply false
+    kotlin("plugin.serialization") version "1.8.20" apply false
     id("com.android.library") version "7.3.1" apply false
     id("com.android.application") version "7.3.1" apply false
     id("org.jetbrains.dokka") version "1.8.10"
