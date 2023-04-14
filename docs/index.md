@@ -4,5 +4,5 @@
 
 | Name |
 |---|
-| [presentation-compose](presentation-compose/index.md) |  |
-| [presentation-core](presentation-core/index.md) |  |
+| [cycle-compose](cycle-compose/index.md) |  |
+| [cycle-core](cycle-core/index.md) |  |
