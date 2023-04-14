@@ -12,7 +12,7 @@ import kotlinx.coroutines.FlowPreview
 @Composable
 @PublishedApi
 @ExperimentalPresentationApi
-internal actual inline fun <State, Change, reified V : ViewModel<S, C>> internalRememberViewModel(
+internal actual inline fun <State, Change, reified V : ViewModel<State, Change>> internalRememberViewModel(
     key: Any?
 ): V {
     val provider = LocalViewModelProvider.current
