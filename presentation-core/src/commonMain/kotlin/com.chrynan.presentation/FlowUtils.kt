@@ -36,6 +36,8 @@ sealed class FlatMapStrategy {
      * @see [flatMapConcat]
      */
     object Concat : FlatMapStrategy()
+
+    companion object
 }
 
 /**

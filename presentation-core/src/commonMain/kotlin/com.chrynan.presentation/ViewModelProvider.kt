@@ -6,6 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlin.reflect.KClass
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 interface ViewModelProvider {
@@ -18,6 +19,7 @@ interface ViewModelProvider {
     companion object
 }
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 fun <State, Change, V : ViewModel<State, Change>> ViewModelProvider.getOrNull(
@@ -29,12 +31,14 @@ fun <State, Change, V : ViewModel<State, Change>> ViewModelProvider.getOrNull(
     null
 }
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 inline fun <State, Change, reified V : ViewModel<State, Change>> ViewModelProvider.get(
     key: String? = null
 ): V = this@get.get(key = key, kClass = V::class)
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 inline fun <State, Change, reified V : ViewModel<State, Change>> ViewModelProvider.getOrNull(
@@ -49,11 +53,13 @@ inline fun <State, Change, reified V : ViewModel<State, Change>> ViewModelProvid
  * Constructs a [ViewModelProvider] using the provided [ViewModelFactory] to create instances of the ViewModels and
  * caching the values in a [MutableMap] by their associated keys for faster subsequent access.
  */
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 fun ViewModelProvider(factory: ViewModelFactory): ViewModelProvider =
     DefaultViewModelProvider(factory = factory)
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 internal class DefaultViewModelProvider(

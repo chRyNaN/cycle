@@ -133,6 +133,26 @@ abstract class ViewModel<State, Change>(
         "ViewModel(initialState=$initialState,currentState=$currentState,stateStore=$stateStore,dispatchers=$dispatchers,resetOnUnbind=$resetOnUnbind,flatMapStrategy=$flatMapStrategy)"
 
     /**
+     * A convenience function that subscribes to [State] changes on the [ViewModel.states] property using the provided
+     * values. The [onError] function is invoked when an exception was encountered, and the [onState] function is
+     * invoked when a new [State] is emitted on the [ViewModel.states] [StateFlow].
+     *
+     * **Note:** This function subscribes to the [ViewModel] state changes dependent on the lifecycle of the
+     * [ViewModel]. Make sure the [ViewModel.isBound] before calling this function.
+     */
+    @ExperimentalCoroutinesApi
+    @FlowPreview
+    fun subscribe(
+        onError: suspend () -> Unit = {},
+        onState: suspend (State?) -> Unit
+    ) {
+        states.onEach(onState)
+            .catch { onError() }
+            .flowOn(dispatchers.main)
+            .launchIn(coroutineScope)
+    }
+
+    /**
      * Triggers the invocation of the provided [action] which results in the [action]'s [Change]s being reduced and
      * producing a new [State].
      */
@@ -174,25 +194,6 @@ abstract class ViewModel<State, Change>(
     protected open fun onUnbind() {}
 
     companion object
-}
-
-/**
- * A convenience function that subscribes to [State] changes on the [ViewModel.states] property using the provided
- * values. The [onError] function is invoked when an exception was encountered, and the [onState] function is invoked
- * when a new [State] is emitted on the [ViewModel.states] [StateFlow].
- */
-@ExperimentalCoroutinesApi
-@FlowPreview
-fun <State, Change> ViewModel<State, Change>.subscribe(
-    coroutineScope: CoroutineScope,
-    dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
-    onError: suspend () -> Unit = {},
-    onState: suspend (State?) -> Unit
-) {
-    states.onEach(onState)
-        .catch { onError() }
-        .flowOn(dispatchers.main)
-        .launchIn(coroutineScope)
 }
 
 /**

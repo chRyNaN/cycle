@@ -5,7 +5,8 @@ package com.chrynan.presentation.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import com.chrynan.presentation.View
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -23,10 +24,11 @@ import kotlin.coroutines.EmptyCoroutineContext
  * }
  * ```
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Composable
 fun <State, Change> View<State, Change>.stateChanges(context: CoroutineContext = EmptyCoroutineContext): androidx.compose.runtime.State<State?> =
-    (viewModel.states as? StateFlow<State?>)?.collectAsState(context = context)
-        ?: viewModel.states.collectAsState(initial = null, context = context)
+    viewModel.states.collectAsState(context = context)
 
 /**
  * Obtains the changes to the underlying [State], starting with the provided [initial] value, as a Jetpack Compose
@@ -43,6 +45,8 @@ fun <State, Change> View<State, Change>.stateChanges(context: CoroutineContext =
  * }
  * ```
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Composable
 fun <State, Change> View<State, Change>.stateChanges(
     initial: State?,

@@ -1,9 +1,11 @@
 @file:Suppress("unused")
 
-package com.chrynan.presentation.compose.layout
+package com.chrynan.presentation.compose
 
 import androidx.compose.runtime.*
 import com.chrynan.presentation.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 /**
  * A component that implements the [View] interface and serves as the binding between this presentation library and
@@ -11,7 +13,7 @@ import com.chrynan.presentation.*
  *
  * Example usage:
  * ```
- * class HomeLayout : Layout<HomeIntent, HomeState, HomeChange>() {
+ * class HomeLayout : Layout<HomeState, HomeChange>() {
  *
  *     override val viewModel = ViewModel<I, S, C>(
  *             perform = { intent, state -> ... },
@@ -26,6 +28,8 @@ import com.chrynan.presentation.*
  * }
  * ```
  */
+@FlowPreview
+@ExperimentalCoroutinesApi
 @Stable
 abstract class Layout<State, Change> : View<State, Change>,
     Bindable {
@@ -41,7 +45,9 @@ abstract class Layout<State, Change> : View<State, Change>,
         get() = viewModel.isBound
 
     /**
-     * Renders the UI content for this Layout.
+     * Renders the UI content for this Layout. Remember to subscribe to the state changes using the [stateChanges]
+     * function within this function. Using the [renderState] property won't work because it won't trigger a
+     * recomposition of the composable function when the state changes.
      *
      * Example usage:
      * ```
@@ -54,6 +60,7 @@ abstract class Layout<State, Change> : View<State, Change>,
      * ```
      */
     @Composable
+    @Suppress("FunctionName")
     abstract fun Content()
 
     final override fun bind() {
@@ -86,30 +93,8 @@ abstract class Layout<State, Change> : View<State, Change>,
 
     override fun hashCode(): Int = key?.hashCode() ?: super.hashCode()
 
-    override fun toString(): String = "Layout(key=$key,renderState=$renderState,isBound=$isBound)"
+    override fun toString(): String = "Layout(key=$key,renderState=$renderState,isBound=$isBound,viewModel=$viewModel)"
 }
-
-/**
- * Creates a [Layout] with the provided [key], [viewModel], and [content] parameters.
- */
-@Suppress("NOTHING_TO_INLINE")
-inline fun <State, Change> layout(
-    key: Any? = null,
-    viewModel: ViewModel<State, Change>,
-    noinline content: @Composable () -> Unit
-): Layout<State, Change> =
-    object : Layout<State, Change>() {
-
-        override val key: Any?
-            get() = key
-
-        override val viewModel: ViewModel<State, Change> = viewModel
-
-        @Composable
-        override fun Content() {
-            content.invoke()
-        }
-    }
 
 /**
  * Renders the provided [layout] as a [Composable].
@@ -122,6 +107,9 @@ inline fun <State, Change> layout(
  * }
  * ```
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
+@Suppress("FunctionName")
 @Composable
 @Stable
 fun <State, Change> ComposeLayout(layout: Layout<State, Change>) {
@@ -136,7 +124,7 @@ fun <State, Change> ComposeLayout(layout: Layout<State, Change>) {
 }
 
 /**
- * Lays out the provided [layout] as a [Composable].
+ * Renders this [Layout] as a [Composable].
  *
  * This is a convenience function for calling [ComposeLayout].
  *
@@ -150,6 +138,8 @@ fun <State, Change> ComposeLayout(layout: Layout<State, Change>) {
  *
  * @see [ComposeLayout]
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Composable
 inline operator fun <reified State, reified Change> Layout<State, Change>.unaryPlus() {
     ComposeLayout(layout = this)

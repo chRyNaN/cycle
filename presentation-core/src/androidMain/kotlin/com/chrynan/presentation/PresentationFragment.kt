@@ -6,16 +6,17 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlin.coroutines.CoroutineContext
 
 /**
- * An Android [Fragment] base implementation of a [View] for use with this library's MVI design pattern.
+ * An Android [Fragment] base implementation of a [View] for use with this library's design pattern.
  *
- * Example usage:
+ * ### Example usage:
  *
  * ```kotlin
- * class HomeFragment : PresentationFragment<HomeIntent, HomeState, HomeChange>() {
+ * class HomeFragment : PresentationFragment<HomeState, HomeChange>() {
  *
  *     override val viewModel = ...
  *
@@ -24,24 +25,20 @@ import kotlin.coroutines.CoroutineContext
  *         container: ViewGroup?,
  *         savedInstanceState: Bundle?) = ...
  *
- *     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
- *         super.onViewCreated(view, savedInstanceState)
- *
- *         intent(to HomeIntent.Load)
- *     }
- *
- *     override fun render(state: HomeState) {
+ *     override fun render(state: HomeState?) {
  *         when (state) { ... }
  *     }
  * }
  * ```
  */
+@FlowPreview
+@ExperimentalCoroutinesApi
 abstract class PresentationFragment<State, Change> :
     Fragment(),
     View<State, Change> {
 
-    override val renderState: State?
-        get() = viewModel.currentState
+    final override var renderState: State? = null
+        private set
 
     protected open val coroutineScope: CoroutineScope = object : CoroutineScope {
 
@@ -54,18 +51,18 @@ abstract class PresentationFragment<State, Change> :
     @Suppress("MemberVisibilityCanBePrivate")
     protected open val key: Any? = this::class.qualifiedName
 
-    protected abstract fun render()
+    protected abstract fun render(state: State?)
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindPresenter()
+        bindViewModel()
     }
 
     override fun onResume() {
         super.onResume()
 
-        bindPresenter()
+        bindViewModel()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -86,14 +83,18 @@ abstract class PresentationFragment<State, Change> :
         super.onDestroyView()
     }
 
-    protected fun stateChanges(): Flow<State?> = viewModel.states
+    private fun bindViewModel() {
+        viewModel.bind()
 
-    private fun bindPresenter() {
         viewModel.let {
-            if (!it.isBound) {
-                it.bind()
+            if (!viewModel.isBound) {
+                viewModel.bind()
 
-                render()
+                viewModel.subscribe {
+                    renderState = it
+
+                    render(it)
+                }
             }
         }
     }

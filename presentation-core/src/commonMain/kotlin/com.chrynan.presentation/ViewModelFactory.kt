@@ -6,6 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlin.reflect.KClass
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 interface ViewModelFactory {
@@ -18,6 +19,7 @@ interface ViewModelFactory {
     companion object
 }
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 fun <State, Change, V : ViewModel<State, Change>> ViewModelFactory.createOrNull(
@@ -29,12 +31,14 @@ fun <State, Change, V : ViewModel<State, Change>> ViewModelFactory.createOrNull(
     null
 }
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 inline fun <State, Change, reified V : ViewModel<State, Change>> ViewModelFactory.create(
     vararg extras: Any?
 ): V = create(kClass = V::class, extras = extras)
 
+@ExperimentalPresentationApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 inline fun <State, Change, reified V : ViewModel<State, Change>> ViewModelFactory.createOrNull(

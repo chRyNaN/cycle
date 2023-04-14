@@ -5,8 +5,13 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.chrynan.presentation.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlin.reflect.KClass
 
+@ExperimentalPresentationApi
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Composable
 @PublishedApi
 internal actual inline fun <State, Change, reified V : ViewModel<State, Change>> internalRememberViewModel(

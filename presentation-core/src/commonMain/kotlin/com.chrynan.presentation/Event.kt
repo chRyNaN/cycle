@@ -51,4 +51,6 @@ class Event<T>(
 
     override fun toString(): String =
         "Event(value=$value, elapsedSystemTime=$elapsedSystemTime)"
+
+    companion object
 }

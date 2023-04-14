@@ -2,10 +2,16 @@ package com.chrynan.presentation.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.chrynan.presentation.ExperimentalPresentationApi
 import com.chrynan.presentation.ViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Composable
 @PublishedApi
+@ExperimentalPresentationApi
 internal actual inline fun <State, Change, reified V : ViewModel<State, Change>> internalRememberViewModel(
     key: Any?
 ): V {

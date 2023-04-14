@@ -24,16 +24,18 @@ fun counterReducer(state: Int?, change: CounterChange): Int {
     }
 }
 
-fun testCounter(coroutineScope: CoroutineScope) {
-    val viewModel = ViewModel.create(reducer = ::counterReducer)
+fun testCounter() {
+    val viewModel = ViewModel.create(reducer = ::counterReducer).apply { bind() }
 
-    viewModel.subscribe(coroutineScope = coroutineScope) { state ->
+    viewModel.subscribe { state ->
         println(state)
     }
 
     viewModel.dispatch(CounterChange.INCREMENT) // 1
     viewModel.dispatch(CounterChange.INCREMENT) // 2
     viewModel.dispatch(CounterChange.DECREMENT) // 1
+
+    viewModel.unbind()
 }
 ```
 
@@ -123,10 +125,10 @@ encapsulate component specific functionality. The above example can be updated t
 more complex actions at the call-site:
 
 ```kotlin
-fun testCounter(coroutineScope: CoroutineScope) {
-    val viewModel = ViewModel.create(reducer = ::counterReducer)
+fun testCounter() {
+    val viewModel = ViewModel.create(reducer = ::counterReducer).apply { bind() }
 
-    viewModel.subscribe(coroutineScope = coroutineScope) { state ->
+    viewModel.subscribe { state ->
         println(state)
     }
 
@@ -145,6 +147,8 @@ fun testCounter(coroutineScope: CoroutineScope) {
             }
         }
     }
+
+    viewModel.unbind()
 }
 ```
 
@@ -175,10 +179,10 @@ class CounterViewModel : ViewModel<Int, CounterChange>(
     }
 }
 
-fun testCounter(coroutineScope: CoroutineScope) {
-    val viewModel = CounterViewModel()
+fun testCounter() {
+    val viewModel = CounterViewModel().apply { bind() }
 
-    viewModel.subscribe(coroutineScope = coroutineScope) { state ->
+    viewModel.subscribe { state ->
         println(state)
     }
 
@@ -189,6 +193,8 @@ fun testCounter(coroutineScope: CoroutineScope) {
 
     // Note: The perform function is no longer public, so we can't access it here.
     viewModel.incrementIfLessThanTwo() // 2
+
+    viewModel.unbind()
 }
 ```
 
@@ -239,10 +245,10 @@ class CounterViewModel : IntentViewModel<CounterIntent, Int, CounterChange>(
     }
 }
 
-fun testCounter(coroutineScope: CoroutineScope) {
-    val viewModel = CounterViewModel()
+fun testCounter() {
+    val viewModel = CounterViewModel().apply { bind() }
 
-    viewModel.subscribe(coroutineScope = coroutineScope) { state ->
+    viewModel.subscribe { state ->
         println(state)
     }
 
@@ -253,10 +259,12 @@ fun testCounter(coroutineScope: CoroutineScope) {
 
     // Note: The perform function is no longer public, so we can't access it here.
     viewModel.intent(to = CounterIntent.INCREMENT_IF_LESS_THAN_TWO)
+
+    viewModel.unbind()
 }
 ```
 
-### Compose
+### UI Management (Compose)
 
 The third and final part of a cycle is **Compose** which is responsible for listening to new states and updating a UI
 view accordingly. This part's implementation is dependent on the UI framework used, but can easily be adapted to fit
@@ -265,21 +273,37 @@ most modern UI frameworks.
 The easiest way to subscribe to state changes to update the UI, is to use the `subscribe` function:
 
 ```kotlin
-viewModel.subscribe(coroutineScope = coroutineScope) { state ->
+viewModel.subscribe { state ->
     // Update the UI or trigger a UI refresh here using the new state.
 }
 ```
 
-Or you can use the [cycle-compose](#dependencies) dependency when targeting Jetpack Compose for a simple integration:
+**Note:** That a `ViewModel` has a lifecycle which is defined by the invocation of its `bind/unbind` functions.
+Therefore, the `ViewModel.bind` function must be called before the `ViewModel.subscribe` function is invoked, otherwise
+no states will be emitted to the `subscribe` function closure.
+
+Alternatively, you can use the [cycle-compose](#dependencies) dependency when targeting Jetpack Compose for a simple
+integration. Use the `stateChanges()` to convert the `Flow` of `State` changes to a Jetpack Compose `State`. This
+approach also handles binding and unbinding of the `ViewModel` for you.
 
 ```kotlin
 @Composable
 fun Home(viewModel: HomeViewModel) {
-    val state = viewModel.stateChanges()
+    val state by viewModel.stateChanges()
 
     // Use the state to construct the UI.
 }
 ```
+
+In the example above, the `stateChanges` function binds the `ViewModel` to the lifecycle of the composable function and
+listens to changes in the `State`. The type is converted from a `Flow` of `States` to a Jetpack Compose `State`, so when
+a state change occurs, it triggers recomposition of the composable function.
+
+#### View
+
+The `View` interface represents a UI component that contains a `ViewModel` and properly binds its lifecycle to that of
+the UI component. This interface can be used to encapsulate lifecycle and logic within the framework defined UI
+component implementation.
 
 ## Documentation 📃
 

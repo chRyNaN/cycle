@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.chrynan.presentation.PresentationFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 /**
  * An implementation of a [PresentationFragment] that supports Jetpack Compose.
@@ -17,27 +19,31 @@ import com.chrynan.presentation.PresentationFragment
  * Example Usage:
  *
  * ```kotlin
- * class HomeFragment : ComposeFragment<HomeIntent, HomeState, HomeChange>() {
+ * class HomeFragment : ComposeFragment<HomeState, HomeChange>() {
  *
  *     override val viewModel = ...
  *
- *     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
- *         super.onViewCreated(view, savedInstanceState)
- *
- *         intent(to HomeIntent.Load)
- *     }
- *
  *     @Composable
- *     override fun Content(state: HomeState) {
+ *     override fun Content() {
+ *         val state by stateChanges()
+ *
  *         when (state) { ... }
  *     }
  * }
  * ```
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
 abstract class ComposeFragment<State, Change> :
     PresentationFragment<State, Change>(),
     com.chrynan.presentation.View<State, Change> {
 
+    /**
+     * Display the UI content. Remember to subscribe to the state changes using the [stateChanges] function within this
+     * function. Using the [renderState] property won't work because it won't trigger a recomposition of the composable
+     * function when the state changes.
+     */
+    @Suppress("FunctionName")
     @Composable
     abstract fun Content()
 
@@ -55,7 +61,7 @@ abstract class ComposeFragment<State, Change> :
             }
         }
 
-    override fun render() {
+    override fun render(state: State?) {
         // No-op - handled by the Content function
     }
 
