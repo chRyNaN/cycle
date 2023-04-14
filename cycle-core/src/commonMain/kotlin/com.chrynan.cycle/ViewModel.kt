@@ -69,10 +69,10 @@ abstract class ViewModel<State, Change>(
     }
 
     /**
-     * A [MutableStateFlow] of [Action]s that represent the [Action]s being performed via calls to the [perform]
-     * function.
+     * A [MutableStateFlow] of [Action] [Event]s that represent the [Action]s being performed via calls to the
+     * [perform] function.
      */
-    protected val actions = MutableStateFlow<Action<State, Change>?>(null)
+    protected val actionEvents = MutableStateFlow<Event<Action<State, Change>?>?>(null)
 
     private lateinit var job: Job
 
@@ -157,7 +157,7 @@ abstract class ViewModel<State, Change>(
      * producing a new [State].
      */
     protected open fun perform(action: Action<State, Change>) {
-        actions.value = action
+        actionEvents.value = Event(action)
     }
 
     /**
@@ -178,7 +178,7 @@ abstract class ViewModel<State, Change>(
      * Presenter is not already bound.
      */
     protected open fun onBind() {
-        actions.filterNotNull()
+        actionEvents.mapNotNull { it?.value }
             .flatMap(flatMapStrategy) { it.invoke(currentState) }
             .onEach { stateStore.dispatch(it) }
             .launchIn(coroutineScope)
