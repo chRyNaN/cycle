@@ -1,4 +1,4 @@
-import com.chrynan.presentation.buildSrc.LibraryConstants
+import com.chrynan.cycle.buildSrc.LibraryConstants
 
 group = LibraryConstants.group
 version = LibraryConstants.versionName

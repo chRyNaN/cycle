@@ -14,7 +14,7 @@ plugins {
     // See build.gradle.kts file in root project folder for the rest of the plugins applied.
 }
 
-rootProject.name = "presentation"
+rootProject.name = "cycle"
 
-include(":presentation-core")
-include(":presentation-compose")
+include(":cycle-core")
+include(":cycle-compose")
